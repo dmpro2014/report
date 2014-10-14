@@ -1,0 +1,62 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+\input{_setup.tex}
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{ 
+\normalfont \normalsize 
+\textsc{Norwegian University of Science and Technology} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge \textbf{Assignment Title} \\ % The assignment title
+TDT0000 \\
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Authors:\\Peer Gynt\\Hedda Gabler}
+
+\date{\normalsize\today}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\maketitle
+
+\thispagestyle{firststyle}
+
+\newpage
+
+%ABSTRACT
+\input{abstract/abstract.tex}
+
+\newpage
+
+\tableofcontents
+
+\setcounter{secnumdepth}{3}
+
+\newpage
+
+\pagenumbering{arabic}
+
+%INTRODUCTION
+\input{introduction/introduction.tex}
+
+\newpage
+
+\printbibliography
+
+\newpage
+
+\begin{alphasection}
+%APPENDIX A
+\input{appendix/a.tex}
+
+\end{alphasection}
+
+
+\end{document}
