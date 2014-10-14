@@ -1,3 +1,6 @@
+## Remove this when we have the finished report
+*.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
