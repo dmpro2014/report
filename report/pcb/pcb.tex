@@ -1,26 +1,26 @@
 \section{PCB}
 \label{sec:pcb}
 
-The entire system is mounted on the PCB with wires connecting the different parts.
-Designing and soldering this component correctly is therefor extremely important for the system
+The entire system is mounted on a PCB with wires connecting the different parts.
+Designing and soldering this component correctly is therefore extremely important for the system
 to work as a whole.
 
 A lot of effort has gone into making sure that if something fails, there is a backup plan.
-This means that most of the wires are connected to jumpers, which can be rerouted in post.
+This means that most of the wires are connected to jumpers, which can be rerouted manually.
 Because of this, the board is not optimized for size, but was rather made to optimize for
 highest possible chance of success.
 
-This seciton will explain the overall design, why choices were made and the reason behind these choices.
+This section will explain the overall design, why choices were made and the reason behind these choices.
 
 \subsection{Design Choices}
 \label{sec:pcb:design}
 
 \subsubsection{Microcontroller / System Control Unit}
-The EFM32 Giant Gecko 32-bit Microcontroller form Energy Micro, was chosen as the controller for this project.
-A microcontroller from Energy Micro was required for the task and this patricular controller is
+The EFM32 Giant Gecko 32-bit Microcontroller from Energy Micro was chosen as the controller for this project.
+A microcontroller from Energy Micro was required for the task and this particular controller is
 very energy efficient, which is a plus.
 In addition to this, there were a lot of development boards available,
-plus over half of the group had exeperience with this controller from the subject
+plus over half of the group had experience with this controller from the subject
 TDT4258 Energy Efficient Computer Systems.
 
 The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
