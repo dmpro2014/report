@@ -1,11 +1,36 @@
 \section{PCB}
 \label{sec:pcb}
 
+The entire system is mounted on the PCB with wires connecting the different parts.
+Designing and soldering this component correctly is therefor extremely important for the system
+to work as a whole.
+
+A lot of effort has gone into making sure that if something fails, there is a backup plan.
+This means that most of the wires are connected to jumpers, which can be rerouted in post.
+Because of this, the board is not optimized for size, but was rather made to optimize for
+highest possible chance of success.
+
+This seciton will explain the overall design, why choices were made and the reason behind these choices.
+
 \subsection{Design Choices}
+\label{sec:pcb:design}
+
+\subsubsection{Microcontroller / System Control Unit}
+The EFM32 Giant Gecko 32-bit Microcontroller form Energy Micro, was chosen as the controller for this project.
+A microcontroller from Energy Micro was required for the task and this patricular controller is
+very energy efficient, which is a plus.
+In addition to this, there were a lot of development boards available,
+plus over half of the group had exeperience with this controller from the subject
+TDT4258 Energy Efficient Computer Systems.
+
+The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
+Not only did it have enough GPIO pins for our needs, but it could....something %TODO: skriv mer om dette
 
 \subsection{Power Supply}
 
 \subsection{Power Plane}
+% TODO: skrive om at vi endra litt på en del footprints, men pga hvordan fysiske komponenter funker,
+%       så gjør det ikke noe
 
 \subsection{Footprints}
 
