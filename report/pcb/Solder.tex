@@ -1,3 +1,4 @@
+\begin{document}
 \begin{table}
 %\centering
 \begin{tabular}{ | L{1cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
@@ -8,16 +9,16 @@ Step & components & Desription & Expected results & Actual result \\\hline
 5V power & usb connector & Measure voltage on the header & Measure 5 volts on the incoming power line & \\
 \hline
  & & & &\\
-3.3V & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and Messure the voltage on voltage-pin and observe teh D2 LED & Expect the power indicator LED to light up, the 3.3v power pin charged with 3.3v & \\
+3.3V power & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and Messure the voltage on voltage-pin and observe teh D2 LED & Observe the power power indicator LED to light up and measure 3.3V form the powerline connected to the 3.3V net& \\
 \hline
  & & & &\\
 1.2V & 1.2V LDO, power indicator LED, voltage regulator capacitor, voltage regulator resistor. & Solder component and and messure the connector in BGA for 1.2V and observe the D1 LED & 1.2V on one connector in BGA, power indicator LED light up &\\
 \hline
  & & & &\\
-BGA & EFM32GG990, LX45 & place the component on a new PCB and bake them in the oven & &\\
+BGA & EFM32GG990, LX45 & place the component on a new PCB and bake them in the oven & Components dose not  fall of and all respectable pins are connected. &\\
  \hline
  & & & &\\
-Resolder electrical circiut & power supply and LDO voltage regulator & Reconnect the electriical circuit on the new board & &\\
+Electrical circiut & power supply, LDO voltage regulator, connected capacitor & Reconnect the electriical circuit on the new board & The FPGA and MCU gets the needed power. &\\
 \hline
 & & & &\\
 
@@ -25,10 +26,13 @@ Major components & HDMI, SRAM, Oscilliator, high and low frequency crystal, usb 
 
 \hline
 & & & &\\
-The Rest of the component & capacitor, resistor, LED, buttons,  & Solder the component  & something &\\
+The Rest of the component & capacitor, resistor, LED, buttons,  & Solder the component  & A working PCB &\\
 \hline
 
 
 \end{tabular}
 \caption{\label{tab:widgets}Solder plan.}
 \end{table}
+
+
+\end{document}
