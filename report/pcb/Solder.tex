@@ -1,6 +1,6 @@
 \begin{table}
 %\centering
-\begin{tabular}{| L{1cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
+\begin{tabular}{ | L{1cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
 \hline
 \multicolumn{5}{|c|}{Solder and test plan} \\
 \hline 
@@ -14,17 +14,21 @@ Step & components & Desription & Expected results & Actual result \\\hline
 1.2V & 1.2V LDO, power indicator LED, voltage regulator capacitor, voltage regulator resistor. & Solder component and and messure the connector in BGA for 1.2V and observe the D1 LED & 1.2V on one connector in BGA, power indicator LED light up &\\
 \hline
  & & & &\\
- BGA & EFM32GG990, LX45 & place the component on a new PCB and bake them in the oven & &\\
+BGA & EFM32GG990, LX45 & place the component on a new PCB and bake them in the oven & &\\
  \hline
  & & & &\\
- Resolder electrical circiut & power supply and LDO voltage regulator & Reconnect the electriical circuit on the new board & &\\
+Resolder electrical circiut & power supply and LDO voltage regulator & Reconnect the electriical circuit on the new board & &\\
+\hline
+& & & &\\
+
+Major components & HDMI, SRAM, Oscilliator, high and low frequency crystal, usb data & Solder the major components and connected header. & able to transfer the signal correctly & \\
+
+\hline
+& & & &\\
+The Rest of the component & capacitor, resistor, LED, buttons,  & Solder the component  & something &\\
+\hline
 
 
 \end{tabular}
 \caption{\label{tab:widgets}Solder plan.}
 \end{table}
-
-
-
-
-\end{document}
