@@ -4,12 +4,12 @@ We needed to get comfortable with the MCU programming environment, learn how con
 Our project PCB was delivered to us only two weeks prior to project deadline, and therefore we needed to create a working prototype of these aspects before our actual system was ready to use.
 
 Our prototype setup is shown in concept and in actuality in Figure \ref{prototype}.
-We tested bus communication with EBI between MCU and FPGA, video output signals with HDMI from FPGA, and USART communication between host PC and MCU.
+We tested bus communication with EBI between MCU and FPGA, video output signals with HDMI from FPGA, controlling it with a debugger connected to the MCU.
 Note that we used a DVI cable instead of a HDMI cable to connect to the GPIO pins as that was more readily available to us. The two protocols are conventiently pin-compatible and interchangeable.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[scale=1.00]{diagrams/prototype_complete.png}
+\includegraphics[width=\textwidth]{diagrams/prototype_complete.png}
 \caption{Prototype of Communication Channels}
 \label{prototype}
 \end{figure}
@@ -23,7 +23,7 @@ We strived to use the exact same GPIO pins on the prototype as the ones we have 
 
 For the FPGA side of the bus we used the exercise framework of TDT4255 Computer Architecture as a starting point.
 It is a VHDL project that has some memory and a module for programming the FPGA and reading its memory.
-Fortunately, the EBI protocol is simple enough to where we could wire the MCU's address lines, data lines, and write enable signal directly to the FPGA memory module's corresponding ports.
+Fortunately, the EBI protocol is simple enough to let us wire the MCU's address lines, data lines, and write enable signal directly to the FPGA memory module's corresponding ports.
 This worked because the memory module ran at a higher clock frequency than the MCU, and therefore had at least one rising clock edge every time the MCU asserted write enable.
 
 INSERT ISSUES / SPEED OBSERVATIONS ETC HERE.
@@ -31,22 +31,22 @@ INSERT ISSUES / SPEED OBSERVATIONS ETC HERE.
 \subsection{HDMI Test}
 Aleksander W?
 
-\subsection{EBI & HDMI Test}
-For a more complete prototype, we created combined these two communication channels into a system that let the MCU write pixel values to screen through the FPGA.
+\subsection{EBI \& HDMI Test}
+For a more complete prototype, we combined these two communication channels into a system that let the MCU write pixel values to screen through the FPGA.
 Note that at this point in time, the GPU architecture was not yet completed.
 As such, our prototype was not one for the whole project system, but merely for our two main communication channels.
 SRAM chips and their interface were also not part of this prototype.
-That communication channel was not tested prior to receiving our PCB.
+The memory communication channel was not tested prior to receiving our PCB.
 Instead, we used two memory modules internally on the FPGA for two small framebuffers.
 
 We were able to bla bla bla christmas soon.
 Candy.
 
-\begin{figure}[htp]
+\begin{wrapfigure}[10]{r}{0.3\textwidth}
 \centering
-\includegraphics[scale=1.00]{diagrams/prototype_demo.png}
+\includegraphics[width=0.3\textwidth]{diagrams/prototype_demo.png}
 \caption{Screenshot of prototype demo}
 \label{prototype_demo}
-\end{figure}
+\end{wrapfigure}
 
 INSERT ISSUES / SPEED OBSERVATIONS ETC HERE.
