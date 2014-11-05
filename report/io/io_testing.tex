@@ -42,21 +42,27 @@ A new measurement of the bus showed an improved write frequency of 3.2 MHz.
 Aleksander W?
 
 \subsection{EBI \& HDMI Test}
-For a more complete prototype, we combined these two communication channels into a system that let the MCU write pixel values to screen through the FPGA.
-Note that at this point in time, the GPU architecture was not yet completed.
-As such, our prototype was not one for the whole project system, but merely for our two main communication channels.
-SRAM chips and their interface were also not part of this prototype.
-The memory communication channel was not tested prior to receiving our PCB.
-Instead, we used two memory modules internally on the FPGA for two small framebuffers.
 
-We were able to bla bla bla christmas soon.
-Candy.
-
-\begin{wrapfigure}[10]{r}{0.3\textwidth}
+\begin{wrapfigure}{r}{0.3\textwidth}
 \centering
 \includegraphics[width=0.3\textwidth]{diagrams/prototype_demo.png}
-\caption{Screenshot of prototype demo}
+\caption{Screenshot of test demo}
 \label{prototype_demo}
 \end{wrapfigure}
 
-INSERT ISSUES / SPEED OBSERVATIONS ETC HERE.
+For a combined prototype we connected these two communication channels in a system that let the MCU write pixel values to screen through the FPGA.
+A short program on the MCU ran a simple "demo" of a spinning cube in a 128 by 128 pixel frame on screen.
+Note that at this point in time, the GPU architecture was not yet completed.
+As such, our prototype was not one for the whole project system, but merely for our two main communication channels.
+SRAM chips and their interface were also not part of this prototype.
+Communication to external SRAM chips was not tested prior to receiving our PCB.
+Instead, we used two memory modules internally on the FPGA for two small framebuffers.
+
+With this test, we made sure that we could send HDMI output from a memory framebuffer, and even switch between two buffers. 
+ALEKSANDER HAS MUCH TO SAY ABOUT VSYNC RIGHT HERE YO
+
+We played with the clock speed of both MCU and FPGA on this test.
+Framebuffer for our HDMI output was switched as soon as the MCU finished writing its next frame, making the frequency of frame updates directly dependent on the speed of transfers over our EBI bus.
+The consequence was a visual feedback gave us an imprecise but useful indication of the speed of our EBI transfers.
+As we expected, if the MCU clock speed was higher than the FPGA clock speed, we would get "artifacts" on screen.
+That is, not every transfer would be received on the FPGA side, leaving "old" pixel values in our framebuffers.
