@@ -25,6 +25,9 @@
 *-blx.aux
 *-blx.bib
 *.brf
+
+# Temporary files
+.*.swp
 *.run.xml
 
 ## Build tool auxiliary files:
