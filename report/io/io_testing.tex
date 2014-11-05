@@ -26,7 +26,17 @@ It is a VHDL project that has some memory and a module for programming the FPGA 
 Fortunately, the EBI protocol is simple enough to let us wire the MCU's address lines, data lines, and write enable signal directly to the FPGA memory module's corresponding ports.
 This worked because the memory module ran at a higher clock frequency than the MCU, and therefore had at least one rising clock edge every time the MCU asserted write enable.
 
-INSERT ISSUES / SPEED OBSERVATIONS ETC HERE.
+To get an understanding of the data rate on the bus, we analyzed the writes with a logic analyzer.
+The measured write frequency was about 1.5 MHz.
+Reading the specifications for the MCU clock, we found that we could change the clock band from a 14 MHz frequency band to 28 MHz.
+A new measurement of the bus showed an improved write frequency of 3.2 MHz.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{diagrams/ebi_bus_write_speed.png}
+\caption{The frequency of writes, as measured with a logic analyzer}
+\label{ebi_bis_write_speed}
+\end{figure}
 
 \subsection{HDMI Test}
 Aleksander W?
