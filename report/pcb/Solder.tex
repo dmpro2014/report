@@ -1,32 +1,31 @@
-\begin{document}
 \begin{table}
 %\centering
-\begin{tabular}{ | L{1cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
+\begin{tabular}{ | L{2cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
 \hline
 \multicolumn{5}{|c|}{Solder and test plan} \\
 \hline 
-Step & components & Desription & Expected results & Actual result \\\hline
-5V power & usb connector & Measure voltage on the header & Measure 5 volts on the incoming power line & \\
+Step & Components & Description & Expected Results & Actual Result \\\hline
+5V power & USB connector & Measure voltage on the header & Measure 5 volts on the incoming power line. & \\
 \hline
  & & & &\\
-3.3V power & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and Messure the voltage on voltage-pin and observe teh D2 LED & Observe the power power indicator LED to light up and measure 3.3V form the powerline connected to the 3.3V net& \\
+3.3V power & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and measure the voltage on the voltage-pin and observe the  LED & Observe the power indicator LED light up and measure 3.3V on the programing header. & TBA \\
 \hline
  & & & &\\
-1.2V & 1.2V LDO, power indicator LED, voltage regulator capacitor, voltage regulator resistor. & Solder component and and messure the connector in BGA for 1.2V and observe the D1 LED & 1.2V on one connector in BGA, power indicator LED light up &\\
+1.2V & 1.2V LDO, power indicator LED, capacitor, resistor. & Solder the components and measure the BGA solderpads for 1.2V and observe the LED & 1.2V on BGA solderpads, power indicator LED lights up. &\\
 \hline
  & & & &\\
-BGA & EFM32GG990, LX45 & place the component on a new PCB and bake them in the oven & Components dose not  fall of and all respectable pins are connected. &\\
+BGA & EFM32GG990, LX45 & Place the components on a new PCB and bake them in the oven & Components do not fall off and all pins are connected. &\\
  \hline
  & & & &\\
-Electrical circiut & power supply, LDO voltage regulator, connected capacitor & Reconnect the electriical circuit on the new board & The FPGA and MCU gets the needed power. &\\
+Connecting FPGA and MCU to power & Power supply, LDO voltage regulator, capacitor & Reconnect the electrical circuit on the new board & The FPGA and MCU get the needed power. &\\
 \hline
 & & & &\\
 
-Major components & HDMI, SRAM, Oscilliator, high and low frequency crystal, usb data & Solder the major components and connected header. & able to transfer the signal correctly & \\
+Critical components & Oscilliator, high and low frequency crystal & Solder the major components and connected header. Then use a logic analyzer to check the outputs.  & Consistent pulses from the clocks and oscillator. & \\
 
 \hline
 & & & &\\
-The Rest of the component & capacitor, resistor, LED, buttons,  & Solder the component  & A working PCB &\\
+The rest & The remaining components & Solder the components  & A working PCB. &\\
 \hline
 
 
@@ -34,5 +33,3 @@ The Rest of the component & capacitor, resistor, LED, buttons,  & Solder the com
 \caption{\label{tab:widgets}Solder plan.}
 \end{table}
 
-
-\end{document}
