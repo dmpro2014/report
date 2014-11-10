@@ -23,3 +23,11 @@ Latex will make sure the formatting is how you like it.
     This makes it so that we easier can see what change was made.
 
 Keep up this style and we will all be happy reporting :)
+
+## Notes and comments
+The Todonotes package can be used to keep track of changes that need to be made in the codebase.
+This is included by default in tex live, but is untested in other distributions of tex.
+
+Short usage: \todo{Todo note text} => Generates a yellow post-it in the resulting PDF file with that text.
+
+http://www.tex.ac.uk/tex-archive/help/Catalogue/entries/todonotes.html
