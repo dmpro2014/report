@@ -1,4 +1,4 @@
-\documentclass[paper=a4, fontsize=11pt]{scrreprt} % A4 paper and 11pt font size
+\documentclass[paper=a4, fontsize=11pt]{report} % A4 paper and 11pt font size
 \input{_setup.tex}
 
 %----------------------------------------------------------------------------------------
@@ -16,7 +16,16 @@ TDT4295 Computer Design Project\\
 \horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
 }
 
-\author{Authors:\\Torkel Berli\\Aleksander Vognild Burkow\\Eirik Jakobsen\\Stian Jensen\\Julian Ho-yin Lam\\Kristian Fladstad Normann\\Andreas Løve Selvik\\Christoffer Tønnessen\\Aleksander Wasaznik}
+\author{Authors:\\ \\
+Aleksander Gustaw Wasaznik\\
+Aleksander Vognild Burkow\\
+Kristian Fladstad Normann\\
+Christoffer Tønnessen\\
+Andreas Løve Selvik\\
+Julian Ho-yin Lam\\
+Eirik Jakobsen\\
+Stian Jensen\\
+Torkel Berli}
 
 \date{\normalsize November 19, 2014}
 
@@ -48,29 +57,47 @@ TDT4295 Computer Design Project\\
 
 \pagenumbering{arabic}
 
+\part{Introduction}
+
 %INTRODUCTION
 \input{introduction/introduction.tex}
 
-\newpage
+% STATE OF THE ART
+\input{state_of_the_art/state_of_the_art.tex}
 
-% TODO: kommer med forslag til underkapitler
+\part{Solution}
 
 % System Overview
+\input{system_overview/system_overview.tex}
 
-% Architecture
+% CPU
+\input{cpu/cpu.tex}
 
-% IO
+% GPU
+\input{gpu/gpu.tex}
+
+% Comm
+\input{comm/comm.tex}
 
 %PCB
 \input{pcb/pcb.tex}
 
-\newpage
+\part{Results \& Discussion}
 
 % TESTING
+\input{testing/testing.tex}
 
 % RESULTS
+\input{results/results.tex}
+
+% DISCUSSION
+\input{discussion/discussion.tex}
 
 % CONCLUSION
+\input{conclusion/conclusion.tex}
+
+% WORK PROCESS
+\input{work_process/work_process.tex}
 
 \printbibliography
 
@@ -79,5 +106,9 @@ TDT4295 Computer Design Project\\
 \appendix
 %APPENDIX A
 \input{appendix/a.tex}
+
+% Fan fiction
+\input{appendix/yaman.tex}
+
 
 \end{document}
