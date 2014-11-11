@@ -39,8 +39,8 @@ In addition to this, there were a lot of development boards available,
 plus over half of the group had experience with this controller from the subject
 TDT4258 Energy Efficient Computer Systems.
 
-The EFM32GG990F1024-BGA112 was chosen as a powerful enough version of the microcontroller.
-Not only did it have enough GPIO pins for our needs, but it could....something %TODO: skriv mer om dette
+The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
+It fulfilled all requirements for our microcontroller.
 
 \section{Input}
 Was solved through usb for data communication between microcontroller and host PC, plus a serial(RS-232) backup scheme.
@@ -54,8 +54,6 @@ usb connection with successive headers that allow for using an external power su
 \section{Bus}
 Standard EBI connection between FPGA and MCU, but with headers in between such that external connection can be done in case of failure on one side of the connection, as well as an easy way to check transmitted signals during debugging.
 
-\section{Memory}
-Same as with bus. Connected to FPGA via headers.
 \section{Clocks}
 FPGA oscillator along with header on which an external oscillator resource can be connected by way of backup.
 The microcontroller clocks on the other hand have a backup solution in that the microcontroller has internal RC-oscilators for use in case the crystals malfunction.
@@ -66,7 +64,36 @@ The microcontroller clocks on the other hand have a backup solution in that the 
 
 \section{Footprints}
 Predominantly SMDs(surface mounted device) large enough for humans to solder(with a couple of exceptions)
-...Uncertain if we neeed a 'Footprint section'
 
-% where should this be placed?
 \input{pcb/hdmi.tex}
+
+\todo{...Uncertain ie om at vi endra litt på en del footprints, men pga hvordan fysiske komponenter funker,}
+
+\subsubsection{Prebundled}
+
+\subsubsection{Handmade}
+Some footprints we had to make ourselves.
+This was done inside Altium.
+The specification for the footprints was found in the datasheets of the compontent in question.
+
+When making the handmade footprints some other thoughts were taken into account.
+
+\begin{itemize}
+    \item We need to solder these components
+    \item The connection on the components is physical, as long as it leads current, it will work.
+    \item Some datasheets didn't match the component exactly, but was for a sister component
+\end{itemize}
+
+With this in mind we made footprints which was slightly bigger than it needed to.
+
+\begin{verbatim}
+Needed:                 Acutal:
+--------------          --------------
+|            |          |            |
+|--|      |--|       |--|--|      |--|--|
+|  |      |  |       |  |  |      |  |  |
+|..|      |--|       |--|..|      |--|--|
+|            |          |            |
+--------------          --------------
+\end{verbatim}
+>>>>>>> Add intro footprint
