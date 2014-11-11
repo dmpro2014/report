@@ -1,20 +1,31 @@
 \chapter{PCB}
 \label{sec:pcb}
 
-The entire system is mounted on a PCB with wires connecting the different parts.
-Designing and soldering this component correctly is therefore extremely important for the system
-to work as a whole.
+This chapter will describe the PCB layout, the main components and the design philosophy that went into solving the system requirements.
+%\section{Layout Overview}
+
+\section{Design process}
+Split project schematics into several connected docs for the sake of modularity. Found some application notes and some hardware considerations. Found some components and footprints that would fit...ish with these docs. Then put out the components on the board digitally and routed the wires.
+
+
+\section{Design for Redundancy}
 
 A lot of effort has gone into making sure that if something fails, there is a backup plan.
 This means that most of the wires are connected to jumpers, which can be rerouted manually.
 Because of this, the board is not optimized for size, but was rather made to optimize for
 highest possible chance of success.
 
-This section will explain the overall design, why choices were made and the reason behind these choices.
-
-\section{Layout Overview}
-
-\section{Design for Redundancy}
+In addition, small graphic that goes 
+-----------------
+| Backup solution |
+|				  |
+|  -------------  |
+| | Core design | |
+| |				| |
+| |				| |
+| --------------- |
+|				  |
+ ----------------
 
 \section{Components}
 
@@ -29,11 +40,24 @@ TDT4258 Energy Efficient Computer Systems.
 The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
 Not only did it have enough GPIO pins for our needs, but it could....something %TODO: skriv mer om dette
 
-\section{Inputs}
+\section{Input}
+Was solved through usb for data communication between microcontroller and host PC, plus a serial(RS-232) backup scheme.
 
-\section{Outputs}
-
+\section{Output}
+Main scheme was HDMI connector. Backup: HDMI headers with gutted cable connected, then \mu -VGA module conected to the FPGA and finally \mu -VGA module connected to the microcontroller.
 
 \section{Power}
+usb connection with successive headers that allow for using an external power supply in case power fails.
+
+\section{Bus}
+Standard EBI connection between FPGA and MCU, but with headers in between such that external connection can be done in case of failure on one side of the connection, as well as an easy way to check transmitted signals during debugging.
+
+\section{Memory}
+Same as with bus. Connected to FPGA via headers.
+\section{Clocks}
+FPGA oscillator along with header on which an external oscillator resource can be connected by way of backup.
+The microcontroller clocks on the other hand have a backup solution in that the microcontroller has internal RC-oscilators for use in case the crystals malfunction.
 
 \section{Footprints}
+Predominantly SMDs(surface mounted device) large enough for humans to solder(with a couple of exceptions)
+...Uncertain if we neeed a 'Footprint section'
