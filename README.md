@@ -1,5 +1,5 @@
-Report for Ghetto Cuda
-======
+Report for Demolicious
+======================
 
 This repo is our report.
 We will have some simple guidelines that will make this easier for everyone.
