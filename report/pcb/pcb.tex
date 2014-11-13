@@ -7,24 +7,26 @@ This chapter will describe the PCB layout, the main components and the design ph
 
 \section{Design for Redundancy}
 
-A lot of effort has gone into making sure that if something fails, there is a backup plan.
-This means that most of the wires are connected to jumpers, which can be rerouted manually.
-Because of this, the board is not optimized for size, but was rather made to optimize for
-highest possible chance of success.
+When designing a pcb for a system, there is no easy way to correct mistakes.
+A wire can not be rerouted if there is a problem.
+Becayse of this, a lot of effort has gone into making backup plans if something fails.
+Each part of the pcb needs to be able to work without the rest of the pcb.
+This is done by having jumpers on each section, which can be rerouted manually.
+That way each part can be connected to other parts of the board, or to other sources.
+Because of this, the board is not optimized for size, but was rather made to optimize for highest possible chance of success.
 
-In addition, small graphic that goes 
-
+This small graphics explains the design philosophy of the pcb
 \begin{verbatim}
- -----------------
-| Backup solution |
-|                 |
-|  -------------  |
-| | Core design | |
-| |             | |
-| |             | |
-| --------------- |
-|                 |
- -----------------
+     -----------------
+    | Backup solution |
+    |                 |
+    |  -------------  |
+    | | Core design | |
+    | |             | |
+    | |             | |
+    | --------------- |
+    |                 |
+     -----------------
 \end{verbatim}
 
 \section{Main Components}
@@ -39,13 +41,32 @@ TDT4258 Energy Efficient Computer Systems.
 
 The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
 
+\subsection{FPGA}
+The Spartan-6 FPGA from Xilinx was chosen as the FPGA.
+This particular FPGA has been used for different tasks on the university before, and the support systems are therefor available to us.
+The XC6SLX45-2CSG324I version was the one used on the PCB.
+A weaker version of this is avaibale for testing on development boards in the lab.
+
 \section{Input}
-Was solved through USB for data communication between microcontroller and host PC, plus a serial(RS-232) backup scheme.
+
+The main source of data communication between microcontroller and a host PC is USB.
+This protocol has been used for years on projects like these, with good results. \todo{citation needed}
+Also, the power uses usb, so the protocol is already a part of the PCB.
+
+However, if the usb fails, there are backup plans.
+Primarily a serial port (RS-232) has been included to work if the USB should fail.
+If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
 
 \section{Output}
-Main scheme was HDMI connector. Backup: HDMI headers with gutted cable connected, then $\mu$ -VGA module conected to the FPGA and finally $\mu$ -VGA module connected to the microcontroller.
-Main scheme was HDMI connector. Backup: HDMI headers with gutted cable connected, then $\mu$-VGA module connected to the FPGA and finally $\mu$-VGA module connected to the microcontroller.
-\todo{It seems really weird to talk about the my-VGA module. what is this?}
+The main source of output from the FPGA is a HDMI connector.
+This has never been done before in this projects throughout the years.
+
+Because of this new challange, a lot of backup schemes were put in place.
+The HDMI connector is put on headers, in case the connector fails.
+A separate VGA module is connected to the FPGA, in case the HDMI doesn't work.
+If this fails a VGA module is also connected to the microcontroller.
+
+All of this should make sure we should be able to drive output from our pcb.
 
 \section{Power}
 USB connection with successive headers that allow for using an external power supply in case power fails.
