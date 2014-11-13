@@ -1,5 +1,12 @@
 \chapter{GPU}
 
+The GPU is at the heart of the Demolicious system.
+Inspired by SIMD and SIMT architecture and programming models, the GPU architecture is named 'GhettoCUDA' in honor of NVIDIAs CUDA environment.\todo{cite this}
+
+The GhettoCUDA architecture is highly parallel, in that it allows for a great number of threads to execute in parallel on multiple streaming processors.
+Its design is focused on keeping the memory bus saturated at all times, allowing for multiple threads to execute on each streaming processor core in lockstep, with a staggered start.
+This design decision allows for a steady stream of load/store instructions without requiring a system stall as one waits for memory requests to return.
+
 \section{Responsibilities}
 
 \section{Kernel Structure}
