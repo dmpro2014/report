@@ -56,6 +56,10 @@ Dedicated address and data store/return registers allows for simplification of b
 
 \subsection{Thread Spawner}
 
+The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on dataset d to actual hardware threads.
+As all kernels are uniquely identifiable by their respective thread ID, the thread spawner is responsible for providing strictly increasing and unique IDs.
+
+
 \subsection{Register Directory}
 
 \subsection{Load/Store Unit}
