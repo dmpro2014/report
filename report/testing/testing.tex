@@ -5,3 +5,20 @@ Does it work?
 \section{VHDL Unit tests}
 
 \input{io/io_testing.tex}
+
+
+\section{PCB tests}
+
+After receiving the finished PCB and the components we went through the following testing steps before reaching a final (hardware-wise)functional computer.   
+
+\subsection{Solder, signal and power test}
+These tests entailed soldering components and checking that the connections held, as well as checking that power properly propagated through the board.  
+\input{testing/Solder_test.tex}
+
+\subsection{Oscillator and clock test}
+These tests entailed using an oscilloscope in order to probe the outputs of the FPGA's oscillator and the high frequency and low frequency crystals.
+\input{testing/oscillation_test.tex}
+
+\subsection{JTAG test}
+These tests entailed attempting to connect to respectively, the FPGA and the MCU by way of the appropriate headers, thereby verifying that they had been properly soldered in place and were functional.
+\input{testing/JTAG_test.tex}
