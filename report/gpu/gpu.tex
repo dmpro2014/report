@@ -4,7 +4,11 @@ The GPU is at the heart of the Demolicious system.
 Inspired by SIMD and SIMT architecture and programming models, the GPU architecture is named 'GhettoCUDA' in honor of NVIDIAs CUDA environment.\todo{cite this}
 
 The GhettoCUDA architecture is highly parallel, in that it allows for a great number of threads to execute in parallel on multiple streaming processors.
-Its design is focused on keeping the memory bus saturated at all times, allowing for multiple threads to execute on each streaming processor core in lockstep, with a staggered start.
+A thread is the unit of execution, in essence a single procedure, that when correctly parameterized by run-time values allows for the transformation of a set of input data to a graphical representation to be visualized by the HDMI module.
+A simple kernel, requiring no input, might be one that for each pixel in the framebuffer stores the color red.
+
+The main design challenge in creating a GPU-inspired system is managing to saturate the memory bus as much as possible, changing memory access patterns from clustering together in time to a more spread-out pattern.
+To facilitate this, the architecture allowing for multiple threads to execute on each streaming processor core, with a staggered start.
 This design decision allows for a steady stream of load/store instructions without requiring a system stall as one waits for memory requests to return.
 
 \section{Responsibilities}
