@@ -57,14 +57,12 @@ Primarily a serial port (RS-232) has been included to work if the USB should fai
 If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
 
 \section{Output}
-The main source of output from the FPGA is a HDMI connector.
-%This has never been done before in this project throughout the years.
-Through the history of this course, no project has ever tried to implement HDMI before.
+The main source of output from the FPGA is an HDMI connector.
+This is a novel feature this year, as no previous group has tried to implement it before.
 
-Because of this new challange, a lot of backup schemes were put in place.
+Because of this new challenge, a lot of backup schemes were put in place.
 The HDMI connector is put on headers, in case the connector fails.
-A separate VGA module is connected to the FPGA, in case the HDMI doesn't work.
-If this fails a VGA module is also connected to the microcontroller.
+A separate VGA module is connected to the FPGA, in case the HDMI doesn't work and if this fails, a VGA module is also connected to the microcontroller.
 
 All of this should make sure we should be able to drive output from our pcb.
 
