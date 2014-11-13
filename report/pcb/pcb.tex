@@ -39,7 +39,7 @@ In addition to this, there were a lot of development boards available,
 plus over half of the group had experience with this controller from the subject
 TDT4258 Energy Efficient Computer Systems.
 
-The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
+The EFM32GG990F1024-BGA112 was chosen as a powerful enough version of the microcontroller.
 Not only did it have enough GPIO pins for our needs, but it could....something %TODO: skriv mer om dette
 
 \section{Input}
@@ -59,6 +59,10 @@ Same as with bus. Connected to FPGA via headers.
 \section{Clocks}
 FPGA oscillator along with header on which an external oscillator resource can be connected by way of backup.
 The microcontroller clocks on the other hand have a backup solution in that the microcontroller has internal RC-oscilators for use in case the crystals malfunction.
+
+\section{Soldering}
+
+\input{pcb/Solder.tex}
 
 \section{Footprints}
 Predominantly SMDs(surface mounted device) large enough for humans to solder(with a couple of exceptions)
