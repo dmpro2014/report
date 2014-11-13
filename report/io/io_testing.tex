@@ -15,6 +15,7 @@ Note that we used a DVI cable instead of a HDMI cable to connect to the GPIO pin
 \end{figure}
 
 \subsection{EBI Test}
+\todo{Rewrite paragraphs to more test-like format}
 For our first test, we created a working EBI communication between MCU and FPGA.
 Creation of the MCU program was aided by publicly available Silicon Labs examples and documentation.
 Filtering away the complicated setup of the MCU development board itself, none of which we need for our final system, was difficult.
@@ -39,7 +40,7 @@ A new measurement of the bus showed an improved write frequency of 3.2 MHz.
 \end{figure}
 
 \subsection{HDMI Test}
-Aleksander W?
+\todo{Describe this test}
 
 \subsection{EBI \& HDMI Test}
 
@@ -59,7 +60,7 @@ Communication to external SRAM chips was not tested prior to receiving our PCB.
 Instead, we used two memory modules internally on the FPGA for two small framebuffers.
 
 With this test, we made sure that we could send HDMI output from a memory framebuffer, and even switch between two buffers. 
-ALEKSANDER HAS MUCH TO SAY ABOUT VSYNC RIGHT HERE YO
+\todo{Explain more detailed what this means}
 
 We played with the clock speed of both MCU and FPGA on this test.
 Framebuffer for our HDMI output was switched as soon as the MCU finished writing its next frame, making the frequency of frame updates directly dependent on the speed of transfers over our EBI bus.
