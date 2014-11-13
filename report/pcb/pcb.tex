@@ -4,9 +4,6 @@
 This chapter will describe the PCB layout, the main components and the design philosophy that went into solving the system requirements.
 %\section{Layout Overview}
 
-\section{Design process}
-Split project schematics into several connected docs for the sake of modularity. Found some application notes and some hardware considerations. Found some components and footprints that would fit...ish with these docs. Then put out the components on the board digitally and routed the wires.
-
 
 \section{Design for Redundancy}
 
@@ -16,8 +13,9 @@ Because of this, the board is not optimized for size, but was rather made to opt
 highest possible chance of success.
 
 In addition, small graphic that goes 
+
 \begin{verbatim}
--------------------
+ -----------------
 | Backup solution |
 |                 |
 |  -------------  |
@@ -26,10 +24,10 @@ In addition, small graphic that goes
 | |             | |
 | --------------- |
 |                 |
--------------------
- \end{verbatim}
+ -----------------
+\end{verbatim}
 
-\section{Components}
+\section{Main Components}
 
 \subsection{Microcontroller / System Control Unit}
 The EFM32 Giant Gecko 32-bit Microcontroller from Energy Micro was chosen as the controller for this project.
