@@ -18,7 +18,7 @@ The GPU has a relatively simple job:
   \item
     Receive instructions and constant data from the MCU
   \item
-    Receive kernel invokations from the MCU
+    Receive kernel invocations from the MCU
   \item
     Write results to external SRAM
   \item
@@ -58,14 +58,14 @@ The register bank mirrors the interface of the register file, but only exposes a
 This system allows rapid context switching between the plethora of threads co-existing inside each streaming processor.
 
 The streaming processor support conditional execution of instructions, using a dedicated mask register to decide whether instructions should be executed or not.
-This allows for branch-like behaviour without having to support the complex logic required for diverging threads.
+This allows for branch-like behavior without having to support the complex logic required for diverging threads.
 
 When a memory request is invoked by the currently active instruction, memory addresses and data values are sampled from the currently active register file in the register directory, and passed on to the load/store unit.
 Dedicated address and data store/return registers allows for simplification of both the programming model as well as requiring fewer wires between the set of streaming processors and the load/store unit.
 
 \subsection{Thread Spawner}
 
-The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on dataset d to actual hardware threads.
+The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on data set d to actual hardware threads.
 As all kernels are uniquely identifiable by their respective thread ID, the thread spawner is responsible for providing strictly increasing and unique IDs.
 
 
