@@ -3,7 +3,7 @@
 
 This chapter will describe the PCB layout, the main components and the design philosophy that went into solving the system requirements.
 %\section{Layout Overview}
-
+\input{pcb/physical_overview.tex}
 
 \section{Design for Redundancy}
 
@@ -42,31 +42,27 @@ TDT4258 Energy Efficient Computer Systems.
 The EFM32GG990F512-BGA112 was chosen as a powerful enough version of the microcontroller.
 
 \subsection{FPGA}
-The Spartan-6 FPGA from Xilinx was chosen as the FPGA.
-This particular FPGA has been used for different tasks on the university before, and the support systems are therefor available to us.
-The XC6SLX45-2CSG324I version was the one used on the PCB.
-A weaker version of this is avaibale for testing on development boards in the lab.
+The XC6SLX45-2CSG324I FPGA of the Spartan-6 family from Xilinx was chosen as the FPGA.
+This particular FPGA has been used for different tasks on the university before, and the support systems are therefore available to us.
+The version was the one used on the PCB.
+A less powerful version of this one was available for testing on development boards in the lab.
 
 \section{Input}
 
 The main source of data communication between microcontroller and a host PC is USB.
 This protocol has been used for years on projects like these, with good results. \todo{citation needed}
-Also, the power uses usb, so the protocol is already a part of the PCB.
 
 However, if the usb fails, there are backup plans.
 Primarily a serial port (RS-232) has been included to work if the USB should fail.
 If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
 
 \section{Output}
-The main source of output from the FPGA is a HDMI connector.
-This has never been done before in this projects throughout the years.
+The main source of output from the FPGA is an HDMI connector.
+This is a novel feature this year, as no previous group has tried to implement it before.
 
-Because of this new challange, a lot of backup schemes were put in place.
+Because of this new challenge, a lot of backup schemes were put in place.
 The HDMI connector is put on headers, in case the connector fails.
-A separate VGA module is connected to the FPGA, in case the HDMI doesn't work.
-If this fails a VGA module is also connected to the microcontroller.
-
-All of this should make sure we should be able to drive output from our pcb.
+A separate VGA module is connected to the FPGA, in case the HDMI doesn't work and if this fails, a VGA module is also connected to the microcontroller.
 
 \section{Power}
 USB connection with successive headers that allow for using an external power supply in case power fails.
@@ -78,9 +74,6 @@ Standard EBI connection between FPGA and MCU, but with headers in between such t
 FPGA oscillator along with header on which an external oscillator resource can be connected by way of backup.
 The microcontroller clocks on the other hand have a backup solution in that the microcontroller has internal RC-oscillators for use in case the crystals malfunction.
 
-\section{Soldering}
-
-\input{pcb/Solder.tex}
 
 \section{Footprints}
 Predominantly SMDs(surface mounted device) large enough for humans to solder(with a couple of exceptions)
