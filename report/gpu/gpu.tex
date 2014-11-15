@@ -30,6 +30,12 @@ The GPU has a relatively simple job:
 
 
 \section{Receiving a Kernel Call}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{gpu/diagrams/receiving_a_kernel_call.png}
+\caption{Launcing a kernel from the GPU's viewpoint.}
+\label{kernel_call}
+\end{figure}
 The communication unit is responsible for receiving kernel call requests from the CPU, and initiating the request.
 A valid kernel call consists of the address of the kernel, the number of batches to launch, and asserting the launch signal.
 
