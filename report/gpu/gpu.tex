@@ -60,7 +60,7 @@ This system allows rapid context switching between the plethora of threads co-ex
 The streaming processor support conditional execution of instructions, using a dedicated mask register to decide whether instructions should be executed or not.
 This allows for branch-like behaviour without having to support the complex logic required for diverging threads.
 
-When a memory request is invoked by the current-ly active instruction, memory addresses and data values are sampled from the currently active register file in the register directory, and passed on to the load/store unit.
+When a memory request is invoked by the currently active instruction, memory addresses and data values are sampled from the currently active register file in the register directory, and passed on to the load/store unit.
 Dedicated address and data store/return registers allows for simplification of both the programming model as well as requiring fewer wires between the set of streaming processors and the load/store unit.
 
 \subsection{Thread Spawner}
