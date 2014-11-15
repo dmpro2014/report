@@ -33,15 +33,15 @@ The GPU has a relatively simple job:
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.2]{gpu/diagrams/receiving_a_kernel_call.png}
-\caption{Launcing a kernel, from the GPU's viewpoint.}
+\caption{Launcing a kernel from the GPU's viewpoint.}
 \label{kernel_call}
 \end{figure}
 The communication unit is responsible for receiving kernel call requests from the CPU, and initiating the request.
 A valid kernel call consists of the address of the kernel, the number of batches to launch, and asserting the launch signal.
 
-The kernel launch signals are forwarded to the GPU, which initiates the kernel internally. 
-After holding the kernel launch signals high for one clock cycle, the communication unit has completed its role in launching the kernel, and the GPU will run the kernel to completion.
-When the kernel completes executing the GPU asserts the kernel done signal, and the communication unit forwards the signal to the CPU indicating that the kernel call has completed.
+The kernel launch signals are forwarded to the thread spawner, which writes the kernel start address to the PC register, and starts distributing threadIDs to the streaming processors. 
+After holding the kernel launch signals high for one clock cycle, the communication unit has completed its role in launching the kernel.
+When the kernel completes executing the thread spawner asserts the kernel done signal, and the communication unit forwards the signal to the CPU indicating that the kernel call has completed.
 
 
 \section{Running a Kernel}
