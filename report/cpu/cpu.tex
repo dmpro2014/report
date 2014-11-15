@@ -12,8 +12,8 @@ At the beginning of a program, the CPU must load all kernels it's going to use i
 The CPU maintains a list of start addresses for different kernels, and uses them to tell the GPU where to start executing.
 
 \section{Running a Program}
-Big parts of a demo program or serial in nature, and will not benefit from running on the parallel architecture of the GPU.
-This parts are executed sequentially on the CPU.
+Big parts of a demo program is serial in nature, and will not benefit from running on the parallel architecture of the GPU.
+These parts of the demo are executed sequentially on the CPU.
 When the CPU encounters a part of the program which has a dedicated kernel,
 it loads any required parameters into the GPUs constant memory, and then sends a start signal to the GPU.
 When the GPU has completed the kernel, it triggers an interrupt on a dedicated wire,
