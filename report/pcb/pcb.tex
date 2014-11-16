@@ -10,27 +10,19 @@ This chapter will describe the PCB layout, the main components and the design ph
 
 \section{Design for Redundancy}
 
-When designing a PCB for a system, there is no easy way to correct mistakes.
-A wire can not be rerouted if there is a problem.
-Because of this, a lot of effort has gone into making backup plans if something fails.
-Each part of the PCB needs to be able to work without the rest of the PCB.
-This is done by having jumpers on each section, which can be rerouted manually.
+When designing a system the PCB is one of the harder things to debug.
+If a wire inside the PCB is wrong, there is not munch that can be done, except buying a new PCB.
+This becomes apparant when seeing most projects only have a working PCB on the 3rd of maybe even the 4th try.
+Because of this, a strong philosophy has been used in the design for the PCB, as shown in figure \ref{fig:pcb_philosophy}.
+
+To make sure the propability that a pcb will have a working design will be as high as possible, all aspects of the PCB has one or more backup plans.
+All important wires and unused pins have been put onto headers, which can be rerouted manually.
 That way each part can be connected to other parts of the board, or to other sources.
 Because of this, the board is not optimized for size, but was rather made to optimize for highest possible chance of success.
 
-This small graphics explains the design philosophy of the PCB
-\begin{verbatim}
-     -----------------
-    | Backup solution |
-    |                 |
-    |  -------------  |
-    | | Core design | |
-    | |             | |
-    | |             | |
-    | --------------- |
-    |                 |
-     -----------------
-\end{verbatim}
+Another part of this design is that each vital part of the PCB follows a modular design.
+Each isolated part will work on its own, with the help of other components, if the rest of the board fails.
+A PCB with a broken MCU, but with a functioning FPGA can be connected together and work as one system none the wiser.
 
 \section{Main Components}
 
