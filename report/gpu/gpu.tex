@@ -28,11 +28,11 @@ The GPU has a relatively simple job:
 \section{Architecture Overview}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.2]{gpu/diagrams/architecture_overview.png}
+\includegraphics[width=\textwidth]{gpu/diagrams/architecture_overview.png}
 \caption{A high level overview of the GPU.}
-\label{architecture_overview}
+\label{fig:architecture_overview}
 \end{figure}
-Figure \ref{architecture_overview} presents a high level overview over the data-flow in the GPU.
+Figure \ref{fig:architecture_overview} presents a high level overview over the data-flow in the GPU.
 The CPU issues commands to the GPU via the communication unit. Commands include actions such as launching a kernel, uploading kernels to the instruction memory, and writing to the constant memory.
 Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
 The processors load constants from the constant memory, and uses the load/store unit for  accessing the data memory. 
@@ -43,10 +43,11 @@ The processors load constants from the constant memory, and uses the load/store 
 \section{Receiving a Kernel Call}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.2]{gpu/diagrams/receiving_a_kernel_call.png}
+\includegraphics[width=\textwidth]{gpu/diagrams/receiving_a_kernel_call.png}
 \caption{Launcing a kernel from the GPU's viewpoint.}
-\label{kernel_call}
+\label{fig:kernel_call}
 \end{figure}
+
 The communication unit is responsible for receiving kernel call requests from the CPU, and initiating the request.
 A valid kernel call consists of the address of the kernel, the number of batches to launch, and asserting the launch signal.
 
@@ -61,11 +62,11 @@ At the beginning of a kernel run, the thread spawner assigns threadIDs to each w
 After the initial IDs have been assigned the GPU enters normal execution.
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.2]{gpu/diagrams/kernel_run_state_machine.png}
+	\includegraphics[width=0.9\textwidth]{gpu/diagrams/kernel_run_state_machine.png}
 	\caption{The GPU's internal state during kernel execution.}
-	\label{kernel_run_state_machine}
+	\label{fig:kernel_run_state_machine}
 \end{figure}
-A normal kernel execution can be represented by the state machine in figure \ref{kernel_run_state_machine}.
+A normal kernel execution can be represented by the state machine in figure \ref{fig:kernel_run_state_machine}.
 During the kernel execution stage the warps execute the same instructions in lock-step one warp at a time, until the control unit encounters a \textit{Finished} instruction.
 Upon receiving a \textit{Finished} instruction the control unit asserts the finished signal alerting the thread spawner that the warp requires new threadIDs.
 The thread spawner keeps track of the number of threads awaiting launch.
