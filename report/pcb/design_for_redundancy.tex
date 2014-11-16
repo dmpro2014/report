@@ -1,0 +1,22 @@
+\section{Design for Redundancy}
+
+When designing a system the PCB is one of the harder things to debug.
+If a wire inside the PCB is wrong, there is not munch that can be done, except buying a new PCB.
+This becomes apparant when seeing most projects only have a working PCB on the 3rd of maybe even the 4th try.
+Because of this, a strong philosophy has been used in the design for the PCB, as shown in figure \ref{fig:pcb_philosophy}.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=0.65\textwidth]{pcb/assets/pcb-philosophy.pdf}
+    \caption{Design philosophy for the PCB.}
+    \label{fig:pcb_philosophy}
+\end{figure}
+
+TO make sure the propability of a working PCB will be as high as possible, all aspects of the PCB has one or more backup plans.
+All important wires and unused pins have been put onto headers, which can be rerouted manually.
+That way each part can be connected to other parts of the board, or to other sources.
+Because of this, the board is not optimized for size, but was rather made to optimize for highest possible chance of success.
+
+Another part of this design is that each vital part of the PCB follows a modular design.
+Each isolated part will work on its own, with the help of other components, if the rest of the board fails.
+A PCB with a broken MCU, but with a functioning FPGA can be connected together and work as one system none the wiser.
