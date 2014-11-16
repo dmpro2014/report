@@ -55,8 +55,8 @@ After the initial IDs have been assigned the GPU enters normal execution.
 A normal kernel execution can be represented by the state machine in figure \ref{kernel_run_state_machine}.
 During the kernel execution stage the warps execute the same instructions in lock-step one warp at a time, until the control unit encounters a \textit{Finished} instruction.
 Upon receiving a \textit{Finished} instruction the control unit asserts the finished signal alerting the thread spawner that the warp requires new threadIDs.
-The thread spawner keeps track of the number of threads awaiting launch, when the thread spawner receives a \textit{Finished} instruction and no more threads are awaiting launch the kernel run
-has completed.
+The thread spawner keeps track of the number of threads awaiting launch.
+When the thread spawner receives a \textit{Finished} instruction and no more threads are awaiting launch, the kernel run has completed.
 \section{Component Details}
 
 \subsection{Streaming Processor}
