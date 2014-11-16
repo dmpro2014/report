@@ -71,7 +71,10 @@ During the kernel execution stage the warps execute the same instructions in loc
 Upon receiving a \textit{Finished} instruction the control unit asserts the finished signal alerting the thread spawner that the warp requires new threadIDs.
 The thread spawner keeps track of the number of threads awaiting launch.
 When the thread spawner receives a \textit{Finished} instruction and no more threads are awaiting launch, the kernel run has completed.
+
 \section{Component Details}
+
+\todo{Can this be called something else? It's kind of confused with the component details in the PCB chapter}
 
 \subsection{Streaming Processor}
 
