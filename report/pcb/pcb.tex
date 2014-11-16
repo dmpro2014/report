@@ -7,15 +7,15 @@ This chapter will describe the PCB layout, the main components and the design ph
 
 \section{Design for Redundancy}
 
-When designing a pcb for a system, there is no easy way to correct mistakes.
+When designing a PCB for a system, there is no easy way to correct mistakes.
 A wire can not be rerouted if there is a problem.
-Becayse of this, a lot of effort has gone into making backup plans if something fails.
-Each part of the pcb needs to be able to work without the rest of the pcb.
+Because of this, a lot of effort has gone into making backup plans if something fails.
+Each part of the PCB needs to be able to work without the rest of the PCB.
 This is done by having jumpers on each section, which can be rerouted manually.
 That way each part can be connected to other parts of the board, or to other sources.
 Because of this, the board is not optimized for size, but was rather made to optimize for highest possible chance of success.
 
-This small graphics explains the design philosophy of the pcb
+This small graphics explains the design philosophy of the PCB
 \begin{verbatim}
      -----------------
     | Backup solution |
@@ -52,7 +52,7 @@ A less powerful version of this one was available for testing on development boa
 The main source of data communication between microcontroller and a host PC is USB.
 This protocol has been used for years on projects like these, with good results. \todo{citation needed}
 
-However, if the usb fails, there are backup plans.
+However, if the USB fails, there are backup plans.
 Primarily a serial port (RS-232) has been included to work if the USB should fail.
 If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
 
