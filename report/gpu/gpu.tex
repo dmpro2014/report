@@ -43,7 +43,20 @@ The processors load constants from the constant memory, and uses the load/store 
 \section{Receiving a Kernel Call}
 
 \section{Running a Kernel}
-
+Once the thread spawner has been initiated by the communication unit, the kernel runs to completion without intervention by the CPU. 
+At the beginning of a kernel run, the thread spawner assigns threadIDs to each warp in the barrel.
+After the initial IDs have been assigned the GPU enters normal execution.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.2]{gpu/diagrams/kernel_run_state_machine.png}
+	\caption{The GPU's internal state during kernel execution.}
+	\label{kernel_run_state_machine}
+\end{figure}
+A normal kernel execution can be represented by the state machine in figure \ref{kernel_run_state_machine}.
+During the kernel execution stage the warps execute the same instructions in lock-step one warp at a time, until the control unit encounters a \textit{Finished} instruction.
+Upon receiving a \textit{Finished} instruction the control unit asserts the finished signal alerting the thread spawner that the warp requires new threadIDs.
+The thread spawner keeps track of the number of threads awaiting launch, when the thread spawner receives a \textit{Finished} instruction and no more threads are awaiting launch the kernel run
+has completed.
 \section{Component Details}
 
 \subsection{Streaming Processor}
