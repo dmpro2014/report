@@ -4,37 +4,99 @@
 \chapter{Introduction}
 \label{sec:intro}
 
-This report presents the assignment and solution to TDT4295 Computer Design Project at NTNU fall 2014.
+This report presents the TDT4295 Computer Design Project at NTNU for the fall semester of 2014.
 
-The course is a single-task whole semester course in which each year a group of students
-work together to make a working computer from scratch.
-This year's group was made out of 9 students.
+The project is the single task of a double-credits course every fall in which a group of students make a working computer from scratch.
+This year's group was made out of 9 students from the Computer Science department.
 
 \section{Assignment}
-The task given was to create a graphics unit inspired processor.
+
+The Computer Design Project's primary subtasks include designing a custom printed circuitboard (PCB) and  implementing a custom processor architecture on an FPGA.
+Together with a microcontroller (MCU) and a choice of I/O components, these will form a complete and working system.
+The project is evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
+
+The task this year was to create a processor inspired by GPU architectures.
+Core requirements included having multiple processor cores and a graphical display output.
+Gunnar Tufte and Yaman Umuroglu, served as advisors for the group throughout the semester and assisted in administrative tasks.
+
+\newpage
 
 \subsection{Original Assignment Text}
+\todo{Keep assignment text inside "quotation" environment?}
 
-The original assignment text\cite{assignment} is as follows:
-
-\todo{Vi må kanskje ha med additional requirements også?}
 \begin{quotation}
-    GPUs play a large role in graphical applications as well as high performance computing. They
-    are typically constructed around the SIMD (single instruction multiple data) paradigm and
+	\subsubsection{Construct a graphics processing unit (GPU) inspired processor}
+    \noindent GPUs play a large role in graphical applications as well as high performance computing.
+    They are typically constructed around the SIMD (single instruction multiple data) paradigm and
     include special hardware for accelerating graphics-related operation. The idea is to make a
     GPU-inspired processor architecture that exploits the possibility of parallel computation on a
-    single chip. The GPU must (as in option 1) be a multi-core system.
+    single chip. The GPU must be a multi-core system.
+    
+    \subsubsection{Additional requirements}
+    \todo{Fix paragraph spacing and indentation}
+    \noindent Your processor will be implemented on an FPGA, and you are free to choose how to
+    realize your computer architecture. Studying the architecture of general multicore processors
+    and parallel machines options can be a good starting point.
+    
+    Energy efficiency should be a primary consideration in all phases of the project, from early
+    design decisions to how software is written.
+    
+    The task should also include a suitable application that can produce a graphical output on a
+    display to demonstrate the processor.
+    
+    The unit must utilize a Silicon Labs EFT32 series microcontroller (to act as an I/O processor)
+    and a Xilinx FPGA (to implement your architecture on). The budget is 10.000 NOK, which must
+    cover components and PCB production. The unit design must adhere to the limits set by the
+    course staff at any given time.
 \end{quotation}
+\newpage
 
-\section{Requirements}
+\subsection{A Graphics Accelerator}
 
-Some functionality was given to us by our advisors, Gunnar Tufte and Yaman Umuroglu.
-These included basic requirements for it to be a computer. % TODO, fixup
-The rest of the requirements were chosen by the group as a whole.
-Firstly a list of desired features were listed, which were then prioritized.
-See table \ref{tab:goals} for the list of desired features.
+What is the approach we took to this project?
+What did we want to make?
+Why did we want to make that?
+What did we hope to achieve?
 
-\begin{table}[h]
+\section{Modern Graphics Processing Units}
+
+What is a GPU?
+What is its purpose?
+
+\subsection{Design Considerations}
+
+What issues are important to deal with in designing a GPU?
+
+\subsection{A Parallel Universe}
+
+Such parallelism. Works for the things it does, you know.
+
+\subsection{Bottlenecked By Memory}
+
+Much memory. Wow.
+
+\subsection{The Big Actors}
+
+Who makes graphics accelerators?
+For what market do they make these?
+What is performance like for?
+
+\section{Demolicious}
+
+What approach did we take in making a graphics accelerator?
+What trade-offs did we have to make?
+What were our concerns?
+What kind of numbers did we hope to achieve?
+
+The project will enter history like a wrecking ball.
+
+Its name is Licious. Demo Licious.
+
+\subsection{Solution Requirements}
+
+How did we arrive at our list of requirements?
+
+\begin{table}[htp]
     \centering
     \begin{tabular}{|l|p{8cm}|l|}
         \hline
@@ -51,7 +113,9 @@ See table \ref{tab:goals} for the list of desired features.
     \label{tab:goals}
 \end{table}
 
+\newpage
 \section{Structure of the Report}
 
 To be announced
+
 \end{document}
