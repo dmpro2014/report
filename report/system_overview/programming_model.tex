@@ -13,7 +13,7 @@ This architecture is well suited for highly parallel tasks such as graphics.
 
 \subsection{Kernels}
 Kernels are meant to be executed in very high volumes on the GPU.
-Each thread in the kernel is assigned a unique thread id.
+Each threads in the kernel is assigned a unique thread id.
 The thread id can be used to vary the output from kernels, 
 by using it to compute memory addresses, selecting color, or other properties.
 To keep the architecture simple, kernels support a fairly limited instruction set.
