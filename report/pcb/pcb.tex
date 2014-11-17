@@ -68,7 +68,15 @@ The HDMI connector is put on headers, in case the connector fails.
 A separate VGA module is connected to the FPGA, in case the HDMI doesn't work and if this fails, a VGA module is also connected to the microcontroller.
 
 \section{Power}
-USB connection with successive headers that allow for using an external power supply in case power fails.
+
+The system is powered by a 5V mini usb. The core design is implemented such that this connection feeds electricity towards two voltage regulator circuits. These, in turn power up the rest of the machine. The usb connection has a backup solution in the form of a header through which the 5V line must pass immediately after entering the pcb. This is done so that the incoming electricity can easily be probed for voltage level and also so that in case the usb connection fails, an external power supply can be connected to the board.
+
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.65\textwidth]{../pcb/assets/power.jpg}
+		\caption{Picture of physical power circuit}
+		\label{fig: power picture}
+\end{figure}
 
 \section{Bus}
 Standard EBI connection between FPGA and MCU, but with headers in between such that external connection can be done in case of failure on one side of the connection, as well as an easy way to check transmitted signals during debugging.
@@ -112,5 +120,4 @@ Needed:                 Actual:
 |            |          |            |
 --------------          --------------
 \end{verbatim}
->>>>>>> Add intro footprint
 \end{document}
