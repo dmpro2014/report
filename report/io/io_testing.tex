@@ -1,3 +1,5 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
 \section{Testing of Communication Channels}
 Prototyping and testing of communication channels were essential in making our system function properly.
 We needed to get comfortable with the MCU programming environment, learn how configure the MCU properly, learn about bus protocols etc.
@@ -9,7 +11,7 @@ Note that we used a DVI cable instead of a HDMI cable to connect to the GPIO pin
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=\textwidth]{diagrams/prototype_complete.png}
+\includegraphics[width=\textwidth]{../diagrams/prototype_complete.png}
 \caption{Prototype of Communication Channels}
 \label{prototype}
 \end{figure}
@@ -34,7 +36,7 @@ A new measurement of the bus showed an improved write frequency of 3.2 MHz.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=\textwidth]{diagrams/ebi_bus_write_speed.png}
+\includegraphics[width=\textwidth]{../diagrams/ebi_bus_write_speed.png}
 \caption{The frequency of writes, as measured with a logic analyzer}
 \label{ebi_bis_write_speed}
 \end{figure}
@@ -46,7 +48,7 @@ A new measurement of the bus showed an improved write frequency of 3.2 MHz.
 
 \begin{wrapfigure}{r}{0.3\textwidth}
 \centering
-\includegraphics[width=0.3\textwidth]{diagrams/prototype_demo.png}
+\includegraphics[width=0.3\textwidth]{../diagrams/prototype_demo.png}
 \caption{Screenshot of test demo}
 \label{prototype_demo}
 \end{wrapfigure}
@@ -67,3 +69,5 @@ Framebuffer for our HDMI output was switched as soon as the MCU finished writing
 The consequence was a visual feedback gave us an imprecise but useful indication of the speed of our EBI transfers.
 As we expected, if the MCU clock speed was higher than the FPGA clock speed, we would get "artifacts" on screen.
 That is, not every transfer would be received on the FPGA side, leaving "old" pixel values in our framebuffers.
+
+\end{document}

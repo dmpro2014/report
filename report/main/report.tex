@@ -1,5 +1,5 @@
 \documentclass[paper=a4, fontsize=11pt]{report} % A4 paper and 11pt font size
-\input{_setup.tex}
+\input{../main/_setup.tex}
 
 %----------------------------------------------------------------------------------------
 %   TITLE SECTION
@@ -42,14 +42,14 @@ Torkel Berli}
 \newpage
 
 %blank page
-\input{blank/blank.tex}
+\subfile{../blank/blank.tex}
 
 \thispagestyle{firststyle}
 
 \newpage
 
 %ABSTRACT
-\input{abstract/abstract.tex}
+\subfile{../abstract/abstract.tex}
 
 \newpage
 
@@ -64,41 +64,41 @@ Torkel Berli}
 \part{Introduction}
 
 %INTRODUCTION
-\input{introduction/introduction.tex}
+\subfile{../introduction/introduction.tex}
 
 % STATE OF THE ART
-\input{state_of_the_art/state_of_the_art.tex}
+\subfile{../state_of_the_art/state_of_the_art.tex}
 
 \part{Solution}
 
 % System Overview
-\input{system_overview/system_overview.tex}
+\subfile{../system_overview/system_overview.tex}
 
 % CPU
-\input{cpu/cpu.tex}
+\subfile{../cpu/cpu.tex}
 
 % GPU
-\input{gpu/gpu.tex}
+\subfile{../gpu/gpu.tex}
 
 % Comm
-\input{comm/comm.tex}
+\subfile{../comm/comm.tex}
 
 %PCB
-\input{pcb/pcb.tex}
+\subfile{../pcb/pcb.tex}
 
 \part{Results \& Discussion}
 
 % TESTING
-\input{testing/testing.tex}
+\subfile{../testing/testing.tex}
 
 % RESULTS
-\input{results/results.tex}
+\subfile{../results/results.tex}
 
 % DISCUSSION
-\input{discussion/discussion.tex}
+\subfile{../discussion/discussion.tex}
 
 % CONCLUSION
-\input{conclusion/conclusion.tex}
+\subfile{../conclusion/conclusion.tex}
 
 \printbibliography
 
@@ -106,9 +106,9 @@ Torkel Berli}
 
 \appendix
 %APPENDIX A
-\input{appendix/a.tex}
+\subfile{../appendix/a.tex}
 
 % Fan fiction
-\input{appendix/yaman.tex}
+\subfile{../appendix/yaman.tex}
 
 \end{document}

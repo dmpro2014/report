@@ -1,6 +1,8 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
 \chapter{Discussion}
 
-\input{discussion/design_process.tex}
+\subfile{../discussion/design_process.tex}
 
 \subsection{PCB}
 Split project schematics into several connected docs for the sake of modularity. Find some overarching hardware requirements and from there, related application notes and hardware considerations. Then some components and footprints that fit...ish with these docs.
@@ -27,3 +29,4 @@ Or is memory the big bottleneck
 HDMI vs. the GPU?
 Will the HDMI be fine with always being second in line?
 
+\end{document}

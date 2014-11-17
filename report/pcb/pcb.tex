@@ -1,9 +1,12 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
 \chapter{PCB}
 \label{sec:pcb}
 
 This chapter will describe the PCB layout, the main components and the design philosophy that went into solving the system requirements.
 %\section{Layout Overview}
-\input{pcb/physical_overview.tex}
+\input{../pcb/physical_overview.tex}
 
 \section{Design for Redundancy}
 
@@ -78,7 +81,7 @@ The microcontroller clocks on the other hand have a backup solution in that the 
 \section{Footprints}
 Predominantly SMDs(surface mounted device) large enough for humans to solder(with a couple of exceptions)
 
-\input{pcb/hdmi.tex}
+\subfile{../pcb/hdmi.tex}
 
 \todo{...Uncertain ie om at vi endra litt på en del footprints, men pga hvordan fysiske komponenter funker,}
 
@@ -110,3 +113,4 @@ Needed:                 Actual:
 --------------          --------------
 \end{verbatim}
 >>>>>>> Add intro footprint
+\end{document}
