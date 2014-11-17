@@ -5,7 +5,8 @@
 	\label{fig:programming_model_cpu_gpu}
 \end{figure}
 Programming for Demolicious will seem familiar for readers with programming experience from technology like CUDA or OpenCL. 
-Many applications can be divided into sequential and parallel parts, where each part can benefit from different execution models. \todo{Is this a word<Execution model>?}
+Many applications can be divided into sequential and parallel parts,
+where the characteristics of each part make them benefit from different hardware.
 On the Demolicious system, the sequential parts of a program will be run by the CPU, and the parallel parts can be performed by the GPU through kernels.
 A kernel is a simple program meant to be executed by multiple threads.
 The kernels are uploaded to the GPU, and then executed when requested by the CPU.
