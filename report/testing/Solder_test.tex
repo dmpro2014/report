@@ -7,20 +7,20 @@
 \hline
 \multicolumn{5}{|c|}{Solder and test plan} \\
 \hline 
-Step & Components & Description & Expected Results & Actual Result \\\hline
-5V power & USB connector & Measure voltage on the header & Measure 5 volts on the incoming power line. & \\
+Step & Components & Description & Expected Results & Status\\\hline
+5V power & USB connector & Measure voltage on the header & Measure 5 volts on the incoming power line. & Passed \\
 \hline
  & & & &\\
-3.3V power & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and measure the voltage on the voltage-pin and observe the  LED & Observe the power indicator LED light up and measure 3.3V on the programming header. & TBA \\
+3.3V power & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and measure the voltage on the voltage-pin and observe the  LED & Observe the power indicator LED light up and measure 3.3V on the programming header. & Passed \\
 \hline
  & & & &\\
-1.2V & 1.2V LDO, power indicator LED, capacitor, resistor. & Solder the components and measure the BGA solder pads for 1.2V and observe the LED & 1.2V on BGA solder pads, power indicator LED lights up. &\\
+1.2V & 1.2V LDO, power indicator LED, capacitor, resistor. & Solder the components and measure the BGA solder pads for 1.2V and observe the LED & 1.2V on BGA solder pads, power indicator LED lights up. & Passed\\
 \hline
  & & & &\\
-BGA & EFM32GG990, LX45 & Place the components on a new PCB and bake them in the oven & Components do not fall off and all pins are connected. &\\
+BGA & EFM32GG990, LX45 & Place the components on a new PCB and bake them in the oven & Components do not fall off and all pins are connected. & Passed\\
  \hline
  & & & &\\
-Connecting FPGA and MCU to power & Power supply, LDO voltage regulator, capacitor & Reconnect the electrical circuit on the new board & The FPGA and MCU get the needed power. &\\
+Connecting FPGA and MCU to power & Power supply, LDO voltage regulator, capacitor & Reconnect the electrical circuit on the new board & The FPGA and MCU get the needed power. & Passed\\
 \hline
 
 \end{tabular}
