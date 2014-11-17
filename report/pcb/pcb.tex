@@ -25,32 +25,8 @@
 % Bus
 \subfile{../pcb/bus.tex}
 
-
-\section{Output}
-The main source of output from the FPGA is an HDMI connector.
-This is a novel feature this year, as no previous group has tried to implement it before.
-
-Because of this new challenge, a lot of backup schemes were put in place.
-The HDMI connector is put on headers, in case the connector fails.
-A separate VGA module is connected to the FPGA, in case the HDMI doesn't work and if this fails, a VGA module is also connected to the microcontroller.
-
-\section{Power}
-USB connection with successive headers that allow for using an external power supply in case power fails.
-
-\section{Bus}
-Standard EBI connection between FPGA and MCU, but with headers in between such that external connection can be done in case of failure on one side of the connection, as well as an easy way to check transmitted signals during debugging.
-
-\section{Clocks}
-FPGA oscillator along with header on which an external oscillator resource can be connected by way of backup.
-The microcontroller clocks on the other hand have a backup solution in that the microcontroller has internal RC-oscillators for use in case the crystals malfunction.
-
-
-\section{Footprints}
-Predominantly SMDs(surface mounted device) large enough for humans to solder(with a couple of exceptions)
-=======
 % Clocks
 \subfile{../pcb/clocks.tex}
->>>>>>> master
 
 % HDMI?
 \subfile{../pcb/hdmi.tex}
