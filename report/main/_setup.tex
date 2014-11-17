@@ -6,9 +6,11 @@
 \usepackage{graphicx}
 \usepackage{siunitx}
 \usepackage{float}
+\usepackage{subfiles} %Enables inclusions of files that can compile standalone
 \usepackage{subfigure}
 \usepackage{todonotes}
 \usepackage{wrapfig}
+
 
 \usepackage[nottoc]{tocbibind}
 
@@ -20,6 +22,10 @@
 
 \usepackage{array}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\renewcommand{\arraystretch}{1.5} % increase vertical spacing in table cells
+
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
 
 
 \usepackage{fancyhdr} % Custom headers and footers

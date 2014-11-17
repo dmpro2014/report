@@ -1,10 +1,13 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
 \chapter{Testing}
 
 Does it work?
 
 \section{VHDL Unit tests}
 
-\input{io/io_testing.tex}
+\subfile{../testing/io_testing.tex}
 
 
 \section{PCB tests}
@@ -13,12 +16,14 @@ After receiving the finished PCB and the components, we performed the following 
 
 \subsection{Solder, signal and power test}
 The puropse of these tests was to solder components and checking that their connections held, as well as checking that power correctly propagated through the board.  
-\input{testing/Solder_test.tex}
+\subfile{../testing/Solder_test.tex}
 
 \subsection{Oscillator and clock test}
 These tests consisted of using an oscilloscope in order to probe the outputs of the FPGA's oscillator and the high frequency and low frequency crystals.
-\input{testing/oscillation_test.tex}
+\subfile{../testing/oscillation_test.tex}
 
 \subsection{JTAG test}
 In these tests we attempted to connect to respectively, the FPGA and the MCU by way of the appropriate headers, thereby verifying that they had been properly soldered in place and were functional.
-\input{testing/JTAG_test.tex}
+\subfile{../testing/JTAG_test.tex}
+
+\end{document}

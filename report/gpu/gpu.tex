@@ -1,3 +1,6 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
 \chapter{GPU}
 
 The GPU is at the heart of the Demolicious system.
@@ -18,24 +21,63 @@ The GPU has a relatively simple job:
   \item
     Receive instructions and constant data from the MCU
   \item
-    Receive kernel invokations from the MCU
+    Receive kernel invocations from the MCU
   \item
     Write results to external SRAM
   \item
     Assert the 'computation finished' signal to the MCU
 \end{enumerate}
 
+\section{Architecture Overview}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../gpu/diagrams/architecture_overview.png}
+\caption{A high level overview of the GPU.}
+\label{fig:architecture_overview}
+\end{figure}
+Figure \ref{fig:architecture_overview} presents a high level overview over the data-flow in the GPU.
+The CPU issues commands to the GPU via the communication unit. Commands include actions such as launching a kernel, uploading kernels to the instruction memory, and writing to the constant memory.
+Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
+The processors load constants from the constant memory, and uses the load/store unit for  accessing the data memory. 
+
+
 \section{Kernel Structure}
 
-
-
 \section{Receiving a Kernel Call}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../gpu/diagrams/receiving_a_kernel_call.png}
+\caption{Launching a kernel from the GPU's viewpoint.}
+\label{fig:kernel_call}
+\end{figure}
+
+The communication unit is responsible for receiving kernel call requests from the CPU, and initiating the request.
+A valid kernel call consists of the address of the kernel, the number of batches to launch, and asserting the launch signal.
+
+The kernel launch signals are forwarded to the thread spawner, which writes the kernel start address to the PC register, and starts distributing threadIDs to the streaming processors. 
+After holding the kernel launch signals high for one clock cycle, the communication unit has completed its role in launching the kernel.
+When the kernel completes executing, the thread spawner asserts the kernel done signal, and the communication unit forwards the signal to the CPU, indicating that the kernel call has completed.
+
 
 \section{Running a Kernel}
-
-\section{Architecture Overview}
+Once the thread spawner has been initiated by the communication unit, the kernel runs to completion without intervention by the CPU. 
+At the beginning of a kernel run, the thread spawner assigns threadIDs to each warp in the barrel.
+After the initial IDs have been assigned the GPU enters normal execution.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{../gpu/diagrams/kernel_run_state_machine.png}
+	\caption{The GPU's internal state during kernel execution.}
+	\label{fig:kernel_run_state_machine}
+\end{figure}
+A normal kernel execution can be represented by the state machine in figure \ref{fig:kernel_run_state_machine}.
+During the kernel execution stage the warps execute the same instructions in lock-step one warp at a time, until the control unit encounters a \textit{Finished} instruction.
+Upon receiving a \textit{Finished} instruction the control unit asserts the finished signal alerting the thread spawner that the warp requires new threadIDs.
+The thread spawner keeps track of the number of threads awaiting launch.
+When the thread spawner receives a \textit{Finished} instruction and no more threads are awaiting launch, the kernel run has completed.
 
 \section{Component Details}
+
+\todo{Can this be called something else? It's kind of confused with the component details in the PCB chapter}
 
 \subsection{Streaming Processor}
 
@@ -49,14 +91,14 @@ The register bank mirrors the interface of the register file, but only exposes a
 This system allows rapid context switching between the plethora of threads co-existing inside each streaming processor.
 
 The streaming processor support conditional execution of instructions, using a dedicated mask register to decide whether instructions should be executed or not.
-This allows for branch-like behaviour without having to support the complex logic required for diverging threads.
+This allows for branch-like behavior without having to support the complex logic required for diverging threads.
 
 When a memory request is invoked by the currently active instruction, memory addresses and data values are sampled from the currently active register file in the register directory, and passed on to the load/store unit.
 Dedicated address and data store/return registers allows for simplification of both the programming model as well as requiring fewer wires between the set of streaming processors and the load/store unit.
 
 \subsection{Thread Spawner}
 
-The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on dataset d to actual hardware threads.
+The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on data set d to actual hardware threads.
 As all kernels are uniquely identifiable by their respective thread ID, the thread spawner is responsible for providing strictly increasing and unique IDs.
 
 
@@ -64,3 +106,4 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 
 \subsection{Load/Store Unit}
 
+\end{document}
