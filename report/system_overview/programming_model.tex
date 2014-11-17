@@ -4,6 +4,7 @@
 	\caption{Relationship between CPU and GPU code.}
 	\label{fig:programming_model_cpu_gpu}
 \end{figure}
+
 Programming for Demolicious will seem familiar for readers with programming experience from technology like CUDA or OpenCL. 
 Many applications can be divided into sequential and parallel parts,
 where the characteristics of each part make them benefit from different hardware.
@@ -24,6 +25,9 @@ Although the kernels don't support diverging control flow,
 it's simulated by supporting conditional execution through masking.
 Each of the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
 
+Whether a conditional instruction is executed is controlled by a dedicated masking register.
+The programmer may use arithmetic and logic operations to manipulate this register (such as the slt instruction in figure \ref{fig:conditional_execution}).
+
 \begin{figure}[H]
 	\centering
 	\begin{verbatim}
@@ -35,9 +39,6 @@ Each of the instructions in the instruction set can be executed conditionally by
 	\label{fig:conditional_execution}
 \end{figure}
 
-Whether a conditional instruction is executed, is controlled by a dedicated masking register. 
-The programmer may use arithmetic and logic operations to manipulate this register.
-
 \subsection{Memories}
 
 \begin{figure}[H]
@@ -46,13 +47,21 @@ The programmer may use arithmetic and logic operations to manipulate this regist
 	\caption{Overview of GPU memory architecture.}
 	\label{fig:memory_overview}
 \end{figure}
-The Demolicious system contains two memories that are exposed to the programmer in kernels (Figure \ref{fig:memory_overview}).
-Data memory is large, but has a relatively high latency compared to the constant memory, which is small and fast.
-The programmer can access the data memory by using the \textit{load/store} instructions.
-They require that the memory address and the data is moved into dedicated registers in advance.
+The Demolicious system contains two memories that are exposed to the programmer in kernels (figure \ref{fig:memory_overview}).
+Data memory is large, but has a relatively high latency.
+It is used for storing frame buffers for screen output,
+in addition to general data storage for kernels.
+
+The constant memory is a lot faster than the data memory, but is also relatively small.
+It is read-only for kernels, meaning only the CPU can write to it.
+This makes it suitable for kernel parameters, and enables kernels to be reused with varying output.
+For instance, the vertices of a triangle could be stored in constant memory,
+and a kernel could read them to render the triangle on screen.
+Between kernel runs, the CPU may update the vertices' position, creating animation.
+
+The programmer can access the data memory by using the \textit{load} or \textit{store} instructions.
+They require that the memory address and the data is moved into dedicated registers\ref{appendix instruction architecture} in advance.
+\todo{add reference to appendix and register overview}
 
 Likewise, there is a dedicated instruction to access the constant memory, named \textit{load constant}.
-There is no \textit{store constant} instruction because the constant memory is read-only for kernels.
-Typically the constant memory will be used for kernel parameters, making kernels more reusable,
-for instance storing the vertices of a triangle.
-
+Because the constant memory is read-only for kernels, there is no \textit{store constant} instruction.
