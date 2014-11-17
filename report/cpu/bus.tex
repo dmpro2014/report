@@ -1,3 +1,5 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
 \section{Communication with GPU}
 
 The backbone of the interaction between the CPU and GPU is the giant bus connecting them.
@@ -32,3 +34,4 @@ which is possible because their combined address space is smaller than the one o
 Starting a kernel is done by writing the desired number of batches
 \todo{explain this. Streaming processors X barrels = batch} to the address of the first instruction in the kernel, plus and offset.
 The offset is essentially a flag on the 18th bit, letting the FPGA know this is a start instruction.
+\end{document}

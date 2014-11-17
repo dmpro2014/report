@@ -1,3 +1,6 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
 \chapter{GPU}
 
 The GPU is at the heart of the Demolicious system.
@@ -28,7 +31,7 @@ The GPU has a relatively simple job:
 \section{Architecture Overview}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{gpu/diagrams/architecture_overview.png}
+\includegraphics[width=\textwidth]{../gpu/diagrams/architecture_overview.png}
 \caption{A high level overview of the GPU.}
 \label{fig:architecture_overview}
 \end{figure}
@@ -43,7 +46,7 @@ The processors load constants from the constant memory, and uses the load/store 
 \section{Receiving a Kernel Call}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{gpu/diagrams/receiving_a_kernel_call.png}
+\includegraphics[width=\textwidth]{../gpu/diagrams/receiving_a_kernel_call.png}
 \caption{Launching a kernel from the GPU's viewpoint.}
 \label{fig:kernel_call}
 \end{figure}
@@ -62,7 +65,7 @@ At the beginning of a kernel run, the thread spawner assigns threadIDs to each w
 After the initial IDs have been assigned the GPU enters normal execution.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{gpu/diagrams/kernel_run_state_machine.png}
+	\includegraphics[width=0.9\textwidth]{../gpu/diagrams/kernel_run_state_machine.png}
 	\caption{The GPU's internal state during kernel execution.}
 	\label{fig:kernel_run_state_machine}
 \end{figure}
@@ -103,3 +106,4 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 
 \subsection{Load/Store Unit}
 
+\end{document}
