@@ -10,4 +10,18 @@ At that comes the clocking-infrastructure.
 Note that everything in the section applies equally to DVI-I as HDMI. HDMI is a superset of DVI-I, and nothing exclusive to HDMI is made use of.
 Also, as video-timings of DVI are inherited from VGA, everything except the TDMS-encoder would be useful for VGA-output.
 
+The HDMI-specification describes a streaming protocol.
+The receiver of the video cannot be relied on to wait and retain a frame when the video-output cannot send.
+
+Thus, central in the design is the buffering-unit.
+As the GPU has always first priority on access to the memory, it is not always available to the video-output.
+The video-output relies on that there will be enough free timeslots for memory-access when the GPU is otherwise busy to get data for video-out.
+Whenever data is opportunistically returned from memory, it is stashed into a FIFO until it's full.
+
+Where data is requested from in memory, is decided by a counter that runs through the address-space of the current framebuffer.
+When data is put onto the FIFO, the counter increments. % Yes, `increments` can be intransitive.
+
+When the counter reaches the end of the framebuffer, it is reset to the start the of framebuffer to be displayed next.
+This logic also prevents tearing (caused by switching buffers mid-frame).
+
 \end{document}
