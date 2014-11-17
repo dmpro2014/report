@@ -78,6 +78,12 @@ When the thread spawner receives a \textit{Finished} instruction and no more thr
 \subfile{../gpu/core.tex}
 
 \subsection{Thread Spawner}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{../gpu/diagrams/thread_spawner.png}
+	\caption{asdad}
+	\label{fig:thread_spawner}
+\end{figure}
 
 The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on data set d to actual hardware threads.
 As all kernels are uniquely identifiable by their respective thread ID, the thread spawner is responsible for providing strictly increasing and unique IDs.
