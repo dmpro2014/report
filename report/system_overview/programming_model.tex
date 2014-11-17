@@ -20,7 +20,7 @@ To keep the architecture simple, kernels support a fairly limited instruction se
 Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
 Although the kernels don't support diverging control flow,
 it's simulated by supporting conditional execution through masking.
-All the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
+Each of the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
 \begin{figure}[H]
 	\centering
 	\begin{verbatim}
