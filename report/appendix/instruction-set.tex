@@ -1,0 +1,48 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\chapter{Instruction set architecture}
+
+Describu-describuru
+
+\section{Registers}
+
+\subsection{General-purpose registers}
+
+\subsection{Special-purpose registers}
+
+\section{Masking}
+
+\section{Instructions}
+
+\subsection{R-type Instructions}
+
+All R-type instructions have opcode \verb/00000/.
+
+\begin{table}
+    \begin{tabular}{llll}
+    \textbf{Instruction}   & \textbf{Example}  & \textbf{Meaning}          & \textbf{ALU Function} \\
+    \hline
+    \hline
+    Add                    & add \$1, \$2, \$3 & \$1 = \$2 + \$3           & 0x4          \\
+    Subtract               & sub \$1, \$2, \$3 & \$1 = \$2 - \$3           & 0x5          \\ \hline
+    And                    & and \$1, \$2, \$3 & \$1 = \$2 \& \$3          & 0x6          \\
+    Or                     & or \$1, \$2, \$3  & \$1 = \$2 | \$3           & 0x7          \\
+    Xor                    & xor \$1, \$2, \$3 & \$1 = \$2 \string^ \$3    & 0x8          \\ \hline
+    Set on less than       & slt \$1, \$2, \$3 & \$1 = (\$2 < \$3) ? 1 : 0 & 0x3          \\ \hline
+    Shift Left Logical     & sll \$1, \$2, 10  & \$1 = \$2 << 10           & 0x0          \\
+    Shift Right Logical    & srl \$1, \$2, 10  & \$1 = \$2 >>> 10          & 0x1          \\
+    Shift Right Arithmetic & sra \$1, \$2, 10  & \$1 = \$2 >> 10           & 0x2          \\
+    \end{tabular}
+    \label{table:r_type_instructions}
+    \caption{R-type instructions}
+\end{table}
+
+\subsection{I-type Instructions}
+
+\subsubsection*{Load Word}
+
+\subsubsection*{Store Word}
+
+ldc, addi
+\end{document}
