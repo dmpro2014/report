@@ -52,13 +52,16 @@ A less powerful version of this one was available for testing on development boa
 
 \section{Input}
 
-The main source of data communication between microcontroller and a host PC is USB.
-This protocol has been used for years on projects like these, with good results. \todo{citation needed}
+The main method of communication between the microcontroller and a host PC is USB.
+However, if the USB fails, a serial port(RS-232) has been implemented as a backup solution.
+If this also fails, the wires from the serial port are put on headers, which can be used as GPIO pins.
 
-However, if the USB fails, there are backup plans.
-Primarily a serial port (RS-232) has been included to work if the USB should fail.
-If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.65\textwidth]{../pcb/assets/input.png}
+	\caption{Data input circuit}
+	\label{fig: input cicrcuit}
+\end{figure}
 \section{Output}
 The main source of output from the FPGA is an HDMI connector.
 This is a novel feature this year, as no previous group has tried to implement it before.
