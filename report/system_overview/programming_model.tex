@@ -12,13 +12,25 @@ The kernels are usually uploaded to the GPU at the start of the program, and the
 This architecture is well suited for highly parallel tasks such as graphics.
 
 \subsection{Kernels}
-As kernels are meant to be executed in very high volumes on the GPU, 
-To vary output from different kernels, each thread is assigned a unique thread id.
-These can be used for address offsets when writing to memory,
-color variations, or ANYTHING u can imagen.
+Kernels are meant to be executed in very high volumes on the GPU.
+Each thread in the kernel is assigned a unique thread id.
+The thread id can be used to vary the output from kernels, 
+by using it to compute memory addresses, selecting color, or other properties.
 To keep the architecture simple, kernels support a fairly limited instruction set.
-Most notably, all kernels are purely linear, meaning they cannot do any branches or jumps.
-All hope is not lost, though. Mask, etc.
+Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
+Although the kernels don't support diverging control flow,
+it's simulated by supporting conditional execution through masking.
+All the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
+\begin{figure}[H]
+	\centering
+	\begin{verbatim}
+	  add $1, $1, $2 ; This instruction will be executed unconditionally.
+	? add $1, $0, $0 ; This instruction will be executed conditionally.
+	\end{verbatim}
+	\caption{Conditionally zeroing a register.}
+	\label{fig:conditional_execution}
+\end{figure}
+Whether a conditional instruction is executed, is controlled by a dedicated masking register. 
 
 \subsection{Memories}
 
