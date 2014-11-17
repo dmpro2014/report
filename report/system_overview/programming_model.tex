@@ -21,6 +21,7 @@ Most notably, the control flow in kernels is linear, meaning they cannot do any 
 Although the kernels don't support diverging control flow,
 it's simulated by supporting conditional execution through masking.
 Each of the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
+
 \begin{figure}[H]
 	\centering
 	\begin{verbatim}
@@ -40,9 +41,14 @@ Whether a conditional instruction is executed, is controlled by a dedicated mask
 	\caption{Overview of GPU memory architecture.}
 	\label{fig:memory_overview}
 \end{figure}
+The Demolicious system contains two memories that are exposed to the programmer in kernels (Figure \ref{fig:memory_overview}).
+The data memory is large but has a relatively high latency compared to the constant memory, which is small and fast.
+The programmer can access the data memory by using the \textit{load/store} instructions. \todo{to many "the" sentences}
+The \textit{load/store} instructions require that the memory address,
+and the data is moved into dedicated registers in advance. \todo{Mention "cooldown" and "cast-time"}
 
-The Demolicious system contains two memories (Figure \ref{fig:memory_overview}), which the programmer can use.
-The data memory is large, but has relatively high latency and low throughput.
-Constant memory is small, but very fast.
-It will typically be used for kernel parameters,
-which will allow kernels to be re-used with varying output.
+Likewise the constant memory has a dedicated instruction to access to constant memory, named \textit{loadc}.
+There is no \textit{writec} instruction because the constant memory is read-only for kernels.
+Typically the constant memory will be used for kernel parameters, making kernels more reusable, e.g the vertices of a triangle.
+
+
