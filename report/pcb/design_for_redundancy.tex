@@ -6,15 +6,11 @@
 When designing a system the PCB is one of the harder things to debug.
 If a wire inside the PCB is wrong, there is not munch that can be done, except buying a new PCB.
 This becomes apparant when seeing most projects only have a working PCB on the 3rd of maybe even the 4th try. \todo{Citation needed}
-Because of this, a strong philosophy has been used in the design for the PCB, as shown in figure \ref{fig:pcb_philosophy}.
+Because of this, a strong philosophy of backup plans has been used in the design for the PCB, as shown in figure \ref{fig:pcb_philosophy}.
 
 These backup plans are in place to make sure the board will work, even if some parts are broken.
 All important wires and unused pins have been put onto headers, which can be rerouted manually.
-That way each part can be connected to other parts of the board, or to other sources.
-Because of this, the board is not optimized for size, but was rather made to optimize for highest possible chance of success.
-
-Another part of this design is that each vital part of the PCB follows a modular design.
-Each isolated part will work on its own, with the help of other components, if the rest of the board fails.
-A PCB with a broken MCU, but with a functioning FPGA can be connected together and work as one system none the wiser.
+That way, each component can be connected to other sources than that on the board alone.
+Because of this, the board is not optimized for the smallest size possible, but was rather made to optimize for highest possible chance of success.
 
 \end{document}
