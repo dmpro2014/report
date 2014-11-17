@@ -103,6 +103,32 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 
 
 \subsection{Register Directory}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{../gpu/diagrams/register_directory.png}
+	\caption{A register directory containing the register files for a processor core.}
+	\label{fig:register_directory}
+\end{figure}
+
+Each processor core has a register directory associated with it. 
+The register directory contains one register file per barrel row.
+The register files are identical to each other, and may be select by using the \textit{Register file select signal}.
+The control unit modifies the select signal, making the directory transparent to the processor.
+From the processor core's point of view, the register directory is just one single register file.
+Within the register directory the select signal is used to route the regular register file signals to the correct register file.
+
+The load store unit(LSU) needs to be able to write the data retrieved from memory when the data is available.
+This means that the LSU needs a separate register file select signal, and separate write data lines into to the register directory.
+The \textit{LSU register file select} signal allows the LSU to access register files out of the regular order.
+If both the LSU and the processor is working on the same register file, there is a chance for conflicts. 
+There is no mechanism to detect, and resolve conflicts within register files.
+Instead it's left as a responsibility for the programmer to avoid using the \textit{LSU data} register when the LSU needs it.
+
+
+
+
+
+
 
 \subsection{Load/Store Unit}
 
