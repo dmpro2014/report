@@ -14,7 +14,7 @@ This architecture is well suited for highly parallel tasks such as graphics.
 
 \subsection{Kernels}
 Kernels are meant to be executed in very high volumes on the GPU.
-Each threads in the kernel is assigned a unique thread id.
+Each thread in the kernel is assigned a unique thread id.
 The thread id can be used to vary the output from kernels, 
 by using it to compute memory addresses, selecting color, or other properties.
 To keep the architecture simple, kernels support a fairly limited instruction set.
@@ -43,13 +43,12 @@ Whether a conditional instruction is executed, is controlled by a dedicated mask
 	\label{fig:memory_overview}
 \end{figure}
 The Demolicious system contains two memories that are exposed to the programmer in kernels (Figure \ref{fig:memory_overview}).
-The data memory is large but has a relatively high latency compared to the constant memory, which is small and fast.
-The programmer can access the data memory by using the \textit{load/store} instructions. \todo{to many "the" sentences}
-The \textit{load/store} instructions require that the memory address,
-and the data is moved into dedicated registers in advance. \todo{Mention "cooldown" and "cast-time"}
+Data memory is large, but has a relatively high latency compared to the constant memory, which is small and fast.
+The programmer can access the data memory by using the \textit{load/store} instructions.
+They require that the memory address and the data is moved into dedicated registers in advance. \todo{Mention "cooldown" and "cast-time"}
 
-Likewise the constant memory has a dedicated instruction to access to constant memory, named \textit{loadc}.
-There is no \textit{writec} instruction because the constant memory is read-only for kernels.
-Typically the constant memory will be used for kernel parameters, making kernels more reusable, e.g the vertices of a triangle.
-
+Likewise, there is a dedicated instruction to access the constant memory, named \textit{load constant}.
+There is no \textit{store constant} instruction because the constant memory is read-only for kernels.
+Typically the constant memory will be used for kernel parameters, making kernels more reusable,
+for instance storing the vertices of a triangle.
 
