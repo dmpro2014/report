@@ -25,4 +25,18 @@ When data is put onto the FIFO, the counter increments. % Yes, `increments` can 
 When the counter reaches the end of the framebuffer, it is reset to the start the of framebuffer to be displayed next.
 This logic also prevents tearing (caused by switching buffers mid-frame).
 
+To give the buffer as much chance as possible to have data available, it is read out as slowly as possible.
+For HDMI this minimum scanout rate is \SI{25}{Mpx\per s}.
+To facilitate this, the FIFO crosses clock-domains from memory-speed to \SI{25}{MHz}.
+
+\todo{Say something about memory returning two pixels at a time.}
+
+The video-timing-unit generates video-control-signals, and dequeues pixels of the FIFO when the image is being sent.
+\todo{Explain video-timings, and cite the spec.}
+
+The control-signals and pixel-data are split into three channels and encoded with a TDMS-scheme.
+The scheme encodes either 8-bit color-values when sending a image or 2-bit control-values when blanking, using 10 bits.
+Each channel is then serialized using a shift-register and DDR-output, outputted using differential-signaling.
+The pixel-clock is also outputted, using differential-signaling.
+\todo{Explain the OBUFDS. Why not just a ``not''.}
 \end{document}
