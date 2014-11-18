@@ -3,11 +3,14 @@
 
 \section{Input}
 
-The main source of data communication between microcontroller and a host PC is USB.
-This protocol has been used for years on projects like these, with good results. \todo{citation needed}
-
-However, if the usb fails, there are backup plans.
-Primarily a serial port (RS-232) has been included to work if the USB should fail.
+The main method of communication between the microcontroller and a host PC is USB.
+However, if the usb fail, a serial port(RS-232) has been implemented as a backup solution.
 If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
 
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\textwidth]{../pcb/assets/input.png}
+		\caption{Data input circuit}
+		\label{fig: input circuit}
+\end{figure}
 \end{document}
