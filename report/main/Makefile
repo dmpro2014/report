@@ -10,7 +10,7 @@ all:
 
 .PHONY: open
 open: all
-	open $(file)
+	open $(file:.tex=.pdf)
 
 .PHONY: clean
 clean:
