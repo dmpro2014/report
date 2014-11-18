@@ -5,3 +5,7 @@ all:
 .PHONY:
 open:
 	cd main && $(MAKE) open
+
+.PHONY:
+clean:
+	cd main && $(MAKE) clean
