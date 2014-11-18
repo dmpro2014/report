@@ -1,10 +1,7 @@
-file = report.tex
-bibfile = report.aux
+file = system_overview.tex
 
 .PHONY: all
 all:
-	pdflatex $(file)
-	bibtex $(bibfile)
 	pdflatex $(file)
 	pdflatex $(file)
 
