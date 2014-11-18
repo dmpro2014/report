@@ -131,14 +131,14 @@ The register files include seven dedicated registers, and nine general purpose r
 	\label{tab:registers_overview}
 \end{figure}
 
-Individual register files can be selected by using the \textit{register file select signal}.
-The control unit is responsible for controlling the correct register file. 
+Individual register files are selected by using the \textit{register file select signal}.
+The control unit is responsible for selecting the correct register file. 
 Within the register directory the other input signals are routed to the selected register file using the select signal.
 Consequently, from the processor core's point of view, there's just one register file.
 
-The dedicated registers serve special purposes in the architecture, and are treated differently than the other registers.
-Other components need to be able to access the register files, often at the same time as the processor core is accessing another register file. 
-To solve this, the special registers are given dedicated signals the components may use for reading/writing to the register file.
+The dedicated registers serve special purposes in the architecture.
+Other components need to access the register files, often at the same time as the processor core is accessing another register file. 
+To solve this, the special registers are given dedicated signals the other components use for reading/writing to the register file.
 Ignoring registers \$0 and \$6, the rest of the dedicated registers may be used as general purpose registers.
 Using them at the same time as other components are accessing them is undefined behaviour, and left as a responsibility for the programmer.
 
@@ -154,17 +154,6 @@ If masking is enabled the first bit of masking register is used to disable write
 Data memory addresses are 20 bit wide, and thread IDs are 19 bit wide.
 Registers can only store 16 bit values.	
 To represent these values they are split into registers which contain the higher and lower bits.
-
-
-
-
-
-
-
-
-
-
-
 
 
 \subsection{Load/Store Unit}
