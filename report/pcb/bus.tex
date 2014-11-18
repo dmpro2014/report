@@ -2,6 +2,9 @@
 \begin{document}
 
 \section{Bus}
-Standard EBI connection between FPGA and MCU, but with headers in between such that external connection can be done in case of failure on one side of the connection, as well as an easy way to check transmitted signals during debugging.
+The bus between MCU and FPGA is a standard EBI connection.
+EBI stands for Extrenal Bus Interface, which is a parallel adress/data bus connecting multiple external components like SRAM, MCU, GPU etc etc.
+The MCU have specific pins mapped for this protocol. /TODO{More Info about the EBI?}
+Headers are placed in between the MCU and FPGA in case of failure on either side of the connection, as well as an easy way to check transmitted signals during debugging.
 
 \end{document}
