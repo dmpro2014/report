@@ -120,11 +120,11 @@ The register files include seven dedicated registers, and nine general purpose r
 	\begin{tabular}{|c|c|c|}
 		\hline Register number & Description & RW \\ 
 		\hline \$0 & Zero register & Read-only \\ 
-		\hline \$1 - \$2 & ID {High, Low} & Both \\ 
-		\hline \$3 - \$4 & Address{High, Low} & Both \\ 
-		\hline \$5 & LSU data & Both \\ 
+		\hline \$1 - \$2 & ID {High, Low} & Read/Write \\ 
+		\hline \$3 - \$4 & Address{High, Low} & Read/Write \\ 
+		\hline \$5 & LSU data & Read/Write \\ 
 		\hline \$6 & Masking register & Write-only \\ 
-		\hline \$7 - \$15 & General purpose registers & Both \\ 
+		\hline \$7 - \$15 & General purpose registers & Read/Write \\ 
 		\hline 
 	\end{tabular} 
 	\caption{The registers contained within the register files.}
