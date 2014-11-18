@@ -2,9 +2,9 @@
 \begin{document}
 
 \section{Clocks}
-Both MCU and the FPGA need a external clock.
+Both MCU and the FPGA needs a external clock.
 According to the design consideration AN0002 (insert link)MCU need two crystals, a low frequency crystal at 32.768kHz and a high frequencey crystal at 48MHz. 
-The FPGA, unlike the MCU, need a oscillator. The frequency of the oscillator depends on the requirement of the architecture.
+For the FPGA, a oscillator of 100MHz was choosen. The frequency of the oscillator depends on the requirement of the architecture.
 
 Headers are placed between the oscillator and the FPGA. 
 The headers serve as a backup in case an external oscillator is needed and serves as a debugging tool.
