@@ -2,7 +2,12 @@
 \begin{document}
 
 \section{Clocks}
-FPGA oscillator along with header on which an external oscillator resource can be connected by way of backup.
+Both the MCU and the FPGA need an external clock.
+According to the design consideration AN0002 \cite{efm32gg design consideration})MCU need two crystals, a low frequency crystal at 32.768kHz and a high frequencey crystal at 48MHz. 
+For the FPGA, an oscillator of 100MHz was chosen. The frequency of the oscillator depends on the requirement of the architecture.
+
+Headers are placed between the oscillator and the FPGA. 
+The headers serve as a backup in case an external oscillator is needed and act as a debugging tool.
 The microcontroller clocks on the other hand have a backup solution in that the microcontroller has internal RC-oscillators for use in case the crystals malfunction.
 
 \end{document}
