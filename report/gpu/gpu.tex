@@ -110,24 +110,57 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 	\label{fig:register_directory}
 \end{figure}
 
-Each processor core has a register directory associated with it. 
-The register directory contains one register file per barrel row.
-The register files are identical to each other, and may be selected by using the \textit{Register file select} signal.
-The control unit modifies the select signal, making the directory transparent to the processor.
-From the processor core's point of view, the register directory is just one single register file.
-Within the register directory, the select signal is used to route the regular register file signals to the correct register file.
+There is one register directory per processor core.
+Each register directory contains one register file per barrel row.
+The register files within the directory, are identical to each other.
+The register files include seven dedicated registers, and nine general purpose registers (Table \ref{tab:registers_overview}).
 
-The load store unit(LSU) needs to be able to write the data retrieved from memory when the data is available.
-This means that the LSU needs a separate register file select signal, and separate write data lines into to the register directory.
-The \textit{LSU register file select} signal allows the LSU to access register files out of the regular order.
-If both the LSU and the processor is working on the same register file, there is a chance for conflicts. 
-There is no mechanism to detect, and resolve conflicts within register files.
-Using the LSU data register during a load is undefined behaviour, 
-and is left as a responsibility for the programmer.
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline Register number & Description & RW \\ 
+		\hline \$0 & Zero register & Read-only \\ 
+		\hline \$1 - \$2 & ID {High, Low} & Both \\ 
+		\hline \$3 - \$4 & Address{High, Low} & Both \\ 
+		\hline \$5 & LSU data & Both \\ 
+		\hline \$6 & Masking register & Write-only \\ 
+		\hline \$7 - \$15 & General purpose registers & Both \\ 
+		\hline 
+	\end{tabular} 
+	\caption{The registers contained within the register files.}
+	\label{tab:registers_overview}
+\end{figure}
 
-The thread spawner periodically needs to write new theads ids to the register files.
-Because of this requirement the thread spawner has a thread id signal, and a thread id write signal to indicate that a new id is ready.
- 
+Individual register files can be selected by using the \textit{register file select signal}.
+The control unit is responsible for controlling the correct register file. 
+Within the register directory the other input signals are routed to the selected register file using the select signal.
+Consequently, from the processor core's point of view, there's just one register file.
+
+The dedicated registers serve special purposes in the architecture, and are treated differently than the other registers.
+Other components need to be able to access the register files, often at the same time as the processor core is accessing another register file. 
+To solve this, the special registers are given dedicated signals the components may use for reading/writing to the register file.
+Ignoring registers \$0 and \$6, the rest of the dedicated registers may be used as general purpose registers.
+Using them at the same time as other components are accessing them is undefined behaviour, and left as a responsibility for the programmer.
+
+The masking register is used to enable conditional execution.
+If masking is enabled the first bit of masking register is used to disable writes to the register file, making the instruction have no effect (Figure \ref{fig:masking}).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../gpu/diagrams/masking.png}
+	\caption{Using the mask bit to disable register writes.}
+	\label{fig:masking}
+\end{figure}
+
+Data memory addresses are 20 bit wide, and thread IDs are 19 bit wide.
+Registers can only store 16 bit values.	
+To represent these values they are split into registers which contain the higher and lower bits.
+
+
+
+
+
+
+
 
 
 
