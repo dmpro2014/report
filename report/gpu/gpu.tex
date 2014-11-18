@@ -97,21 +97,6 @@ The immediate value is then selected by the multiplexer and used as an operand i
 
 
 
-%The streaming processor is at the heart of the GhettoCUDA architecture.
-%A fully operational GhettoCUDA processor will have up to 32 streaming processors wired up, allowing for an extreme degree of parallelism in code execution.
-
-%The architecture of the streaming processor is inspired by the cores of the MIPS architecture. 
-%They consist of a single ALU, a register bank, as well as logic for reading operands from thred-private registers, shared external memory and constant storage.
-%Each register bank is actually composed of several register files, containing a number of general- and special purpose registers.
-%The register bank mirrors the interface of the register file, but only exposes a single register file at a time, which one decided by the current active barrel line.
-%This system allows rapid context switching between the plethora of threads co-existing inside each streaming processor.
-
-%The streaming processor support conditional execution of instructions, using a dedicated mask register to decide whether instructions should be executed or not.
-%This allows for branch-like behavior without having to support the complex logic required for diverging threads.
-
-%When a memory request is invoked by the currently active instruction, memory addresses and data values are sampled from the currently active register file in the register directory, and %passed on to the load/store unit.
-%Dedicated address and data store/return registers allows for simplification of both the programming model as well as requiring fewer wires between the set of streaming processors and the load/store unit.
-
 \subsection{Thread Spawner}
 
 The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on data set d to actual hardware threads.
