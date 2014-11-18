@@ -39,10 +39,32 @@ All R-type instructions have opcode \verb/00000/.
 \end{table}
 
 \subsection{I-type Instructions}
+\begin{table}
+	\begin{tabular}{llll}
+		\textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
+		\hline
+		\hline
+		 Load constant 		 & ldc \$7, 1		& \$7 = constant\_memory[1] & 0x2 \\
+		 Add immediate		 & addi \$7, \$7, 2 & \$7 = \$7 + 2 			& 0x1  
+	\end{tabular}
+	\label{table:i_type_instructions}
+	\caption{I-type instructions}
+\end{table}
 
-\subsubsection*{Load Word}
+\subsubsection*{Load/Store word}
+\begin{table}
+	\begin{tabular}{llll}
+		\textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
+		\hline
+		\hline
+		 Load 				 & load				& \$LSU\_data\_register = memory[\$LSU\_address\_register] & 0x8 \\ 
+		 Store				 & store				& memory[\$LSU\_address\_register] = \$LSU\_data\_register & 0x4\\
+	\end{tabular}
+		\label{table: memory_type_instructions}
+		\caption{Memory instructions}
+\end{table}
 
-\subsubsection*{Store Word}
+
 
 ldc, addi
 \end{document}
