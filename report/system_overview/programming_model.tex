@@ -23,8 +23,8 @@ The instruction set is fairly limited.
 Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
 Although the kernels don't support diverging control flow,
 it's simulated by supporting conditional execution through masking.
-Each of the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
 
+Each of the instructions in the instruction set can be executed conditionally by prefixing them with \textit{?}.
 Whether a conditional instruction is executed is controlled by a dedicated masking register.
 The programmer may use arithmetic and logic operations to manipulate this register (such as the slt instruction in figure \ref{fig:conditional_execution}).
 
@@ -47,6 +47,7 @@ The programmer may use arithmetic and logic operations to manipulate this regist
 	\caption{Overview of GPU memory architecture.}
 	\label{fig:memory_overview}
 \end{figure}
+
 The Demolicious system contains two memories that are exposed to the programmer in kernels (figure \ref{fig:memory_overview}).
 Data memory is large, but has a relatively high latency.
 It is used for storing frame buffers for screen output,
