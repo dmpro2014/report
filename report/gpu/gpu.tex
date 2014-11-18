@@ -79,18 +79,18 @@ When the thread spawner receives a \textit{Finished} instruction and no more thr
 
 \todo{Can this be called something else? It's kind of confused with the component details in the PCB chapter}
 
-\subsection{Processor cores}
+\subsection{Processor core}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1.0\textwidth]{../gpu/diagrams/processor_core.png}
+	\includegraphics[width=1.2\textwidth]{../gpu/diagrams/processor_core.png}
 	\caption{A single processor core.}
 	\label{fig:processor_core}
 \end{figure}
 
 Each processor core contains an ALU and a register directory.
 On each clock cycle the ALU receives the selected values from the register directory.
-On the same cycle the value is written back to the register selected by the control unit.
+On the same cycle, the value is written back to the register selected by the control unit.
 
 If the current instruction is a load constant instruction, the control unit selects which constant to fetch from constant memory.
 The constant enable signal is asserted, causing the multiplexer to select the constant value as the write back value.
