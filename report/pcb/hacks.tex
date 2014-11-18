@@ -28,7 +28,14 @@ This confusion caused the wiring on the PCB to be wrong, see figure \ref{fig:pcb
 
 Because of this, the clock did not work.
 Our solution to this problem was to solder together the place where the first capacitor was to make room for the signal to flow freely to the header.
-Afterwards a through-hole version of the same capacitor was placed on one of the soldering pads and the other end grounded.
+Afterwards a through-hole version of the same capacitor was placed on one of the soldering pads and the other end grounded, see figure \ref{fig:pcb-clock-fix}.
 This caused the circuit on the board to fully match up with the correct circuit from the data sheet.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../pcb/assets/pcb-clock-fix.pdf}
+    \label{fig:pcb-clock-fix}
+    \caption{How the FPGA clock fix was implemented.}
+\end{figure}
 
 \end{document}
