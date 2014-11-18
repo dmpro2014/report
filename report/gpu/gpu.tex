@@ -112,7 +112,6 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 
 There is one register directory per processor core.
 Each register directory contains one register file per barrel row.
-The register files within the directory, are identical to each other.
 The register files include seven dedicated registers, and nine general purpose registers (Table \ref{tab:registers_overview}).
 
 \begin{figure}[H]
@@ -120,8 +119,10 @@ The register files include seven dedicated registers, and nine general purpose r
 	\begin{tabular}{|c|c|c|}
 		\hline Register number & Description & RW \\ 
 		\hline \$0 & Zero register & Read-only \\ 
-		\hline \$1 - \$2 & ID {High, Low} & Read/Write \\ 
-		\hline \$3 - \$4 & Address{High, Low} & Read/Write \\ 
+		\hline \$1 & ID High & Read/Write \\ 
+		\hline \$2 & ID Low & Read/Write \\ 
+		\hline \$3 & Address High & Read/Write \\ 
+		\hline \$4 & Address Low & Read/Write \\ 
 		\hline \$5 & LSU data & Read/Write \\ 
 		\hline \$6 & Masking register & Write-only \\ 
 		\hline \$7 - \$15 & General purpose registers & Read/Write \\ 
@@ -131,8 +132,8 @@ The register files include seven dedicated registers, and nine general purpose r
 	\label{tab:registers_overview}
 \end{figure}
 
-Individual register files are selected by using the \textit{register file select signal}.
-The control unit is responsible for selecting the correct register file. 
+Individual register files are selected by using the \emph{register file select} signal.
+The control controls the register file select signal. 
 Within the register directory the other input signals are routed to the selected register file using the select signal.
 Consequently, from the processor core's point of view, there's just one register file.
 
