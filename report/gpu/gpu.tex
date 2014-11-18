@@ -89,9 +89,13 @@ When the thread spawner receives a \textit{Finished} instruction and no more thr
 \end{figure}
 
 Each processor core contains an ALU and a register directory.
-The control unit controls the core by modifying control signals
 On each clock cycle the ALU receives the selected values from the register directory.
 On the same cycle the value is written back to the register selected by the control unit.
+
+If the current instruction is a load constant instruction, the control unit selects which constant to fetch from constant memory.
+The constant enable signal is asserted, causing the multiplexer to select the constant value as the write back value.
+The constant memory is stored on chip, meaning it returns the constant on the same cycle as it is requested.
+
 To perform immediate instructions the control unit asserts the immediate enable signal.
 The immediate value is then selected by the multiplexer and used as an operand in the ALU.
 
