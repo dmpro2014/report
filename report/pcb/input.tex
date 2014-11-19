@@ -3,8 +3,9 @@
 
 \section{Input}
 
-The main method of communication between the microcontroller and a host PC is USB.
-However, if the USB fail, a serial port(RS-232) has been implemented as a backup solution.
+The main method of communication between the microcontroller and a host PC is by USB.
+The USB circuitry is designed with ESD protection in an effort to lessen the risk of failure. 
+However, if the usb fail, a serial port(RS-232) has been implemented as a backup solution.
 If this also fails, the wires from the serial port is put on headers, which can be used as GPIO pins.
 
 \todo{Consider an image here}
