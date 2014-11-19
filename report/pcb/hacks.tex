@@ -3,37 +3,37 @@
 
 \section{Troubleshooting and Workarounds}
 
-After testing, it became apparent that there were two major issues that needed to be fixed with the PCB.
-Firstly the pin on the FPGA reserved for the clock could not be used for a clock.
-Secondly the clock itself had been wired up incorrectly.
+During testing, it became apparent that there were two major issues that needed to be fixed with the PCB.
+Firstly, the pin on the FPGA used for the clock was not one of the dedicated clock pins.
+Secondly, the clock component had not been implemented according to spec.
 
 \subsection*{FPGA clock pin problem}
 An error with the pin connection between the FPGA and the PCB was discovered during testing.
 The FPGA demanded a special pin for the clock, but the PCB routed the clock to a regular GPIO pin.
 After checking the PCB layout, a pin on the EBI bus was shown to be able to work as clock for the FPGA.
-The clock is connected by jumpers to the FPGA, so the pin on the EBI bus and the clock pin on the FPGA was changed around with wires.
 
-\subsection*{Wrong wiring of clock}
+Since the clock is connected by jumpers to the FPGA, the pin on the EBI bus could be wired to the clock jumper on the FPGA, solving the problem.
 
-Because of a poor design in the datasheet for the clock component, some confusion arose.
-This confusion caused the wiring on the PCB to be wrong, see figure \ref{fig:pcb-clock},
+\subsection*{Wrong implementation of the clock}
+
+Due to a poor schematic in the clock component datasheet, the clock was wired incorrectly on the PCB, as illustrasted in figure \ref{fig:pcb-clock}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../pcb/assets/pcb-clock.pdf}
     \label{fig:pcb-clock}
-    \caption{On the left: How the clock from the FPGA is supposed to be connected.
-             On the right: how it got connected on the PCB.}
+    \caption{On the left: How the clock from the FPGA should be connected.
+             On the right: how it was connected on the PCB.}
 \end{figure}
 
 Because of this, the clock did not work.
-Our solution to this problem was to solder together the place where the first capacitor was to make room for the signal to flow freely to the header.
-Afterwards a through-hole version of the same capacitor was placed on one of the soldering pads and the other end grounded, see figure \ref{fig:pcb-clock-fix}.
-This caused the circuit on the board to fully match up with the correct circuit from the data sheet.
+This problem was solved by soldering together the pads of the SMD (surface mounted device\todo{move this definition earlier in the report}) capacitator to allow the clock signal to flow freely to the header pin.
+A through-hole version of the removed capacitor was placed on one of the soldering pads and the other end grounded, see figure \ref{fig:pcb-clock-fix}.
+This caused the circuit on the PCB to match up with the correct circuit from the data sheet.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../pcb/assets/pcb-clock-fix.pdf}
+    \includegraphics[width=0.7\textwidth]{../pcb/assets/pcb-clock-fix.pdf}
     \label{fig:pcb-clock-fix}
     \caption{How the FPGA clock fix was implemented.}
 \end{figure}
