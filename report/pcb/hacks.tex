@@ -8,7 +8,7 @@ Firstly, the pin on the FPGA used for the clock was not one of the dedicated clo
 Secondly, the clock component had not been implemented according to spec.
 
 \subsection*{FPGA clock pin problem}
-An error with the pin connection between the FPGA and the PCB was discovered during testing.
+An error with the pin connection between the FPGA and the clock was discovered during testing.
 The FPGA demanded a special pin for the clock, but the PCB routed the clock to a regular GPIO pin.
 After checking the PCB layout, a pin on the EBI bus was shown to be able to work as clock for the FPGA.
 
