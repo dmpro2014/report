@@ -19,9 +19,9 @@ This design decision allows for a steady stream of load/store instructions witho
 The GPU has a relatively simple job:
 \begin{enumerate}
   \item
-    Receive instructions and constant data from the MCU
+    Receive instructions and constants from the MCU
   \item
-    Receive kernel invocations from the MCU
+    Handle kernel invocations from the MCU
   \item
     Write results to external SRAM
   \item
@@ -77,16 +77,7 @@ When the thread spawner receives a \textit{Finished} instruction and no more thr
 
 \subfile{../gpu/core.tex}
 
-\subsection{Thread Spawner}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{../gpu/diagrams/thread_spawner.png}
-	\caption{asdad}
-	\label{fig:thread_spawner}
-\end{figure}
-
-The thread spawner is responsible for converting the MCUs request of n kernels executing kernel k on data set d to actual hardware threads.
-As all kernels are uniquely identifiable by their respective thread ID, the thread spawner is responsible for providing strictly increasing and unique IDs.
+\subfile{../gpu/thread-spawner.tex}
 
 \subfile{../gpu/regdir.tex}
 
