@@ -111,7 +111,7 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{../gpu/diagrams/register_directory.png}
-	\caption{The register directory, and its neighbouring components.}
+	\caption{The register directory, and its neighboring components.}
 	\label{fig:register_directory}
 \end{figure}
 
@@ -146,7 +146,7 @@ The dedicated registers serve special purposes in the architecture.
 Often, the processor core will be accessing a register file and at the same time, other components may also need access the same, or a different, register file.
 To solve this, the special registers are given dedicated signals that the other components use for reading/writing to the register file.
 Ignoring registers \$0 and \$6, the rest of the dedicated registers may be used as general purpose registers.
-Using them at the same time as other components are accessing them will result in undefined behaviour, and is left as the programmer's responsibility.
+Using them at the same time as other components are accessing them will result in undefined behavior, and is left as the programmer's responsibility.
 
 The masking register is used to enable conditional execution.
 If masking is enabled the first bit of masking register is used to disable writes to the register file, making the instruction have no effect (Figure \ref{fig:masking}).
