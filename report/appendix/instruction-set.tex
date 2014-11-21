@@ -3,15 +3,33 @@
 
 \chapter{Instruction set architecture}
 
-Describu-describuru
+This appendix will provide an overview of the instruction set supported by the GPU.
 
 \section{Registers}
 
-\subsection{General-purpose registers}
+The following registers are available:
 
-\subsection{Special-purpose registers}
+\begin{table}[H]
+    \begin{tabular}{|l|l|p{4cm}|l|l|}
+    \hline
+    \textbf{Number} & \textbf{Name} & \textbf{Description}                                                             & \textbf{R/W}    & \textbf{Size} \\ \hline \hline
+    \$0       & zero                & Always contains the value zero                                          & Read-only  & 16   \\ \hline
+    \$1 - \$2 & id\_hi, id\_lo      & The current thread's ID                                                 & Read-only  & 16   \\ \hline
+    \$3 - \$4 & address\_hi, address\_lo & Address used by load \& store instructions                              & General    & 16   \\ \hline
+    \$5       & data               & Data loaded/stored by load \& store instructions                        & General    & 16   \\ \hline
+    \$6       & mask               & Conditional instructions will be masked (\autoref{sec:masking}) when this register is set to 1. & Write-only & 1    \\ \hline
+    \$7-\$15  & General-purpose    & ~                                                                       & General    & 16   \\ \hline
+    \end{tabular}
+    \label{table:registers}
+    \caption{Register overview}
+\end{table}
+
+Special registers may be referenced by their name in assembly code.
 
 \section{Masking}
+\label{sec:masking}
+
+\todo{Someone should describe masking of instructions.}
 
 \section{Instructions}
 
@@ -19,7 +37,7 @@ Describu-describuru
 
 All R-type instructions have opcode \verb/00000/.
 
-\begin{table}
+\begin{table}[H]
     \begin{tabular}{llll}
     \textbf{Instruction}   & \textbf{Example}  & \textbf{Meaning}          & \textbf{ALU Function} \\
     \hline
@@ -38,33 +56,62 @@ All R-type instructions have opcode \verb/00000/.
     \caption{R-type instructions}
 \end{table}
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5}    \\ \hline
+    mask & opcode & rs & rt & rd & sh & X & function \\ \hline
+    \end{tabular}
+    \label{table:r_type_format}
+    \caption{Instruction format for R-type instructions.}
+\end{table}
+
 \subsection{I-type Instructions}
-\begin{table}
-	\begin{tabular}{llll}
-		\textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
-		\hline
-		\hline
-		 Load constant 		 & ldc \$7, 1		& \$7 = constant\_memory[1] & 0x2 \\
-		 Add immediate		 & addi \$7, \$7, 2 & \$7 = \$7 + 2 			& 0x1  
-	\end{tabular}
-	\label{table:i_type_instructions}
-	\caption{I-type instructions}
+\todo{Is there a better way to structure this section?}
+\begin{table}[H]
+    \begin{tabular}{llll}
+        \textbf{Instruction} & \textbf{Example} & \textbf{Meaning}          & \textbf{Opcode} \\
+        \hline
+        \hline
+         Load constant       & ldc \$7, 1       & \$7 = constant\_memory[1] & 0x2 \\
+         Add immediate       & addi \$7, \$7, 2 & \$7 = \$7 + 2             & 0x1
+    \end{tabular}
+    \label{table:i_type_instructions}
+    \caption{I-type instructions.}
 \end{table}
 
-\subsubsection*{Load/Store word}
-\begin{table}
-	\begin{tabular}{llll}
-		\textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
-		\hline
-		\hline
-		 Load 				 & load				& \$LSU\_data\_register = memory[\$LSU\_address\_register] & 0x8 \\ 
-		 Store				 & store				& memory[\$LSU\_address\_register] = \$LSU\_data\_register & 0x4\\
-	\end{tabular}
-		\label{table: memory_type_instructions}
-		\caption{Memory instructions}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{16} \\ \hline
+    mask & opcode & rs & rd & immediate \\ \hline
+    \end{tabular}
+    \label{table:i_type_format}
+    \caption{Instruction format for I-type instructions.}
 \end{table}
 
+\begin{table}[H]
+    \begin{tabular}{llll}
+        \textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
+        \hline
+        \hline
+         Load                & lw               & \$data = memory[\$address] & 0x8 \\
+         Store               & sw               & memory[\$address] = \$data & 0x4\\
+    \end{tabular}
+    \label{table:memory_type_instructions}
+    \caption{Memory instructions}
+\end{table}
 
+\begin{table}[H]
+    \begin{tabular}{llll}
+        \textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
+        \hline
+        \hline
+         Thread finished     & thread\_finished & Stops executing the kernel & 0x10 \\
+         Nop                 & nop              & Do nothing                 & 0x0 \\
+    \end{tabular}
+    \label{table:misc_instructions}
+    \caption{Other instructions}
+\end{table}
 
-ldc, addi
 \end{document}
