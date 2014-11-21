@@ -3,6 +3,18 @@
 The system is powered by a 5V mini USB connector that delivers 550mA \todo{picture of the cable spec? Or something similar. A listing of the cable's spec}
 This gives a theoretic maximum power consumption of $550mA * 5V = 2.75W$
 
+\subsection{Physical Implementation}
+
+For a PCB to be as energy efficient as possible, there is a few things one can do.
+The wires have to be as short as possible and the board as small as possible.
+This will optimize for lowest possible static power consumption.
+
+The backup oriented design of the PCB doesn't fit very well in with this.
+All of the headers makes wires unnecessarily long and the big size makes the power planes extra large.
+This makes the static power consumption higher than it could be.
+
+However this is a conscious choice as there was only one chance for the PCB to work.
+
 \todo{Add actual power consumption, either based on datasheets or physical measurements?}
 \todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
 
