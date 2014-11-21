@@ -4,17 +4,11 @@
 
 \subfile{../discussion/design_process.tex}
 
-%\section{PCB}
-%Split project schematics into several connected docs for the sake of modularity. Find some overarching hardware requirements and from there, related application notes and hardware considerations. Then some components and footprints that fit...ish with these docs.
-%Finally place components and route the wires between them digitally and order the PCB and components
+\section{PCB}
+Split project schematics into several connected docs for the sake of modularity. Find some overarching hardware requirements and from there, related application notes and hardware considerations. Then some components and footprints that fit...ish with these docs.
+Finally place components and route the wires between them digitally and order the PCB and components
 
-\section{Power Considerations}
-
-The system is powered by a 5V mini usb connection that delivers 550mA \todo{picture of the cable spec? Or something similar. A listing of the cable's spec}
-This gives a theoretic maximum power consumption of $550mA$ $*$ $5V$ $=$ $2.75W$
-
-\todo{Add actual power consumption, either based on datasheets or physical measurements?}
-\todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
+\subfile{../discussion/power_consideration.tex}
 
 \section{"Jaktstart"}
 
