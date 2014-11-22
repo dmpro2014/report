@@ -94,18 +94,29 @@ Graphics is a highly processing intensive task.
 For each pixel on the screen the processor has to calculate the colour of the pixel, taking into account factors such as light, shadows and textures.
 Consumers expect that their computers can display videos, and games with HD (1920*1080 pixels) resolution at 60 frames per second.
 This means that the computer has to process about 12.5 billion pixels per second.
-Assuming a processor running at a frequency of 4 GHz, and that it can process 1 pixel per cycle.
-This processor requires about three seconds to render one second of .
-The CPU is optimized for high single thread performance, and fails to take advantage of the data parallelism in graphics.
+Assume a processor running at a frequency of 4 GHz, and that it can process 1 pixel per cycle.
+This processor requires about three seconds to render one second.
+Pixels can often be computed independently of each other, but CPUs are optimized for single-thread performance, and fails to take advantage of this optimization.
 
 \subsection{A Parallel Universe}
 
-For CPUs latency is a primary concern, the faster it can complete the instruction, the faster it can begin executing the next.
-This makes the CPU very good at problems which display a low level of parallelism, but as problems get more parallel latency becomes less of a concern.
+For a CPU, latency is of primary concern.
+The next instruction often depends on the result of the previous one.
+For that reason the CPU completes a single instruction as fast as possible.
+
+This makes the CPU very good at problems which allow only a low level of parallelism.
+Latency becomes less of a concern, when problems get more parallel.
 GPUs are optimized for problems with a high degree of parallelism.
-Instead of prioritising latency for performance, GPUs focus on throughput.
+
+Instead of prioritizing latency for performance, GPUs focus on throughput.
 The fast single threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
-The cores in the GPU are slow compared to the CPU, giving them a high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput. 
+The cores in the GPU are slow compared to the CPU, giving them a high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput.
+To achieve the massive throughput required in modern graphics the GPU has to become massively parallel 
+GPUs features deep pipelines allowing allowing a multitude of instructions to be executed in parallel.
+The processing cores contain multiple execution units, allowing multiple threads to share the resources.
+Dynamic scheduling  
+
+ 
 And with great computing power comes great memory demand.
 
 \subsection{At The Mercy of Memory}
