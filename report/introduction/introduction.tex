@@ -89,11 +89,13 @@ GPUs usually have specialized hardware units for accelerating tasks like vertex 
 \textit{What is performance like for modern GPUs?}
 
 \subsection{Graphics Calculations are Demanding}
-
-\textit{Amount of work required for graphics. Give some numbers. "Back-of-the-envelope" numbers.}
-
-Producing graphics is a mathematically intensive task.
-"Lets look at some numbers..."
+Graphics is a highly processing intensive task. 
+For each pixel on the screen the processor has to calculate the colour of the pixel, taking factors such as light, shadows and texture into account.
+Consumers expect that their computer can display videos, and games with HD (1920*1080 pixels) resolution at 60 frames per second.
+This means that the computer has to process about 12.5 billion pixels per second.
+Assuming a processor running at a frequency of 4 GHz, and that it can process 1 pixel per cycle.
+This processor requires about three seconds to render one second.
+The CPU is optimized for high single thread performance, and fails to take advantage of the data parallelism in graphics.
 
 \subsection{A Parallel Universe}
 
