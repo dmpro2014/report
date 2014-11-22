@@ -4,15 +4,15 @@
 \section{Power}
 
 The system is powered by a 5V mini USB.
-The core design implementation is that this connection feeds electricity towards two voltage regulator circuits.
-These are respectively, the 1.2V wire that powers the FPGA (excluding the I/O banks) and the 3.3V power plane that powers up the rest of the machine.
-The USB connection has a backup solution in the form of a header through which the 5V line passes immediately after entering the PCB.
+This connection powers two voltage regulator circuits.
+Respectively, the 1.2V wire that powers the FPGA (excluding the I/O banks) and the 3.3V power plane that powers up the rest of the machine.
+The 5 volt USB connection has a backup solution in the form of a header through which it passes immediately after entering the PCB.
 This is done so that the incoming electricity can easily be probed for voltage level and also so that in case the USB connection fails, an external power supply can be connected to the board.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.65\textwidth]{../pcb/assets/power.jpg}
-	\caption{Picture of physical power circuit}
+	\includegraphics[width=0.65\textwidth]{../pcb/assets/power.png}
+	\caption{Picture of the physical power circuit, where P5 is the header on which an external power source can be connected}
 	\label{fig: power picture}
 \end{figure}
 \todo{If the picture is to stay, should probably crop it a bit}
