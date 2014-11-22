@@ -89,6 +89,7 @@ GPUs usually have specialized hardware units for accelerating tasks like vertex 
 \textit{What is performance like for modern GPUs?}
 
 \subsection{Graphics Calculations are Demanding}
+
 Graphics is a highly processing intensive task. 
 For each pixel on the screen the processor has to calculate the colour of the pixel, taking factors such as light, shadows and texture into account.
 Consumers expect that their computer can display videos, and games with HD (1920*1080 pixels) resolution at 60 frames per second.
@@ -99,13 +100,11 @@ The CPU is optimized for high single thread performance, and fails to take advan
 
 \subsection{A Parallel Universe}
 
-\textit{These problems have few interdata dependencies.
-Easy parallelization. Throughput more important than latency. Many simple cores.}
-
-GPUs optimize for large, highly regular calculations by being massively parallel.
-They have many cores that run many instructions simultaneously.
-This is simply a requirement in order to perform graphical operations at acceptable framerates with today's screen resolutions.
-
+GPUs are optimized for problems with a high degree of parallelism.
+They replace the fast single threaded cores in CPUs with a large quantity of smaller slower cores.
+For CPUs latency is a primary concern, the faster it can complete the instruction, the faster it can begin executing the next.
+GPUs maximises the work done by prioritising throughput.
+The cores in the GPU are slow compared to the CPU, giving them a high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput. 
 
 And with great computing power comes great memory demand.
 
