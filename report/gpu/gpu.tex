@@ -119,7 +119,7 @@ There is one register directory per processor core.
 Each register directory contains one register file per barrel row.
 The register files include seven dedicated registers, and nine general purpose registers (Table \ref{tab:registers_overview}).
 
-\begin{figure}[H]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline Register number & Description & RW \\ 
@@ -135,7 +135,7 @@ The register files include seven dedicated registers, and nine general purpose r
 	\end{tabular} 
 	\caption{The registers contained within the register files.}
 	\label{tab:registers_overview}
-\end{figure}
+\end{table}
 
 Individual register files are selected by using the \emph{register file select} signal.
 The register file select signal is set by the barrel select component.
