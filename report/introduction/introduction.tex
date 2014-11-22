@@ -6,18 +6,18 @@
 
 This report presents the TDT4295 Computer Design Project at NTNU for the fall semester of 2014.
 
-The project is the single task of a double-credits course every fall in which a group of students make a working computer from scratch.
+The project is the single task of a course every fall in which a group of students make a working computer from scratch.
 This year's group was made out of 9 students from the Computer Science department.
+Gunnar Tufte and Yaman Umuroglu, served as advisors for the group throughout the semester and assisted in administrative tasks.
 
 \section{Assignment}
 
-The Computer Design Project's primary subtasks include designing a custom printed circuitboard (PCB) and  implementing a custom processor architecture on an FPGA.
+The Computer Design Project's primary tasks include making a custom printed circuitboard (PCB) and  implementing a custom processor architecture on an FPGA.
 Together with a microcontroller (MCU) and a choice of I/O components, these will form a complete and working system.
 The project is evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
 
 The task this year was to create a processor inspired by GPU architectures.
 Core requirements included having multiple processor cores and a graphical display output.
-Gunnar Tufte and Yaman Umuroglu, served as advisors for the group throughout the semester and assisted in administrative tasks.
 
 \newpage
 
@@ -33,18 +33,17 @@ Gunnar Tufte and Yaman Umuroglu, served as advisors for the group throughout the
     single chip. The GPU must be a multi-core system.
     
     \subsubsection{Additional requirements}
-    \todo{Fix paragraph spacing and indentation}
     \noindent Your processor will be implemented on an FPGA, and you are free to choose how to
     realize your computer architecture. Studying the architecture of general multicore processors
-    and parallel machines options can be a good starting point.
+    and parallel machines options can be a good starting point.\\
     
-    Energy efficiency should be a primary consideration in all phases of the project, from early
-    design decisions to how software is written.
+    \noindent Energy efficiency should be a primary consideration in all phases of the project, from early
+    design decisions to how software is written.\\
     
-    The task should also include a suitable application that can produce a graphical output on a
-    display to demonstrate the processor.
+    \noindent The task should also include a suitable application that can produce a graphical output on a
+    display to demonstrate the processor.\\
     
-    The unit must utilize a Silicon Labs EFT32 series microcontroller (to act as an I/O processor)
+    \noindent The unit must utilize a Silicon Labs EFT32 series microcontroller (to act as an I/O processor)
     and a Xilinx FPGA (to implement your architecture on). The budget is 10.000 NOK, which must
     cover components and PCB production. The unit design must adhere to the limits set by the
     course staff at any given time.
@@ -53,40 +52,83 @@ Gunnar Tufte and Yaman Umuroglu, served as advisors for the group throughout the
 
 \subsection{A Graphics Accelerator}
 
-What is the approach we took to this project?
-What did we want to make?
-Why did we want to make that?
-What did we hope to achieve?
+\textit{What is the approach we took to this assignment?}
+\textit{What did we want to make?}
+\textit{Why did we want to make that?}
+\textit{What did we hope to achieve?}
+
+The group decided to make the custom GPU inspired processor as an accelerator processor.
+This means that it would not be designed to run entire programs on its own, but would rather handle particular parallelizable parts.
+In this case, the program parts that would be offloaded to the accelerator would be graphics related operations.
+It was also decided to send graphical output to screen directly from the accelerator, akin to modern GPUs.
+This would form a graphical computer system similar to how modern PCs are organized.
 
 \section{Modern Graphics Processing Units}
 
-What is a GPU?
-What is its purpose?
+\textit{What is a GPU?}
+\textit{What is its purpose?}
 
-\subsection{Design Considerations}
+\todo{Fix source references, "Computer Organization and Design", Appendix C}
 
-What issues are important to deal with in designing a GPU?
+Modern GPUs are, in a way, an evolution of former Video Graphics Array (VGA) controllers.
+A VGA controller of the early 1990s served as a memory controller and display generator that wrote framebuffer values to a display.
+As technology advanced, it received hardware to perform specific graphics related functions.
+This eventually evolved into a processor, with its own memory, that incorporated a full set of graphical functions.
 
-\subsection{A Parallel Universe}
+A GPU's primary purpose has traditionally been to offload graphical calculations from the CPU and render graphical data to a screen.
+Graphical functions are accessed through graphical APIs like DirectX\textsuperscript{TM} and OpenGL\textsuperscript{TM}.
+Today, GPUs also have general computing capabilities and may serve as co-processors for the CPU in addition to handling their graphical duties.
+Non-graphics applications for a GPU include image processing, video encoding, and many scientific computing problems and other large, highly regular calculations.
 
-Such parallelism. Works for the things it does, you know.
-
-\subsection{Bottlenecked By Memory}
-
-Much memory. Wow.
+GPUs usually have specialized hardware units for accelerating tasks like vertex shading and pixel shading.
 
 \subsection{The Big Actors}
 
-Who makes graphics accelerators?
-For what market do they make these?
-What is performance like for?
+\textit{Who makes graphics accelerators?}
+\textit{For what market do they make these?}
+\textit{What is performance like for modern GPUs?}
+
+\subsection{Graphics Calculations are Demanding}
+
+\textit{Amount of work required for graphics. Give some numbers. "Back-of-the-envelope" numbers.}
+
+Producing graphics is a mathematically intensive task.
+"Lets look at some numbers..."
+
+\subsection{A Parallel Universe}
+
+\textit{These problems have few interdata dependencies.
+Easy parallelization. Throughput more important than latency. Many simple cores.}
+
+GPUs optimize for large, highly regular calculations by being massively parallel.
+They have many cores that run many instructions simultaneously.
+This is simply a requirement in order to perform graphical operations at acceptable framerates with today's screen resolutions.
+
+
+And with great computing power comes great memory demand.
+
+\subsection{At The Mercy of Memory}
+"
+Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous.
+"
+
+\textit{Some numbers. Graphics workloads demand very high data tranfer rates.}
+
+\subsection{Design Considerations}
+
+\textit{What kind of functional requirements does a GPU have?}
+\textit{What issues are important to deal with when designing a GPU?}
+
+\subsection{nVidia's Kepler Architecture} % or whatever architecture you want...
+
+\textit{Explain nVidia!}
 
 \section{Demolicious}
 
-What approach did we take in making a graphics accelerator?
-What trade-offs did we have to make?
-What were our concerns?
-What kind of numbers did we hope to achieve?
+\textit{What approach did we take in making a graphics accelerator?}
+\textit{What trade-offs did we have to make?}
+\textit{What were our concerns?}
+\textit{What kind of numbers did we hope to achieve?}
 
 The project will enter history like a wrecking ball.
 
@@ -94,7 +136,7 @@ Its name is Licious. Demo Licious.
 
 \subsection{Solution Requirements}
 
-How did we arrive at our list of requirements?
+\textit{How did we arrive at our list of requirements?}
 
 \begin{table}[htp]
     \centering
