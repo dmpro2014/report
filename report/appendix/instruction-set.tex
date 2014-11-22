@@ -5,6 +5,8 @@
 
 This appendix will provide an overview of the instruction set supported by the GPU.
 
+\clearpage
+
 \section{Registers}
 
 The following registers are available:
@@ -14,28 +16,42 @@ The following registers are available:
     \hline
     \textbf{Number} & \textbf{Name} & \textbf{Description}                                                             & \textbf{R/W}    & \textbf{Size} \\ \hline \hline
     \$0       & zero                & Always contains the value zero                                          & Read-only  & 16   \\ \hline
-    \$1 - \$2 & id\_hi, id\_lo      & The current thread's ID                                                 & Read-only  & 16   \\ \hline
-    \$3 - \$4 & address\_hi, address\_lo & Address used by load \& store instructions                              & General    & 16   \\ \hline
+    \$1, \$2 & id\_hi, id\_lo      & The current thread's ID                                                 & Read-only  & 16   \\ \hline
+    \$3, \$4 & address\_hi, address\_lo & Address used by load \& store instructions                              & General    & 16   \\ \hline
     \$5       & data               & Data loaded/stored by load \& store instructions                        & General    & 16   \\ \hline
     \$6       & mask               & Conditional instructions will be masked (\autoref{sec:masking}) when this register is set to 1. & Write-only & 1    \\ \hline
     \$7-\$15  & General-purpose    & ~                                                                       & General    & 16   \\ \hline
     \end{tabular}
-    \label{table:registers}
     \caption{Register overview}
+    \label{table:registers}
 \end{table}
 
 Special registers may be referenced by their name in assembly code.
 
-\section{Masking}
+\clearpage
+
+\section{Predicated instructions}
 \label{sec:masking}
 
-\todo{Someone should describe masking of instructions.}
+The only supported way of conditional execution is through predicated instructions (masking).
+All instructions except for \verb/sw/ have a predicated version which will only execute when masking is disabled.
+
+In assembly, an instrution prepended with a question mark will be executed conditionally.
+The first bit of the instruction will be set to one for the conditional versions.
+These predicated instructions will still be executed, but they will never store their result in the destination register.
+
+Masking is controlled by the dedicated masking register.
+Instructions can write to this register to turn masking on and off.
+The register is only one bit, and will therefore only keep the least significant bit of data written to it.
+
+\clearpage
 
 \section{Instructions}
 
 \subsection{R-type Instructions}
 
 All R-type instructions have opcode \verb/00000/.
+Their syntax, meaning and underlying ALU function are described in table \ref{table:r_type_instructions}.
 
 \begin{table}[H]
     \begin{tabular}{llll}
@@ -52,8 +68,8 @@ All R-type instructions have opcode \verb/00000/.
     Shift Right Logical    & srl \$1, \$2, 10  & \$1 = \$2 \verb/>>>/ 10   & 0x1          \\
     Shift Right Arithmetic & sra \$1, \$2, 10  & \$1 = \$2 \verb/>>/ 10    & 0x2          \\
     \end{tabular}
-    \label{table:r_type_instructions}
     \caption{R-type instructions}
+    \label{table:r_type_instructions}
 \end{table}
 
 \begin{table}[H]
@@ -62,22 +78,25 @@ All R-type instructions have opcode \verb/00000/.
     \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5}    \\ \hline
     mask & opcode & rs & rt & rd & sh & X & function \\ \hline
     \end{tabular}
-    \label{table:r_type_format}
     \caption{Instruction format for R-type instructions.}
+    \label{table:r_type_format}
 \end{table}
 
 \subsection{I-type Instructions}
-\todo{Is there a better way to structure this section?}
 \begin{table}[H]
     \begin{tabular}{llll}
         \textbf{Instruction} & \textbf{Example} & \textbf{Meaning}          & \textbf{Opcode} \\
         \hline
         \hline
-         Load constant       & ldc \$7, 1       & \$7 = constant\_memory[1] & 0x2 \\
-         Add immediate       & addi \$7, \$7, 2 & \$7 = \$7 + 2             & 0x1
+         Load constant       & ldc \$7, 1       & \$7 = constant\_memory[1]  & 0x2 \\
+         Add immediate       & addi \$7, \$7, 2 & \$7 = \$7 + 2              & 0x1 \\ \hline
+         Load                & lw               & \$data = memory[\$address] & 0x8 \\
+         Store               & sw               & memory[\$address] = \$data & 0x4 \\ \hline
+         Thread finished     & thread\_finished & Stops executing the kernel & 0x10 \\
+         Nop                 & nop              & Do nothing                 & 0x0 \\
     \end{tabular}
-    \label{table:i_type_instructions}
     \caption{I-type instructions.}
+    \label{table:i_type_instructions}
 \end{table}
 
 \begin{table}[H]
@@ -86,32 +105,26 @@ All R-type instructions have opcode \verb/00000/.
     \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{16} \\ \hline
     mask & opcode & rs & rd & immediate \\ \hline
     \end{tabular}
-    \label{table:i_type_format}
     \caption{Instruction format for I-type instructions.}
+    \label{table:i_type_format}
 \end{table}
 
-\begin{table}[H]
-    \begin{tabular}{llll}
-        \textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
-        \hline
-        \hline
-         Load                & lw               & \$data = memory[\$address] & 0x8 \\
-         Store               & sw               & memory[\$address] = \$data & 0x4\\
-    \end{tabular}
-    \label{table:memory_type_instructions}
-    \caption{Memory instructions}
-\end{table}
+\subsection{Pseudo Instructions}
+
+Some additional instructions are supported by the assembler in order to make programming for the GPU easier.
+An overview of these instructions is provided in table \ref{table:pseudo_instructions}.
 
 \begin{table}[H]
-    \begin{tabular}{llll}
-        \textbf{Instruction} & \textbf{Example} & \textbf{Meaning} & \textbf{Opcode} \\
+    \begin{tabular}{lll}
+        \textbf{Instruction} & \textbf{Example} & \textbf{Translated instruction} \\
         \hline
         \hline
-         Thread finished     & thread\_finished & Stops executing the kernel & 0x10 \\
-         Nop                 & nop              & Do nothing                 & 0x0 \\
+         Move                & mv \$1, \$2      & add \$1, \$0, \$2               \\
+         Load immediate      & ldi \$1, 1       & addi \$1, \$0, 1                \\
     \end{tabular}
-    \label{table:misc_instructions}
-    \caption{Other instructions}
+    \caption{Pseudo instructions}
+    \label{table:pseudo_instructions}
 \end{table}
+
 
 \end{document}
