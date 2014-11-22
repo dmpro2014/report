@@ -39,10 +39,11 @@ This caused the circuit on the PCB to match up with the correct circuit from the
 \end{figure}
 
 \subsection{Mismatch LDO}
-During the testing phase, the LDO for the 1.2V did not output the correct voltage. 
-The 1.2V LDO have the same model as the 3.3V LDO, but have a differnt 
-output and input port, see figure \ref{fig:ldo-footprints}.
-It was assumed that both components had the same ports.
+During the testing phase, the LDO for the 1.2V did not output the correct voltage.
+The 1.2V LDO is the same model as the 3.3V LDO, but have a different
+footprints, see figure \ref{fig:ldo-footprints}.
+
+It was assumed that both components had the same.
 Thus resulting in mismatch between the footprint and the component.
 The solution was to place the LDO diagonally, \todo{insert the picture of the LDO?} and manually solder a wire to the correct solderpad on the PCB. 
 
