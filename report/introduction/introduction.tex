@@ -90,11 +90,11 @@ These can take the form of discrete chips or be integrated with the CPU.
 \textit{For what market do they make these?}
 \textit{What is performance like for modern GPUs?}
 
-\todo{fix these references}
-\textit{PC market reference:}
-http://www.zdnet.com/latest-retail-figures-show-a-stable-pc-market-led-by-apple-and-cheap-notebooks-7000034024/
-\textit{NDP provide consumer tracking services. Link:} https://www.npd.com/wps/portal/npd/us/about-npd/consumer-panel/
-\textit{This is their report:} https://www.npd.com/wps/portal/npd/us/news/press-releases/apple-and-chrome-boost-us-retail-pc-back-to-school-sales/
+\todo{fix references here}
+% PC market reference:
+% http://www.zdnet.com/latest-retail-figures-show-a-stable-pc-market-led-by-apple-and-cheap-notebooks-7000034024/
+% NDP provide consumer tracking services. Link: https://www.npd.com/wps/portal/npd/us/about-npd/consumer-panel/
+% This is their report: https://www.npd.com/wps/portal/npd/us/news/press-releases/apple-and-chrome-boost-us-retail-pc-back-to-school-sales/
 
 
 In general, at least one GPU is present in every PC these days, and the market for PCs has been relatively stable for many years.
@@ -112,22 +112,26 @@ These GPUs are generally integrated in the device's system-on-a-chip (SoC), and 
 As for everything else that runs on batteries, power consumption is a primary concern in this format.
 Traditionally, this is a concern that GPU design has not needed to prioritize.
 The mobile GPU format has opened up for other GPU design companies than the three mentioned above.
-The three dominant GPU design companies in the market for GPUs in SoCs are Qualcomm, ARM, and Imagination Technologies.
+The three dominant GPU design companies in the SoC market are Qualcomm, ARM, and Imagination Technologies.
 
-\textit{PC GPU market share reference:} http://jonpeddie.com/news/comments/gpu-shipments-marketwatch-q2-2014-charts-and-images/
-\textit{and:} http://jonpeddie.com/publications/add-in-board-report/
-\textit{SoC market share reference:} http://jonpeddie.com/press-releases/details/qualcomm-single-largest-proprietary-gpu-supplier-imagination-technologies-t/
-\textit{"Jon Peddie Research (JPR) is a technically oriented computer graphics marketing and management-consulting firm"}
+% PC GPU market share reference:
+% http://jonpeddie.com/news/comments/gpu-shipments-marketwatch-q2-2014-charts-and-images/
+% and: http://jonpeddie.com/publications/add-in-board-report/
+% SoC market share reference: http://jonpeddie.com/press-releases/details/qualcomm-single-largest-proprietary-gpu-supplier-imagination-technologies-t/
+% "Jon Peddie Research (JPR) is a technically oriented computer graphics marketing and management-consulting firm"
 
-\subsection{Graphics Calculations are Demanding}
+\subsection{An Enormous Task}
 
-Graphics is a highly processing intensive task. 
-For each pixel on the screen the processor has to calculate the colour of the pixel, taking into account factors such as light, shadows and textures.
-Consumers expect that their computers can display videos, and games with HD (1920*1080 pixels) resolution at 60 frames per second.
-This means that the computer has to process about 12.5 billion pixels per second.
-Assume a processor running at a frequency of 4 GHz, and that it can process 1 pixel per cycle.
-This processor requires about three seconds to render one second.
-Pixels can often be computed independently of each other, but CPUs are optimized for single-thread performance, and fails to take advantage of this optimization.
+Producing computer graphics is a highly processing intensive task.
+To illustrate why computers and mobile devices include a separate GPU, lets look at some back-of-the-envelope calculations.
+
+Consumers expect their computers to display videos and games in Full HD resolution (1920*1080 pixels), which adds up to about 2 million pixels per frame.
+To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
+All of these tasks require several floating point operations.
+For an optimistic estimate in a fairly simple scene, assume that the CPU needs to perform 1000 operations per pixel. \todo{fix some numbers}
+In this case, even with a clock speed of 4 GHz and no other interfering work, a Full HD screen will receive an unacceptably low framerate.
+Fortunately, pixels can often be computed independently of each other.
+CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
 
 \subsection{A Parallel Universe}
 
@@ -145,17 +149,17 @@ The cores in the GPU are slow compared to the CPU, giving them a high latency, b
 To achieve the massive throughput required in modern graphics the GPU has to become massively parallel 
 GPUs features deep pipelines allowing allowing a multitude of instructions to be executed in parallel.
 The processing cores contain multiple execution units, allowing multiple threads to share the resources.
-Dynamic scheduling  
-
- 
-And with great computing power comes great memory demand.
+Dynamic scheduling
 
 \subsection{At The Mercy of Memory}
-"
-Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous.
-"
+
+%"Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous."
 
 \textit{Some numbers. Graphics workloads demand very high data tranfer rates.}
+
+With great computing power comes great memory demand.
+Feeding the large number of computational units in a modern GPU with enough data requires an intricate memory system.
+
 
 \subsection{Design Considerations}
 
