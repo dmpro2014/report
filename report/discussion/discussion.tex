@@ -17,10 +17,11 @@ The MCU was able to run the program independently.
 
 
 \section{VGA-port}
-Our PCB was designed with two VGA headers, one for the FPGA and one for the MCU. \todo{Maybe add picture showing the headers.}
-Looking back, it was redundent to support two VGA port.
-We could just have exposed headers from both the FPGA, MCU and VGA port. 
-That way, we can manualy connect the VGA port to MCU or the FPGA.
+The PCB was designed with two VGA headers, one for the FPGA and one for the MCU. \todo{Maybe add picture showing the headers.}
+Looking back, it was redundant to support two VGA ports.
+An alternative solution is having one VGA port with exposed headers.
+With exposed headers from the MCU and the FPGA as well, one could change which one the VGA port is connected to by jumpers.
+By removing the redundent VGA, the size of the board could be reduced og better exploited.
 
 
 \subfile{../discussion/power_consideration.tex}
