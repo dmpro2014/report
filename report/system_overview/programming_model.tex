@@ -27,57 +27,65 @@ The thread id can be used to compute memory addresses and make control decisions
 to make the threads behave differently even though they are executing the same code. 
 \todo{See masking. Do/should we have a subchapter about masking?}
 
-The instruction set is fairly limited.
+\begin{assembly}
+ldi $data, 0b1111111111111111
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+thread_finished
+\end{assembly}
+
+Kernels can take parameters as input, which lets them be reused with varying output.
+The CPU can set these parameters to different values each time a kernel is run.
+For instance, the CPU can set the vertices of a triangle,
+and the kernel could use them to render a triangle on screen.
+Following is an update of the example kernel where the color is stored as a parameter:
+
+\begin{assembly}
+ldc, $data, 0
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+thread_finished
+\end{assembly}
+
+Different threads can also give different output for the same kernel.
+Using their ID and ALU operations, they can easily generate interesting patterns.
+
+\begin{assembly}
+ldc $data, 0
+sub $data, $data, $id_lo
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+\end{assembly}
+
+The instruction set available to kernels is fairly limited.
 Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
 Although the kernels don't support diverging control flow,
-it's simulated by supporting conditional execution through masking.
-
-\todo{Should we use the term predicated instructions instead? The guy at the presentation was confused when I talked about masking and wondered whether I meant predicated instructions}
+conditional execution is accomplished through predicated instructions.
 
 Each of the instructions in the instruction set can be executed conditionally by prefixing them with \emph{?}.
 Whether a conditional instruction is executed is controlled by a dedicated masking register.
 The programmer may use arithmetic and logic operations to manipulate this register (such as the slt instruction in figure \ref{fig:conditional_execution}).
+The mask register is only one bit, so only the least significant bit of data written to it will be stored.
 A masked instruction is not executed if the mask register is \textbf{1}.
 
-\begin{figure}[H]
-	\centering
-	\begin{verbatim}
-	  slt $mask, $9, $10 ; Mask if register 9 is less than register 10.
-	  add $7, $7, $8 ; This instruction will be executed unconditionally.
-	? add $7, $7, $8 ; This instruction will be executed conditionally.
-	\end{verbatim}
-	\caption{Conditionally zeroing a register.}
-	\label{fig:conditional_execution}
-\end{figure}
+\begin{assembly}
+ldc $10, 0 ; Load color one
+ldc $11, 1 ; Load color two
+srl $mask, $id_lo, 10 ; Shift to the right converts ID to y pos
+mv $data, $10 
+? mv $data, $11 ; Will only be executed every other row
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+thread_finished
+\end{assembly}
 
-\subsection{Memories}
+All kernels must end with the instruction \verb/thread_finished/.
+This tells the GPU to stop executing the thread, and start the next one.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{../system_overview/diagrams/memory_overview.png}
-	\caption{Overview of GPU memory architecture.}
-	\label{fig:memory_overview}
-\end{figure}
-
-The Demolicious system contains two memories that are exposed to the programmer in kernels (figure \ref{fig:memory_overview}).
-Data memory is large, but has a relatively high latency.
-It is used for storing frame buffers for screen output,
-in addition to general data storage for kernels.
-
-The constant memory is a lot faster than the data memory, but is also relatively small.
-It is read-only for kernels, meaning only the CPU can write to it.
-This makes it suitable for kernel parameters, and enables kernels to be reused with varying output.
-For instance, the vertices of a triangle could be stored in constant memory,
-and a kernel could read them to render the triangle on screen.
-Between kernel runs, the CPU may update the vertices' position, creating animation.
-
-The programmer can access the data memory by using the \emph{load} or \emph{store} instructions.
-They require that the memory address and the data is moved into dedicated registers\ref{appendix instruction architecture} in advance.
-\todo{add reference to appendix and register overview}
-
-Likewise, there is a dedicated instruction to access the constant memory, named \textit{load constant}.
-Because the constant memory is read-only for kernels, there is no \textit{store constant} instruction.
-
-\todo{mention thread finished}
+\todo{Talk about memory and cooldown}
 
 \end{document}
