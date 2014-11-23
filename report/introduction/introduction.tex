@@ -140,18 +140,18 @@ For a CPU, latency is of primary concern.
 The next instruction often depends on the result of the previous one.
 For that reason the CPU completes a single instruction as fast as possible.
 
-This makes the CPU very good at problems which allow only a low level of parallelism.
+This makes the CPU very good at problems with a low level of parallelism.
 Latency becomes less of a concern, when problems get more parallel.
 GPUs are optimized for problems with a high degree of parallelism.
 
 \todo{Another main factor to the difference is that CPUs have to dedicate a big part of the chip for the L2 Cache to reduce memory latency, while a GPU uses much more of the chip to actual ALU logic. Talk about this?}
-Instead of prioritizing latency for performance, GPUs focus on throughput.
+Instead of prioritizing latency, GPUs focus on throughput.
 The fast single threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
-The cores in the GPU are slow compared to the CPU, giving them a high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput.
+The cores in the GPU are slow compared to the CPU, giving them high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput.
 To achieve the massive throughput required in modern graphics the GPU has to become massively parallel 
 GPUs features deep pipelines allowing allowing a multitude of instructions to be executed in parallel.
 The processing cores contain multiple execution units, allowing multiple threads to share the resources.
-Dynamic scheduling
+Sophisticated dynamic scheduling schemes works to maximize the utilization of GPU resources.
 
 \subsection{At The Mercy of Memory}
 
