@@ -240,7 +240,18 @@ which let's the programmer run arbitrary code that gains he benefit of the massi
 \textit{What were our concerns?}
 \textit{What kind of numbers did we hope to achieve?}
 
-The project will enter history like a wrecking ball.
+
+The Demolicious design is inspired by modern GPU design, like the one described above.
+Modern GPUs are very complex, and have long development cycles.
+For the Demolicious system the design had to be greatly simplified.
+Because of both time and space constraints, many features that define modern GPUs had to be left out.
+There is no branching, and there are no caches because of this.
+Modern GPUs have dynamic scheduling to better utilize the resources.
+The Demolicious GPU uses barrel processing as a static scheduling scheme, and to hide memory latency.
+
+
+
+The project will enter history like a reking ball.
 
 Its name is Licious. Demo Licious.
 
