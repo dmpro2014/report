@@ -38,4 +38,19 @@ This caused the circuit on the PCB to match up with the correct circuit from the
     \caption{How the FPGA clock fix was implemented.}
 \end{figure}
 
+\subsection*{Mismatch LDO}
+During the testing phase, the LDO for the 1.2V did not output the correct voltage.
+The 1.2V LDO is the same model as the 3.3V LDO, but has a different
+footprint, see figure \ref{fig:ldo-footprints}.
+
+It was assumed that both components had the same, which resulted in mismatch between the footprint and the component.
+The solution was to place the LDO diagonally, \todo{insert the picture of the LDO?} and manually solder a wire to the correct solderpad on the PCB. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../pcb/assets/ldo-footprints.pdf}
+    \label{fig:ldo-footprints}
+    \caption{On the left: 3.3 V LDO footprint. On the right: 1.2 V LDO footprint.}
+\end{figure}
+
 \end{document}
