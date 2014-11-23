@@ -43,7 +43,7 @@ Core requirements included having multiple processor cores and a graphical displ
     \noindent The task should also include a suitable application that can produce a graphical output on a
     display to demonstrate the processor.\\
     
-    \noindent The unit must utilize a Silicon Labs EFT32 series microcontroller (to act as an I/O processor)
+    \noindent The unit must utilize a Silicon Labs EFM32 series microcontroller (to act as an I/O processor)
     and a Xilinx FPGA (to implement your architecture on). The budget is 10.000 NOK, which must
     cover components and PCB production. The unit design must adhere to the limits set by the
     course staff at any given time.
@@ -80,6 +80,7 @@ Graphical functions are accessed through graphical APIs like DirectX\textsupersc
 Today, GPUs also have general computing capabilities and may serve as co-processors for the CPU in addition to handling their graphical duties.
 Non-graphics applications for a GPU include image processing, video encoding, and many scientific computing problems and other large, highly regular calculations.
 
+\todo{Not really true anymore. Google unified shading architecture} 
 GPUs usually have specialized hardware units for accelerating tasks like vertex shading and pixel shading.
 In general, at least one GPU is present in every non-server computer now.
 These can take the form of discrete chips or be integrated with the CPU.
@@ -99,11 +100,11 @@ These can take the form of discrete chips or be integrated with the CPU.
 
 In general, at least one GPU is present in every PC these days, and the market for PCs has been relatively stable for many years.
 These GPUs can take the form of discrete chips or be integrated with the CPU.
-Intel, AMD, and nVidia have market shares for PC GPUs.
-Intel is largest overall and for integrated solutions, but do not make discrete GPU chips.
-AMD and nVidia share the discrete GPU domain.
+Intel, AMD, and NVIDIA have market shares for PC GPUs.
+Intel is largest overall but only makes GPUs integrated with their CPUs.
+AMD and NVIDIA share the discrete GPU domain.
 A big market for the more powerful discrete GPUs is the computer gaming industry.
-This market has contributed a great deal to the rapid progression in graphics technologies.
+This market has contributed a great deal to the rapid progression of graphics technologies.
 With the advent of general purpose GPUs, scientific computing also have an interest in powerful GPUs.
 
 In the past 6 years, the booming market for mobile smart devices has introduced a new arena for GPUs.
@@ -143,6 +144,7 @@ This makes the CPU very good at problems which allow only a low level of paralle
 Latency becomes less of a concern, when problems get more parallel.
 GPUs are optimized for problems with a high degree of parallelism.
 
+\todo{Another main factor to the difference is that CPUs have to dedicate a big part of the chip for the L2 Cache to reduce memory latency, while a GPU uses much more of the chip to actual ALU logic. Talk about this?}
 Instead of prioritizing latency for performance, GPUs focus on throughput.
 The fast single threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
 The cores in the GPU are slow compared to the CPU, giving them a high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput.
@@ -166,9 +168,9 @@ Feeding the large number of computational units in a modern GPU with enough data
 \textit{What kind of functional requirements does a GPU have?}
 \textit{What issues are important to deal with when designing a GPU?}
 
-\subsection{nVidia's Kepler Architecture} % or whatever architecture you want...
+\subsection{NVIDIA's Tesla Architecture} % or whatever architecture you want...
 
-\textit{Explain nVidia!}
+\textit{Explain NVIDIA!}
 
 \section{Demolicious}
 
