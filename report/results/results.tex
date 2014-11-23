@@ -1,10 +1,67 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
+
 \chapter{Results}
 
-\section{No. Streaming processors vs. barrel depth}
+\section{Scalability of the Demolicious system}
 
-What is best?
+The architecture of the Demolicious system is designed to easily scale to the processing requirements at hand.
+As there is a linear relationship between the number of streaming processors on chip and processor throughput, one can simply add more cores to increase performance.
+
+Limiting factors to this scalability include:
+\begin{enumerate}
+  \item
+    The more cores, the lower the clock frequency, as signal fanout increases
+  \item
+    Space available on the chosen FPGA
+  \item
+    Power consumption constraints, as more cores increase active power consumption
+\end{enumerate}
+
+%LX45 usage
+%
+%8% lut, 1% slice
+%
+%12% lut, 2%slice fanout 4.57, 3.631 lut flipflop pairs
+%
+%
+%28% LUT, 5% slice 8393 lut flip flop pairs
+%
+%
+%6% Slice, 25% LUT, 36% occupied, 7958 lut flip flop pairs
+%
+%Not synthesizable
+
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{cccccc}
+\hline
+Cores & Crit. path & Max freq. & Dynamic + quiescent power & LX16 & LX45 \\
+\hline
+\hline
+2 / 2      & 17.103ns      & 58.469MHz & 0.272: 0.088 + 0.184 & \checkmark & \checkmark  \\
+4 / 2     & 17.959ns      & 55.682MHz & 0.292: 0.107 + 0.184 & \checkmark & \checkmark \\
+8 / 4   & 19.722ns      & 50.108MHz & 0.353: 0.168 + 0.186 &            & \checkmark \\
+16 / 8     & X  & X & X          & \\
+       &               &           &                   &    & \\
+\hline
+\end{tabularx}
+\caption{Hardware configurations compared. Harvested from post place \& route static simulation.}
+\label{table:scalability}
+\end{table}
+
+The 4-core design fits snugly on the LX16 used for development, but has issues containing the 8-core design.
+The LX45 shifts this up one notch, fitting the 8-core design, but being unable to place \& route the 16-core design.
+For all processor designs, the critical path passes from the immediate field of the instruction through the ALU into the active register file.
+This is something that could be increased drastically by pipelining the processor.
+
+Figure \ref{table:scalability} shows that there is a negligible drop in maximum frequency from two to eight cores.
+At 50.108MHz with 8 cores, the GPU has an instruction throughput of ~400 mips.
+This compares favorably to the ~117 mips of the two-core architecture.
+
+It does however come with a 100mAh increase in power draw.
+Luckily this only constitutes a 30\% total increase in power, considerably less than the fourfold improvement in GPU throughput.
+The decrease in execution time will allow both the host CPU and the GPU to enter lower power states quicker, reducing static power consumption.
 
 \section{Screen frame rate}
 Is it fast?
