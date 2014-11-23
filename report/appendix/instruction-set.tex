@@ -17,10 +17,10 @@ The following registers are available:
     \textbf{Number} & \textbf{Name} & \textbf{Description}                                                             & \textbf{R/W}    & \textbf{Size} \\ \hline \hline
     \$0       & zero                & Always contains the value zero                                          & Read-only  & 16   \\ \hline
     \$1, \$2 & id\_hi, id\_lo      & The current thread's ID                                                 & Read-only  & 16   \\ \hline
-    \$3, \$4 & address\_hi, address\_lo & Address used by load \& store instructions                              & General    & 16   \\ \hline
-    \$5       & data               & Data loaded/stored by load \& store instructions                        & General    & 16   \\ \hline
-    \$6       & mask               & Conditional instructions will be masked (\autoref{sec:masking}) when this register is set to 1. & Write-only & 1    \\ \hline
-    \$7-\$15  & General-purpose    & ~                                                                       & General    & 16   \\ \hline
+    \$3, \$4 & address\_hi, address\_lo & Address used by load \& store instructions                              & Read/Write    & 16   \\ \hline
+    \$5       & data               & Data loaded/stored by load \& store instructions                        & Read/Write    & 16   \\ \hline
+    \$6       & mask               & Conditional instructions will be masked (\autoref{sec:masking}) when this register is set to 1. & Read/Write & 1    \\ \hline
+    \$7-\$15  & General-purpose    & ~                                                                       & Read/Write    & 16   \\ \hline
     \end{tabular}
     \caption{Register overview}
     \label{table:registers}
