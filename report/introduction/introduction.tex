@@ -186,12 +186,28 @@ This creates a lot of latency for memory requests, which means hiding this laten
 \subsection{NVIDIA's Tesla Architecture} % or whatever architecture you want...
 
 
+
 \emph{Unified Shader Architecture}
-In 2006, with the release of their GeForce 8 series graphics cards, NVIDIA released their first GPU microarchitecture with a unified shader architecture, called Tesla. Before this, GPUs had 
+\todo{Move this paragraph up?}
+In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}, named Tesla.
+Before this GPUs had seperate and dedicated hardware for the main graphics operations, 
+but with this architecture the major operations are executed on the same hardware.
+This is significantly different from earlier GPU microarchitectures, and opened
+for the possibility to do other calculations on a GPU than graphics processing.
+
+To open the powers of the graphics card for other applications, there was a need for a new API that could be
+used run code on the GPUs. It has been possible to do non-graphical calculations on GPUs before by 
+redifining problems as graphical problems, but this is highly impractical. 
+So with the new architecture NVIDIA released a framework for running code on their GPUs called CUDA, 
+which let's the programmer run arbitrary code that gains he benefit of the massively parallel hardware.
+
 
 \emph{General numbers of cores etc}
 
+
 \emph{Streaming Multiprocessors}
+
+
 
 \emph{Streaming Processors}
 
