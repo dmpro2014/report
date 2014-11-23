@@ -159,8 +159,20 @@ Sophisticated dynamic scheduling schemes works to maximize the utilization of GP
 
 \textit{Some numbers. Graphics workloads demand very high data tranfer rates.}
 
-With great computing power comes great memory demand.
-Feeding the large number of computational units in a modern GPU with enough data requires an intricate memory system.
+The GPU can deliver very high throughput because of the massive amount of processing units, but with great computing power comes great memory demand.
+The challenge in GPUs is keeping the computational units supplied with enough data.
+\todo{Insert number}
+To supply the processing units with data, the GPU has to have a complex memory system. 
+The memory system uses techniques such as batching memory requests, compression, and different types of memories.
+The memory is organized in a hierarchy of memories and caches, of different sizes.
+The dram interface for the GeForce 8800 had 384 pins, making a bandwidth of up to 96 GB/s possible.
+To further increase the bandwidth compression is used to reduce the amount of data that has to be transmitted.
+To increase the memory throughput memory requests are saved up and sent in batches.
+This creates a lot of latency for memory requests, which means hiding this latency from the programmer is important.
+ 
+\begin{itemize}
+	\item The memory buses are wide.
+\end{itemize}
 
 
 \subsection{Design Considerations}
