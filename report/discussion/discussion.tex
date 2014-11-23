@@ -9,14 +9,16 @@ Split project schematics into several connected docs for the sake of modularity.
 Finally place components and route the wires between them digitally and order the PCB and components
 
 
-\section{USB data input}
+\section{Hardware components}
+
+\subsection{USB data input}
 In the initial design, a USB connector was introduced to receive data from a host PC. 
 But during the implementation phase, it was discovered to be unnecessary.
 For the graphical demo, there was no need for input data from host PC. 
 The MCU was able to run the program independently.
 
 
-\section{VGA-port}
+\subsection{VGA-port}
 The PCB was designed with two VGA headers, one for the FPGA and one for the MCU. \todo{Maybe add picture showing the headers.}
 Looking back, it was redundant to support two VGA ports.
 An alternative solution is having one VGA port with exposed headers.
