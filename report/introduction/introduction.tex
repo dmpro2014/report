@@ -175,14 +175,19 @@ This creates a lot of latency for memory requests, which means hiding this laten
 % - scheduling, to utilize the resources
 % - thread divergence(branching)
 
-\subsection{NVIDIA's Fermi Architecture} % or whatever architecture you want...
+\section{NVIDIA's Fermi Architecture} % or whatever architecture you want...
 %http://www.nvidia.com/content/PDF/fermi_white_papers/P.Glaskowsky_NVIDIAFermi-TheFirstCompleteGPUComputingArchitecture.pdf
 %http://www.nvidia.com/content/PDF/fermi_white_papers/NVIDIA_Fermi_Compute_Architecture_Whitepaper.pdf
 
+To get an idea of what an actual modern GPU architecture looks like, an overview of NVIDIA's Fermi architecture is presented.
+In addition to some details specific to Fermi, this section introduces central concepts relevant for our architecture, such as \emph{warps}, \emph{kernels} and more.
+
+\todo{Rewrite these two paragraphs to fit together. Also the second paragraphs talk about Tesla, while we are presenting Fermi}
 
 \emph{Unified Shader Architecture@}
 \todo{Move this paragraph up?@}
-In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}, named Tesla.
+
+In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}.
 Before this GPUs had seperate and dedicated hardware for the main graphics operations, 
 but with this architecture the major operations are executed on the same hardware.
 This is significantly different from earlier GPU microarchitectures, and opened
@@ -204,14 +209,14 @@ and 64K of SRAM used for cache and local memory.
 To be able to have as many cores as possible, NVIDIA kept them simple by not allowing them to do more advanced functions, such as sin, cos or reciprocal.
 Instead, there are special cores for these operations, called special-function units, and they are much fewer.
 
-\emph{Warps@}
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\textwidth]{../introduction/assets/warp.png}
 \caption{Warps of 32 threads execute }
 \label{fig:simple-nvidia-warps}
 \end{figure}
+
+\emph{Warps@}
 
 Threads are divided into logical units of 32 threads that are called \emph{warps}. 
 The threads in a warp always execute the instruction at the same time.
@@ -236,6 +241,35 @@ So with the new architecture NVIDIA released a framework for running code on the
 which let's the programmer run arbitrary code that gains he benefit of the massively parallel hardware.
 
 \emph{Introduce the CUDA programming model. Walk through a simple example storing values to memory.@}
+In order to explain the programming model, we'll jump straight to an example.
+Let's say you want to fill a frame buffer, an area of memory, with the color green.
+We'll assume that the memory area starts at location 0.
+In a sequential programming model one would typically write a loop that would fill
+the memory locations with the value for green one by one. 
+See listing \ref{sequential-green}.
+
+\begin{c-code}[caption=A sequential program filling the screen with green, label=sequential-green]
+int green = 0x00FF00;
+for (int i = 0; i < nr_of_pixels; i++){
+	framebuffer[i] = green;
+}
+\end{c-code}
+
+However, in CUDA it is more natural to write a \emph{kernel} that fills only a single pixel with green, 
+and then run it with one thread for every pixel.
+Below, in listing \ref{lst:green-kernel}, 
+you see a CUDA kernel that fills a single memory location, or pixel, with green. 
+
+\begin{c-code}[caption=A sequential program filling the screen with green@, label=sequential-green]
+__global__ void fill_screen(int* framebuffer_start){
+	int global_id = blockIdx.x * blockDim.x + threadIdx.x; //Calculate global id of this thread
+	int green     = 0x00FF00;
+	*(framebuffer_start + global_id) = green;
+}
+\end{c-code}
+
+
+
 
 
 \emph{Explain how kernels are are written, uploaded and data moved@}
@@ -247,12 +281,11 @@ which let's the programmer run arbitrary code that gains he benefit of the massi
 
 \section{Demolicious}
 
-\textit{Why is the name of our system "Demolicious"?}
-\textit{What approach did we take in making a graphics accelerator?}
-\textit{What trade-offs did we have to make?}
-\textit{What were our concerns?}
-\textit{What kind of numbers did we hope to achieve?}
-
+\textit{Why is the name of our system "Demolicious"?@}
+\textit{What approach did we take in making a graphics accelerator?@}
+\textit{What trade-offs did we have to make?@}
+\textit{What were our concerns?@}
+\textit{What kind of numbers did we hope to achieve?@}
 
 The Demolicious design is inspired by modern GPU design, like the one described above.
 Modern GPUs are very complex, and have long development cycles.
@@ -263,27 +296,26 @@ Modern GPUs have dynamic scheduling to better utilize the resources.
 The Demolicious GPU uses barrel processing as a static scheduling scheme, and to hide memory latency.
 
 
+The project will enter history like a reking ball.@
 
-The project will enter history like a reking ball.
-
-Her name is Licious. Demo Licious.
+Her name is Licious. Demo Licious.@
 
 \subsection{Solution Requirements}
 
-\textit{How did we arrive at our list of requirements?}
+\textit{How did we arrive at our list of requirements?@}
 
 \begin{table}[htp]
     \centering
     \begin{tabular}{|p{8cm}|l|}
         \hline
-        \textbf{GPU Functional Goals}                & \textbf{Priority} \\ \hline
-        Computer should display graphics on screen                           & HIGH    \\ \hline
-        Computer should be general purpose                                   & HIGH    \\ \hline
-        Computer should drive video from FPGA                                & MEDIUM  \\ \hline
-        Frame rate should be around 30 fps                                   & MEDIUM  \\ \hline
-        Computer should use HDMI to display the graphics                     & MEDIUM  \\ \hline
-        Computer should have an example application in form of a demo        & LOW     \\ \hline
-        Computer should have a toolchain to make life easier for programmers & LOW     \\ \hline
+        \textbf{Demolicious Functional Goals}                & \textbf{Priority} \\ \hline
+        Demolicious should display graphics on screen                           & HIGH    \\ \hline
+        Demolicious should be general purpose                                   & HIGH    \\ \hline
+        Demolicious should drive video from GPU module on FPGA                  & MEDIUM  \\ \hline
+        Demolicious should handle an output rate of about 30 frames per second  & MEDIUM  \\ \hline
+        Demolicious should use HDMI for its graphics output	                    & MEDIUM  \\ \hline
+        Demolicious should have an example application in the form of a visual demo displayed on screen & LOW \\ \hline
+        Demolicious should have a toolchain to make life easier for programmers & LOW     \\ \hline
     \end{tabular}
     \caption{Goals set for the Demolicious system}
     \label{tab:goals}
@@ -292,6 +324,6 @@ Her name is Licious. Demo Licious.
 \newpage
 \section{Structure of the Report}
 
-To be announced
+\todo{Write this!}
 
 \end{document}

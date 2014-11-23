@@ -79,22 +79,27 @@ When the thread spawner receives a \textit{Finished} instruction and no more thr
 
 \todo{Can this be called something else? It's kind of confused with the component details in the PCB chapter}
 
-\subsection{Streaming Processor}
+\subsection{Processor Core}
 
-The streaming processor is at the heart of the GhettoCUDA architecture.
-A fully operational GhettoCUDA processor will have up to 32 streaming processors wired up, allowing for an extreme degree of parallelism in code execution.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.2\textwidth]{../gpu/diagrams/processor_core.png}
+	\caption{A single processor core.}
+	\label{fig:processor_core}
+\end{figure}
 
-The architecture of the streaming processor is inspired by the cores of the MIPS architecture.
-They consist of a single ALU, a register bank, as well as logic for reading operands from thread-private registers, shared external memory and constant storage.
-Each register bank is actually composed of several register files, containing a number of general- and special purpose registers.
-The register bank mirrors the interface of the register file, but only exposes a single register file at a time, which one decided by the current active barrel line.
-This system allows rapid context switching between the plethora of threads co-existing inside each streaming processor.
+Each processor core contains an ALU and a register directory.
+On each clock cycle the ALU receives the selected values from the register directory.
+On the same cycle, the value is written back to the register selected by the control unit.
 
-The streaming processor support conditional execution of instructions, using a dedicated mask register to decide whether instructions should be executed or not.
-This allows for branch-like behavior without having to support the complex logic required for diverging threads.
+If the current instruction is a load constant instruction, the control unit selects which constant to fetch from constant memory.
+The constant enable signal is asserted, causing the multiplexer to select the constant value as the write back value.
+The constant memory is stored on chip, meaning it returns the constant on the same cycle as it is requested.
 
-When a memory request is invoked by the currently active instruction, memory addresses and data values are sampled from the currently active register file in the register directory, and passed on to the load/store unit.
-Dedicated address and data store/return registers allows for simplification of both the programming model as well as requiring fewer wires between the set of streaming processors and the load/store unit.
+To perform immediate instructions, the control unit asserts the immediate enable signal.
+The immediate value is then selected by the multiplexer and used as an operand in the ALU.
+
+
 
 \subsection{Thread Spawner}
 
@@ -103,6 +108,62 @@ As all kernels are uniquely identifiable by their respective thread ID, the thre
 
 
 \subsection{Register Directory}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{../gpu/diagrams/register_directory.png}
+	\caption{The register directory, and its neighboring components.}
+	\label{fig:register_directory}
+\end{figure}
+
+There is one register directory per processor core.
+Each register directory contains one register file per barrel row.
+The register files include seven dedicated registers, and nine general purpose registers (Table \ref{tab:registers_overview}).
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline Register number & Description & RW \\ 
+		\hline \$0 & Zero register & Read-only \\ 
+		\hline \$1 & ID High & Read/Write \\ 
+		\hline \$2 & ID Low & Read/Write \\ 
+		\hline \$3 & Address High & Read/Write \\ 
+		\hline \$4 & Address Low & Read/Write \\ 
+		\hline \$5 & LSU data & Read/Write \\ 
+		\hline \$6 & Masking register & Write-only \\ 
+		\hline \$7 - \$15 & General purpose registers & Read/Write \\ 
+		\hline 
+	\end{tabular} 
+	\caption{The registers contained within the register files.}
+	\label{tab:registers_overview}
+\end{table}
+
+Individual register files are selected by using the \emph{register file select} signal.
+The register file select signal is set by the barrel select component.
+Within the register directory, the other input signals are routed to the selected register file using the select signal.
+Consequently, from the processor core's point of view, there's just one register file.
+
+The dedicated registers serve special purposes in the architecture.
+Often, the processor core will be accessing a register file and at the same time, other components may also need access the same, or a different, register file.
+To solve this, the special registers are given dedicated signals that the other components use for reading/writing to the register file.
+Ignoring registers \$0 and \$6, the rest of the dedicated registers may be used as general purpose registers.
+Using them at the same time as other components are accessing them will result in undefined behavior, and is left as the programmer's responsibility.
+
+The masking register is used to enable conditional execution.
+If masking is enabled the first bit of masking register is used to disable writes to the register file, making the instruction have no effect (Figure \ref{fig:masking}).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../gpu/diagrams/masking.png}
+	\caption{Using the mask bit to disable register writes.}
+	\label{fig:masking}
+\end{figure}
+
+Data memory addresses are 20 bit wide, and thread IDs are 19 bit wide.
+Registers can only store 16 bit values.	
+To represent these values they are split into registers which contain the higher and lower bits.
+
+The load store unit (LSU) has a separate signal for selecting register files.
+Using the signal, the LSU can write data loaded from memory into the register files on its own.
+
 
 \subsection{Load/Store Unit}
 
