@@ -8,4 +8,4 @@ open:
 
 .PHONY:
 clean:
-	cd main && $(MAKE) clean
+	./clean.sh
