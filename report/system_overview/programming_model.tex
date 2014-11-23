@@ -27,13 +27,53 @@ The thread id can be used to compute memory addresses and make control decisions
 to make the threads behave differently even though they are executing the same code. 
 \todo{See masking. Do/should we have a subchapter about masking?}
 
-\begin{assembly}
+
+To best illustrate the programming model, a few examples will be walked through. 
+Let's start with a simple one; fill the screen with the color green.
+We assume that the pixel color values are stored in memory from location 0.
+In a sequential programming model one would typically write a loop that would fill
+the memory locations with the value for green one by one. 
+See listing \ref{sequential-green}.
+
+\begin{c-code}[caption=A sequential program filling the screen with green, label=sequential-green]
+int green = 0x00FF00;
+for (int i = 0; i < nr_of_pixels; i++){
+	write(i, green);
+}
+\end{c-code}
+
+However, in the SIMT programming paradigm our architecture is inspired by,
+you write a \emph{kernel} that fills only a single pixel with green, 
+and then run it with one thread for every pixel.
+Below, in listing \ref{lst:green-kernel}, 
+you see a kernel written for Demolicious that fills a single memory location,
+or pixel, with green.
+The memory location to be written to is decided by the special id register. 
+
+
+\begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
 ldi $data, 0b1111111111111111
 mv $address_lo, $id_lo
 mv $address_hi, $id_hi
 sw
 thread_finished
 \end{assembly}
+\todo{Change color to green}
+
+Let's walk through the kernel one line at a time.
+The first uses the \textbf{ldi} instruction, which stands for load immediate.
+It loads the value 0b@@@, 
+which corresponds to the color green in the Demolicious color space,
+into the special register \textbf{\$data}.
+How it is used will become clear later. 
+The second and third line 
+
+
+
+
+
+
+
 
 Kernels can take parameters as input, which lets them be reused with varying output.
 The CPU can set these parameters to different values each time a kernel is run.
@@ -48,6 +88,7 @@ mv $address_hi, $id_hi
 sw
 thread_finished
 \end{assembly}
+
 
 Different threads can also give different output for the same kernel.
 Using their ID and ALU operations, they can easily generate interesting patterns.
