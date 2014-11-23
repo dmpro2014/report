@@ -102,7 +102,7 @@ In general, at least one GPU is present in every PC these days, and the market f
 These GPUs can take the form of discrete chips or be integrated with the CPU.
 Intel, AMD, and NVIDIA have market shares for PC GPUs.
 Intel is largest overall but only makes GPUs integrated with their CPUs.
-AMD and NVIDIA share the discrete GPU domain.
+AMD and NVIDIA share the discrete GPU market.
 A big market for the more powerful discrete GPUs is the computer gaming industry.
 This market has contributed a great deal to the rapid progression of graphics technologies.
 With the advent of general purpose GPUs, scientific computing also have an interest in powerful GPUs.
@@ -129,29 +129,28 @@ To illustrate why computers and mobile devices include a separate GPU, lets look
 Consumers expect their computers to display videos and games in Full HD resolution (1920*1080 pixels), which adds up to about 2 million pixels per frame.
 To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
 All of these tasks require several floating point operations.
-For an optimistic estimate in a fairly simple scene, assume that the CPU needs to perform 1000 operations per pixel. \todo{fix some numbers}
+For an optimistic estimate in a fairly simple scene, assume that the CPU needs to perform LOLSOMANY operations per pixel. \todo{fix some numbers}
 In this case, even with a clock speed of 4 GHz and no other interfering work, a Full HD screen will receive an unacceptably low framerate.
 Fortunately, pixels can often be computed independently of each other.
 CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
 
 \subsection{A Parallel Universe}
 
-For a CPU, latency is of primary concern.
-The next instruction often depends on the result of the previous one.
-For that reason the CPU completes a single instruction as fast as possible.
+For a CPU, latency is of primary concern because the next instruction often depends on the result of the previous one.
+The CPU needs to complete each instruction as quickly as possible.
+This makes the CPU very good at problems with a low level of parallelism, which after all characterizes most programs.
+Finishing an instruction as quickly as possible is less of a concern when problems are more parallel in nature.
+A GPU therefore optimizes for throughput instead of latency.
+It gains throughput by making its architecture parallel in all dimensions.
 
-This makes the CPU very good at problems with a low level of parallelism.
-Latency becomes less of a concern, when problems get more parallel.
-GPUs are optimized for problems with a high degree of parallelism.
+The fast single-threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
+A GPU gains throughput by spending resources on execution units instead of more cache, prediction logic, or dynamic reordering logic to make one execution unit very effective.
+It also exploit parallelism with its deep pipelines, executing many instructions concurrently within each core.
+These architectural decisions cause each individual thread to require more wait cycles to wait for memory access or pipeline hazards.
+Fortunately, a GPU is not concerned about each individual thread's tardiness, and instead fills these wait cycles by interleaving many threads at once in each core.
+Filling each pipeline stage in every cycle with useful work is, of course, essential in optimizing throughput.
 
-\todo{Another main factor to the difference is that CPUs have to dedicate a big part of the chip for the L2 Cache to reduce memory latency, while a GPU uses much more of the chip to actual ALU logic. Talk about this?}
-Instead of prioritizing latency, GPUs focus on throughput.
-The fast single threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
-The cores in the GPU are slow compared to the CPU, giving them high latency, but can execute a lot of instructions simultaneously giving the GPU a high amount of throughput.
-To achieve the massive throughput required in modern graphics the GPU has to become massively parallel 
-GPUs features deep pipelines allowing allowing a multitude of instructions to be executed in parallel.
-The processing cores contain multiple execution units, allowing multiple threads to share the resources.
-Sophisticated dynamic scheduling schemes works to maximize the utilization of GPU resources.
+% Sophisticated dynamic scheduling schemes works to maximize the utilization of GPU resources.
 
 \subsection{At The Mercy of Memory}
 
