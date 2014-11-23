@@ -182,17 +182,59 @@ This creates a lot of latency for memory requests, which means hiding this laten
 - scheduling, to utilize the resources
 - thread divergence(branching)
 
-\subsection{NVIDIA's Tesla Architecture} % or whatever architecture you want...
+\subsection{NVIDIA's Fermi Architecture} % or whatever architecture you want...
+%http://www.nvidia.com/content/PDF/fermi_white_papers/P.Glaskowsky_NVIDIAFermi-TheFirstCompleteGPUComputingArchitecture.pdf
+%http://www.nvidia.com/content/PDF/fermi_white_papers/NVIDIA_Fermi_Compute_Architecture_Whitepaper.pdf
 
 
-
-\emph{Unified Shader Architecture}
-\todo{Move this paragraph up?}
+\emph{Unified Shader Architecture@}
+\todo{Move this paragraph up?@}
 In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}, named Tesla.
 Before this GPUs had seperate and dedicated hardware for the main graphics operations, 
 but with this architecture the major operations are executed on the same hardware.
 This is significantly different from earlier GPU microarchitectures, and opened
 for the possibility to do other calculations on a GPU than graphics processing.
+
+
+\emph{General numbers of cores etc@}
+
+
+\emph{Streaming Multiprocessors@}
+
+At the heart of Fermi lies the 16 Streaming Multiprocessors (SMs). 
+Each SM contains 32 execution cores that can do integer and floatig point operations, 
+along with four special-function units, 16 load store units, 
+and 64K of SRAM used for cache and local memory.
+
+\emph{Special Function Unit@}
+
+To be able to have as many cores as possible, NVIDIA kept them simple by not allowing them to do more advanced functions, such as sin, cos or reciprocal.
+Instead, there are special cores for these operations, called special-function units, and they are much fewer.
+
+\emph{Warps@}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{../introduction/assets/warp.png}
+\caption{Warps of 32 threads execute }
+\label{fig:simple-nvidia-warps}
+\end{figure}
+
+Threads are divided into logical units of 32 threads that are called \emph{warps}. 
+The threads in a warp always execute the instruction at the same time.
+This way, only a single instruction fetch is required.
+A simplified example execution order is shown in figure \ref{fig:simple-nvidia-warps}.
+In reality, Fermi executes two instructions per warp per cycle. 
+At any point in time there is a set of active warps that are dynamically scheduled. 
+A warp is always executed in the same SM, and when it executes an instruction, there is one thread per core, hence 32 cores per SM.
+
+
+\emph{Blocks / memory etc? Maybe not@}
+
+
+
+\subsection{CUDA/OpenCL}
+\emph{Introductory paragraph explaining what CUDA and OpenCL is@}
 
 To open the powers of the graphics card for other applications, there was a need for a new API that could be
 used run code on the GPUs. It has been possible to do non-graphical calculations on GPUs before by 
@@ -200,36 +242,14 @@ redifining problems as graphical problems, but this is highly impractical.
 So with the new architecture NVIDIA released a framework for running code on their GPUs called CUDA, 
 which let's the programmer run arbitrary code that gains he benefit of the massively parallel hardware.
 
-
-\emph{General numbers of cores etc}
-
-
-\emph{Streaming Multiprocessors}
+\emph{Introduce the CUDA programming model. Walk through a simple example storing values to memory.@}
 
 
+\emph{Explain how kernels are are written, uploaded and data moved@}
 
-\emph{Streaming Processors}
+\emph{Give a greenscreen example@}
 
-\emph{Special Function Unit}
-
-\emph{Shared memory}
-
-\emph{Warps}
-
-\emph{Blocks / memory etc? Maybe not}
-
-
-
-\subsection{CUDA/OpenCL}
-\emph{Introduce the CUDA programming model. Walk through a simple example storing values to memory.}
-
-\emph{Introductory paragraph explaining what CUDA and OpenCL is}
-
-\emph{Explain how kernels are are written, uploaded and data moved}
-
-\emph{Give a greenscreen example}
-
-\emph{Maybe give a scientific example with result read back. But only if we show it for Demolicious as well}
+\emph{Maybe give a scientific example with result read back. But only if we show it for Demolicious as well@}
 
 
 \section{Demolicious}
