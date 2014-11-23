@@ -22,9 +22,12 @@ Core requirements included having multiple processor cores and a graphical displ
 \newpage
 
 \subsection{Original Assignment Text}
-\todo{Keep assignment text inside "quotation" environment?}
+
+\vspace{1cm}
+\noindent
 
 \begin{quotation}
+
 	\subsubsection{Construct a graphics processing unit (GPU) inspired processor}
     \noindent GPUs play a large role in graphical applications as well as high performance computing.
     They are typically constructed around the SIMD (single instruction multiple data) paradigm and
@@ -52,57 +55,46 @@ Core requirements included having multiple processor cores and a graphical displ
 
 \subsection{A Graphics Accelerator}
 
-\textit{What is the approach we took to this assignment?}
-\textit{What did we want to make?}
-\textit{Why did we want to make that?}
-\textit{What did we hope to achieve?}
-
-The group decided to make the custom GPU inspired processor as an accelerator processor.
-This means that it would not be designed to run entire programs on its own, but would rather handle particular parallelizable parts.
-In this case, the program parts that would be offloaded to the accelerator would be graphics related operations.
+The group decided to make the custom GPU inspired processor as an accelerator processor for parallelizable computations.
+This means that it would not be designed to run entire programs on its own, but would instead be tasked with particular parallelizable parts of a program.
+Its purpose would primarily be to run graphics related operations.
+However, it would be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
 It was also decided to send graphical output to screen directly from the accelerator, akin to modern GPUs.
 This would form a graphical computer system similar to how modern PCs are organized.
 
 \section{Modern Graphics Processing Units}
 
-\textit{What is a GPU?}
-\textit{What is its purpose?}
+% What is a GPU?
+% What is its purpose?
 
-\todo{Fix source references, "Computer Organization and Design", Appendix C}
-
-Modern GPUs are, in a way, an evolution of former Video Graphics Array (VGA) controllers.
+Modern GPUs are, in a way, an evolution of former Video Graphics Array (VGA) controllers \cite{gpu_appendix}.
 A VGA controller of the early 1990s served as a memory controller and display generator that wrote framebuffer values to a display.
 As technology advanced, it received hardware to perform specific graphics related functions.
 This eventually evolved into a processor, with its own memory, that incorporated a full set of graphical functions.
 
 A GPU's primary purpose has traditionally been to offload graphical calculations from the CPU and render graphical data to a screen.
-Graphical functions are accessed through graphical APIs like DirectX\textsuperscript{TM} and OpenGL\textsuperscript{TM}.
+Graphical functions are accessed through graphical APIs like DirectX and OpenGL.
 Today, GPUs also have general computing capabilities and may serve as co-processors for the CPU in addition to handling their graphical duties.
 Non-graphics applications for a GPU include image processing, video encoding, and many scientific computing problems and other large, highly regular calculations.
 
-\todo{Not really true anymore. Google unified shading architecture} 
-GPUs usually have specialized hardware units for accelerating tasks like vertex shading and pixel shading.
-In general, at least one GPU is present in every non-server computer now.
-These can take the form of discrete chips or be integrated with the CPU.
 
 \subsection{The GPU Market}
 
-\textit{Who makes graphics accelerators?}
-\textit{For what market do they make these?}
-\textit{What is performance like for modern GPUs?}
+% Who makes graphics accelerators?
+% For what market do they make these?
+% What is performance like for modern GPUs?
 
-\todo{fix references here}
 % PC market reference:
 % http://www.zdnet.com/latest-retail-figures-show-a-stable-pc-market-led-by-apple-and-cheap-notebooks-7000034024/
 % NDP provide consumer tracking services. Link: https://www.npd.com/wps/portal/npd/us/about-npd/consumer-panel/
 % This is their report: https://www.npd.com/wps/portal/npd/us/news/press-releases/apple-and-chrome-boost-us-retail-pc-back-to-school-sales/
 
 
-In general, at least one GPU is present in every PC these days, and the market for PCs has been relatively stable for many years.
+In general, at least one GPU is present in every PC these days, and the market for PCs has been relatively stable for many years \cite{pc_sales}.
 These GPUs can take the form of discrete chips or be integrated with the CPU.
-Intel, AMD, and NVIDIA have market shares for PC GPUs.
+Intel, AMD, and NVIDIA are the big actors in the PC GPU market \cite{gpu_overall_sales}.
 Intel is largest overall but only makes GPUs integrated with their CPUs.
-AMD and NVIDIA share the discrete GPU market.
+AMD and NVIDIA share the discrete GPU market \cite{gpu_discrete_sales}.
 A big market for the more powerful discrete GPUs is the computer gaming industry.
 This market has contributed a great deal to the rapid progression of graphics technologies.
 With the advent of general purpose GPUs, scientific computing also have an interest in powerful GPUs.
@@ -113,7 +105,7 @@ These GPUs are generally integrated in the device's system-on-a-chip (SoC), and 
 As for everything else that runs on batteries, power consumption is a primary concern in this format.
 Traditionally, this is a concern that GPU design has not needed to prioritize.
 The mobile GPU format has opened up for other GPU design companies than the three mentioned above.
-The three dominant GPU design companies in the SoC market are Qualcomm, ARM, and Imagination Technologies.
+The three dominant GPU design companies in the SoC market are Qualcomm, ARM, and Imagination Technologies \cite{gpu_mobile_sales}.
 
 % PC GPU market share reference:
 % http://jonpeddie.com/news/comments/gpu-shipments-marketwatch-q2-2014-charts-and-images/
@@ -134,14 +126,14 @@ In this case, even with a clock speed of 4 GHz and no other interfering work, a 
 Fortunately, pixels can often be computed independently of each other.
 CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
 
-\subsection{A Parallel Universe}
+\subsection{Taking Advantage of Parallelism}
 
 For a CPU, latency is of primary concern because the next instruction often depends on the result of the previous one.
 The CPU needs to complete each instruction as quickly as possible.
 This makes the CPU very good at problems with a low level of parallelism, which after all characterizes most programs.
 Finishing an instruction as quickly as possible is less of a concern when problems are more parallel in nature.
 A GPU therefore optimizes for throughput instead of latency.
-It gains throughput by making its architecture parallel in all dimensions.
+It gains throughput by making its architecture highly parallel in all respects.
 
 The fast single-threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
 A GPU gains throughput by spending resources on execution units instead of more cache, prediction logic, or dynamic reordering logic to make one execution unit very effective.
@@ -156,7 +148,8 @@ Filling each pipeline stage in every cycle with useful work is, of course, essen
 
 %"Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous."
 
-\textit{Some numbers. Graphics workloads demand very high data tranfer rates.}
+% Some numbers to show amount of memory.
+% Graphics workloads demand very high data tranfer rates.
 
 The GPU can deliver very high throughput because of the massive amount of processing units, but with great computing power comes great memory demand.
 The challenge in GPUs is keeping the computational units supplied with enough data.
@@ -176,11 +169,11 @@ This creates a lot of latency for memory requests, which means hiding this laten
 
 \subsection{Design Considerations}
 
-\textit{What kind of functional requirements does a GPU have?}
-\textit{What issues are important to deal with when designing a GPU?}
-- keeping the memory bus saturated
-- scheduling, to utilize the resources
-- thread divergence(branching)
+% What kind of functional requirements does a GPU have?
+% What issues are important to deal with when designing a GPU?
+% - keeping the memory bus saturated
+% - scheduling, to utilize the resources
+% - thread divergence(branching)
 
 \subsection{NVIDIA's Fermi Architecture} % or whatever architecture you want...
 %http://www.nvidia.com/content/PDF/fermi_white_papers/P.Glaskowsky_NVIDIAFermi-TheFirstCompleteGPUComputingArchitecture.pdf
@@ -254,6 +247,7 @@ which let's the programmer run arbitrary code that gains he benefit of the massi
 
 \section{Demolicious}
 
+\textit{Why is the name of our system "Demolicious"?}
 \textit{What approach did we take in making a graphics accelerator?}
 \textit{What trade-offs did we have to make?}
 \textit{What were our concerns?}
@@ -272,7 +266,7 @@ The Demolicious GPU uses barrel processing as a static scheduling scheme, and to
 
 The project will enter history like a reking ball.
 
-Its name is Licious. Demo Licious.
+Her name is Licious. Demo Licious.
 
 \subsection{Solution Requirements}
 
@@ -280,18 +274,18 @@ Its name is Licious. Demo Licious.
 
 \begin{table}[htp]
     \centering
-    \begin{tabular}{|l|p{8cm}|l|}
+    \begin{tabular}{|p{8cm}|l|}
         \hline
-        \textbf{Identifier}           & \textbf{Description}                & \textbf{Priority} \\ \hline
-        GOAL1  & Computer should display graphics on screen                           & HIGH    \\ \hline
-        GOAL2  & Computer should be general purpose                                   & HIGH    \\ \hline
-        GOAL3  & Computer should drive video from FPGA                                & MEDIUM  \\ \hline
-        GOAL4  & Frame rate should be around 30 fps                                   & MEDIUM  \\ \hline
-        GOAL5  & Computer should use HDMI to display the graphics                     & MEDIUM  \\ \hline
-        GOAL6  & Computer should have an example application in form of a demo        & LOW     \\ \hline
-        GOAL7  & Computer should have a toolchain to make life easier for programmers & LOW     \\ \hline
+        \textbf{GPU Functional Goals}                & \textbf{Priority} \\ \hline
+        Computer should display graphics on screen                           & HIGH    \\ \hline
+        Computer should be general purpose                                   & HIGH    \\ \hline
+        Computer should drive video from FPGA                                & MEDIUM  \\ \hline
+        Frame rate should be around 30 fps                                   & MEDIUM  \\ \hline
+        Computer should use HDMI to display the graphics                     & MEDIUM  \\ \hline
+        Computer should have an example application in form of a demo        & LOW     \\ \hline
+        Computer should have a toolchain to make life easier for programmers & LOW     \\ \hline
     \end{tabular}
-    \caption{Goals set for the computer}
+    \caption{Goals set for the Demolicious system}
     \label{tab:goals}
 \end{table}
 
