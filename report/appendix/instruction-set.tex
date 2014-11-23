@@ -65,7 +65,7 @@ Their syntax, meaning and underlying ALU function are described in table \ref{ta
     Or                     & or \$1, \$2, \$3  & \$1 = \$2 \verb/|/ \$3    & 0x7          \\
     Xor                    & xor \$1, \$2, \$3 & \$1 = \$2 \verb/^/ \$3    & 0x8          \\ \hline
     Set on less than       & slt \$1, \$2, \$3 & \$1 = (\$2 \verb/</ \$3) ? 1 : 0 & 0x3   \\
-    Set on equal           & seq \$1, \$2, \$3 & \$1 = (\$2 \verb/==/ \$3) ? 1 : 0 & 0x10 \\ \hline
+    Set on equal           & seq \$1, \$2, \$3 & \$1 = (\$2 \verb/==/ \$3) ? 1 : 0 & 0xA  \\ \hline
     Shift Left Logical     & sll \$1, \$2, 10  & \$1 = \$2 \verb/<</ 10    & 0x0          \\
     Shift Right Logical    & srl \$1, \$2, 10  & \$1 = \$2 \verb/>>>/ 10   & 0x1          \\
     Shift Right Arithmetic & sra \$1, \$2, 10  & \$1 = \$2 \verb/>>/ 10    & 0x2          \\
