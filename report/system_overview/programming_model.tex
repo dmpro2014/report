@@ -52,28 +52,25 @@ The memory location to be written to is decided by the special id register.
 
 
 \begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
-ldi $data, 0b1111111111111111
+ldi $data, 0b0000011111100000
 mv $address_lo, $id_lo
 mv $address_hi, $id_hi
 sw
 thread_finished
 \end{assembly}
-\todo{Change color to green}
 
 Let's walk through the kernel one line at a time.
 The first uses the \textbf{ldi} instruction, which stands for load immediate.
-It loads the value 0b@@@, 
+It loads the value 0b0000011111100000,
 which corresponds to the color green in the Demolicious color space,
 into the special register \textbf{\$data}.
-How it is used will become clear later. 
-The second and third line 
-
-
-
-
-
-
-
+How it is used will become clear later.
+The second and third line move the kernel's thread ID into the address registers.
+This means all pixels starting with address zero and up until the number of executed threads
+will get colored green.
+Finally, the store instruction is executed, storing the value in the \$data register
+to the address given by the two address registers.
+The thread stops running after executing the \verb/thread_finished/ instruction.
 
 Kernels can take parameters as input, which lets them be reused with varying output.
 The CPU can set these parameters to different values each time a kernel is run.
@@ -89,17 +86,8 @@ sw
 thread_finished
 \end{assembly}
 
-
-Different threads can also give different output for the same kernel.
-Using their ID and ALU operations, they can easily generate interesting patterns.
-
-\begin{assembly}
-ldc $data, 0
-sub $data, $data, $id_lo
-mv $address_lo, $id_lo
-mv $address_hi, $id_hi
-sw
-\end{assembly}
+%Different threads can also give different output for the same kernel.
+%Using their ID and ALU operations, they can easily generate interesting patterns.
 
 The instruction set available to kernels is fairly limited.
 Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
