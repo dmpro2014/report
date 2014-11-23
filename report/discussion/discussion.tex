@@ -15,6 +15,24 @@ But during the implementation phase, it was discovered to be unnecessary.
 For the graphical demo, there was no need for input data from host PC. 
 The MCU was able to run the program independently.
 
+
+\section{VGA-port}
+The PCB was designed with two VGA headers, one for the FPGA and one for the MCU. \todo{Maybe add picture showing the headers.}
+Looking back, it was redundant to support two VGA ports.
+An alternative solution is having one VGA port with exposed headers.
+With exposed headers from the MCU and the FPGA as well, one could change which one the VGA port is connected to by jumpers like \ref{fig:vga-solution}.
+By removing one of the VGA ports, the size of the PCB could have been reduced, or used for other components. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/vga-solution.pdf}
+    \label{fig:vga-solution}
+    \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
+\end{figure}
+
+
+
 \subfile{../discussion/energy_efficiency.tex}
 
 \section{"Jaktstart"}
