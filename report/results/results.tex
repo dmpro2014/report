@@ -5,13 +5,13 @@
 
 \section{Scalability of the Demolicious system}
 
-The architecture of the Demolicious system is designed to easily scale to the processing requirements at hand.
+The architecture of the Demolicious system easily scales to a larger number of proessors.
 As there is a linear relationship between the number of streaming processors on chip and processor throughput, one can simply add more cores to increase performance.
 
 Limiting factors to this scalability include:
 \begin{enumerate}
   \item
-    The more cores, the lower the clock frequency, as signal fanout increases
+    The more cores, the lower the clock frequency, as signal propagation time and fanout increases
   \item
     Space available on the chosen FPGA
   \item
@@ -50,7 +50,7 @@ Cores & Crit. path & Max freq. & Dynamic + quiescent power & LX16 & LX45 \\
 \label{table:scalability}
 \end{table}
 
-The 4-core design fits snugly on the LX16 used for development, but has issues containing the 8-core design.
+The 4-core design fits with room to spare on the LX16, but does not fit the 8-core design.
 The LX45 shifts this up one notch, fitting the 8-core design, but being unable to place \& route the 16-core design.
 For all processor designs, the critical path passes from the immediate field of the instruction through the ALU into the active register file.
 This is something that could be increased drastically by pipelining the processor.
