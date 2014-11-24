@@ -16,7 +16,10 @@ Whenever the memory is idle, as much of the framebuffer as there is room for is 
 
 The pixels are sent at a rate of 25 million pixels per second.
 This is the slowest the specification allows for and gives the most time for the buffer to fill in time.
-Should the buffer still underflow, the sending of the late pixels must be abandoned so as to stay synchronized with the position they will appear at on the screen. The framebuffer that video output is drawn from is switched to the one chosen by the CPU when finished reading out the current one.
+Should the buffer still underflow, the sending of the late pixels must be abandoned so as to stay synchronized with the position they will appear at on the screen.
+When the end of the framebuffer is reached, the start address for the framebuffer is updated to the one selected by the CPU.
+This ensures that only complete frames of video are output, thus preventing artifacts known as \emph{video tearing}.
+This technique is known as \emph{V-sync} with \emph{double buffering}.
 
 Video is sent over HDMI one horizontal line at a time.
 Between each line is a pause known as the blanking period.
