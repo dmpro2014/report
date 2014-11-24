@@ -10,12 +10,12 @@ Does it work?
 Before deploying to an actual FPGA, it is important to ensure correct behavior in system-level testbenches.
 This testing is valuable, as if one can verify correct behavior in simulation, one has fewer potential errors when debugging the FPGA itself.
 
-System tests for each of the major datapaths through the design have been created and ran successfully.
-The result of each test is verified by comparing all pixels in the framebuffer after the kernel has been ran, to precomputed values in Isim.
+System tests for each of the major datapaths through the design have been created and run successfully.
+The result of each test is verified by comparing all pixels in the framebuffer after the kernel has been run, to precomputed values in Isim.
 
 \subsection{Memory stores and kernel parameterization}
 
-To verify that stores to memory, as well as constant memory actually works, the kernel presented in listing \ref{lst:param-color-kernel} is used as a system test.
+To verify that stores to memory, as well as constant memory, actually works, the kernel presented in listing \ref{lst:param-color-kernel} is used as a system test.
 It has been relisted in listing \ref{lst:test-param-kernel} for convenience.
 If successful, this allows for parameterizing kernel behaviour with values loaded at runtime, reducing the need for recompilation.
 
@@ -48,23 +48,21 @@ Expected behavior of test:
   \end{subfigure}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{../testing/assets/green_screen.jpg}
-    \caption{LX16 run @ 2 cores \& 2 barrels}
+    \caption{LX16 run}
     \label{fig:LX16-kernel-parameterization}
   \end{subfigure}
   \caption{Results from simulation and LX16 of fillscreen kernel}
 \end{figure}
-
-The testbench passes.
 
 In the left yellow square of figure \ref{fig:isim-kernel-parameterization}, one can see the load constant instruction being executed (0x08050000) in barrel line 1.
 The Constant to reg signal is asserted, and the constant value 0x07E0 is passed into the register write data signal.
 
 In the right yellow square, the store word instruction (0x100000000) executes in barrel line 0.
 The LSU accepts the write request same cycle (LSU write request goes high), and two cycles later the request packet reaches the LSU data line.
-The LSU deasserts LSU write\_n, (the signal is active low), and external ram handles the store request.
+The LSU asserts LSU write\_n, (the signal is active low), and external RAM handles the store request.
 
-The value has now been successfuly written to memory, as can be verified in figure \ref{fig:LX16-kernel-parameterization}.
-
+The testbench passes, and values have now been successfully written to memory.
+It also runs on actual hardware, the result shown in figure \ref{fig:LX16-kernel-parameterization}.
 
 \subsection{Masked instruction execution}
 
@@ -102,15 +100,13 @@ Expected behavior of test:
   \end{subfigure}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{../testing/assets/lines.jpg}
-    \caption{LX16 run @ 2 cores / barrels}
+    \caption{LX16 run}
     \label{fig:LX16-masked-execution}
   \end{subfigure}
   \caption{Results from simulation and LX16 of masked execution}
 \end{figure}
 
-The testbench passes.
-
-In the left yellow square of figure \ref{fig:isim-masked-execution}, we can see the srl instruction being executed (0x00023181). As this thread has thread id 192, the result out is 3.
+In the left yellow square of figure \ref{fig:isim-masked-execution}, we can see the \verb/srl/ instruction being executed (0x00023181). As this thread has thread id 192, the result out is 3.
 The low bit is stored into the mask register, enabling masking for this thread.
 
 In the middle yellow square, barrel 0 is once again active, and we can see that the predicate bit of core 0 has been asserted.
@@ -119,8 +115,8 @@ As this instruction isn't masked, the predicate bit is ignored and the value of 
 In the right yellow square, the conditional data move is executed (0x81602804).
 As the mask enable signal goes high, the register write enable signal is pulled low due to the predicate bit, resulting in the data not being written to registers.
 
-As can be seen in figure \ref{fig:LX16-masked-execution}, every second line is colored differently.
-
+The testbench passes, and predicated instructions are not executed when masking is enabled.
+As can be seen in figure \ref{fig:LX16-masked-execution}, the kernel runs on actual hardware, and every second line is colored differently.
 
 \subsection{Loads from primary memory}
 
