@@ -27,6 +27,18 @@ By removing one of the VGA ports, the size of the PCB could have been reduced, o
     \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
 \end{figure}
 
+\subsection{Oscillator}
+
+As seen on figure \ref{fig:oscillator-scope}, the measured period of the oscillator, with a ruler, is around $8.5 ns$, which translates to around 118 MHz.
+The tolerance of the oscillator is up to 100 ppm, see datasheet \cite{xpresso-oscillator}.
+Since using a ruler as a mesure tool will give unreliable results, one can assume the oscillator gives the correct output.
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{../discussion/assets/oscillator.jpg}
+		\label{fig:oscillator-scope}
+		\caption{The oscillator on an oscilloscope.}
+\end{figure}
+
 \subfile{../discussion/hacks.tex}
 
 \subfile{../discussion/energy_efficiency.tex}
