@@ -117,7 +117,6 @@ conditional execution is accomplished through predicated instructions.
 Each of the instructions in the instruction set can be executed conditionally by prefixing them with '\textbf{?}'.
 Whether a conditional instruction is executed is controlled by a dedicated masking register.
 The programmer may use arithmetic and logic operations to manipulate this register (such as the \verb/srl/ instruction on line 3 in listing \ref{lst:masked-execution}).
-The mask register is a single bit. When writing to it only the least significant bit is stored.
 A masked instruction is not be executed if the mask register is \textbf{1}.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:masked-execution]
@@ -132,15 +131,20 @@ sw
 thread_finished
 \end{assembly}
 
-The kernel starts with loading two color parameters.
+The kernel starts by loading two color parameters.
 It then stores a shifted thread ID into the mask register.
 Shifting a thread ID to the right is a trick to convert the ID to a y value,
 which works when the screen width is a power of two.
 The mask register is only 1 bit, and will just store the least significant bit written to it.
 This means that masking will be enabled for odd rows and disabled for even rows.
+\todo{Should we use the word predicate and predicated instruction as that is the normal name for this?}
 Line 4 first writes a color value to the \textbf{\$data} register.
 When masking is disabled this value will be overwritten on line 5.
 The kernel finishes by writing the data value to memory.
+
+\todo{Add "conclusion" to the paragraph?}
+
+
 
 \todo{Talk about memory and cooldown}
 
