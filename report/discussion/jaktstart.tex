@@ -8,4 +8,18 @@ Usually, when a processor executes a memory operation, a few extra cycles need t
 The processor might stall while this happens to hide the wait and make the result of the request ready in the next instruction.
 It may also not stall so that the processor can continue to do useful work, but it is then expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
 
+If a processor stalls when doing a memory operation, some cycles will obviously be lost to that.
+Even if it continues on to the next instruction, if the result of the memory is needed to continue, the processor needs to be stalled by the program.
+It would be good for throughput if the processor did not ever need to be idle.
+And indeed, if the program is multithreaded, the processor could work on another thread while waiting for response from the memory.
+If the time needed to complete a memory request is spent in other threads, the memory operation appears to have taken only one instruction.
+A simple scheme to accomplish this is to change threads after every instruction.
+There is a thread pool the same size as the number of instructions that pass from start to finish of a memory request.
+The threads take turn executing in a circular fashion, and control is returned to a thread just after a potential memory request would have completed.
+This concept is called \emph{barrel processing} and is a type of \emph{static scheduling}.
+
+Of course, with barrel processing, the memory would need to be able to complete one request for every instruction.
+But a request \emph{can} take more than one instruction's time to be processed, if the memory can \emph{start} to process one request per instruction.
+This is (with some slight simplification) how modern SDRAM works, and it is called \emph{pipelining} the memory.
+
 \end{document}
