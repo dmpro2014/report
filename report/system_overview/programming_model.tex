@@ -24,9 +24,9 @@ This interaction allows for programs that consist of both parallel and sequentia
 The GPU can start a massive amount of threads executing the same kernel.
 Each thread executing the kernel is assigned a unique thread id.
 The thread id can be used to compute memory addresses and make control decisions
-to make the threads behave differently even though they are executing the same code. 
+to make the threads behave differently even though they are executing the same code.
 
-To best illustrate the programming model, a few examples will be walked through. 
+To best illustrate the programming model, a few examples will be walked through.
 Let's start with a simple one; fill the screen with the color green.
 We assume that the pixel color values are stored in memory from location 0.
 In a sequential programming model one would typically write a loop that would fill
@@ -36,7 +36,7 @@ See listing \ref{sequential-green}.
 \begin{c-code}[caption=A sequential program filling the screen with green, label=sequential-green]
 int green = 0x00FF00;
 for (int i = 0; i < nr_of_pixels; i++){
-	write(i, green);
+    write(i, green);
 }
 \end{c-code}
 
@@ -73,6 +73,8 @@ The thread stops running after executing the \verb/thread_finished/ instruction.
 Now, how do we execute this kernel on the GPU?
 The program running on the CPU, referred to as the \emph{host program},
 has to upload the assembled kernel, and then run it.
+Kernels can be assembled using a custom-built assembler,
+which translates special registers, and outputs as c arrays for convenience.
 
 \begin{c-code}[caption=Loading and executing a kernel, label=lst:load-kernel]
 instruction_t fill_screen_kernel[] = {
@@ -95,10 +97,12 @@ A reference to the uploaded kernel is returned, which can be used when running t
 In addition, the \verb/run_kernel/ function needs to know the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
+While being able to make the screen green by running a specialized kernel is nice,
+we can do even better.
 Kernels can take parameters as input, which lets them be reused with varying output.
 The CPU can set these parameters to different values each time a kernel is run.
-For instance, the CPU can set the vertices of a triangle,
-and the kernel could use them to render a triangle on screen.
+For instance, the CPU can set the desired color as a parameter,
+and the kernel will store that value to memory instead of a predefined immediate.
 Listing \ref{lst:param-color-kernel} shows an example kernel where the color is stored as a parameter.
 
 \begin{assembly}[caption=A kernel loading the color value from a parameter, label=lst:param-color-kernel]
@@ -115,13 +119,10 @@ The value is a constant from the kernel's viewpoint, as it cannot be changed fro
 Instead, the value is set from the CPU using the \verb/load_constant/ function,
 as seen in listing \ref{lst:kernel-constant}.
 
-\begin{c-code}[caption=Running a kernel, label=lst:kernel-constant]
-load_constant(0, 0x07E0);
+\begin{c-code}[caption=Now drawing a blue screen using parameters, label=lst:kernel-constant]
+load_constant(0, 0x001F);
 run_kernel(fill_screen, 4096);
 \end{c-code}
-
-%Different threads can also give different output for the same kernel.
-%Using their ID and ALU operations, they can easily generate interesting patterns.
 
 The instruction set available to kernels is fairly limited.
 Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
@@ -150,7 +151,7 @@ The kernel starts with loading two color parameters.
 It then stores a shifted thread ID into the mask register.
 Shifting a thread ID to the right is a trick to convert the ID to a y value,
 which works when the screen width is a power of two.
-Seeing as the mask register is only 1 bit, it will just store the least significant bit written to it.
+The mask register is only 1 bit, and will just store the least significant bit written to it.
 This means that masking will be enabled for odd rows and disabled for even rows.
 Line 4 first writes a color value to the \textbf{\$data} register.
 When masking is disabled this value will be overwritten on line 5.
