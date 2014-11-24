@@ -2,13 +2,6 @@
 \begin{document}
 \chapter{Discussion}
 
-%\subfile{../discussion/design_process.tex}
-
-%\section{PCB}
-%Split project schematics into several connected docs for the sake of modularity. Find some overarching hardware requirements and from there, related application notes and hardware considerations. Then some components and footprints that fit...ish with these docs.
-%Finally place components and route the wires between them digitally and order the PCB and components
-%\todo{Maybe we should just remove this? It seems more and more superfluous}
-
 \section{Hardware components}
 In this section we will discuss some of the physical design, alternative solutions and the practical solutions that arose during physical implementation.
 
@@ -33,7 +26,8 @@ By removing one of the VGA ports, the size of the PCB could have been reduced, o
     \label{fig:vga-solution}
     \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
 \end{figure}
-\todo{maybe put hacks and workaround at the end of this section}
+
+\subfile{../discussion/hacks.tex}
 
 \subfile{../discussion/energy_efficiency.tex}
 
@@ -57,5 +51,7 @@ Or is memory the big bottleneck
 \section{SRAM bottleneck}
 HDMI vs. the GPU?
 Will the HDMI be fine with always being second in line?
+
+\subfile{../discussion/budget.tex}
 
 \end{document}
