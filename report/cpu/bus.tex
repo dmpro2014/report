@@ -16,8 +16,8 @@ This opens for very simple bus programming, taking advantage of the \textit{emli
 The CPU can interface three different memories for different purposes:
 
 \begin{enumerate}
-    \item Instruction memory, for containing the kernels.
     \item Constant memory, for storing constants which may be read by kernels.
+    \item Instruction memory, for containing the kernels.
     \item Data memory, for storing the framebuffer, in addition to other data for kernels.
 \end{enumerate}
 
@@ -28,5 +28,15 @@ Since both instruction and constant memory is located on the same FPGA,
 they are memory mapped to the same bank on the microcontroller.
 Separating them is simply done with an address offset,
 which is possible because their combined address space is smaller than the one of the data memory.
+
+\begin{figure}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
+    \multicolumn{1}{c}{0x80000000} & \multicolumn{1}{c}{0x80040000} & \multicolumn{1}{c}{0x80080000} & \multicolumn{1}{c}{0x80100000} & \multicolumn{1}{c}{0x84000000} \\ \hline
+    Constant Memory & Instruction Memory & Kernel start area & X & Data memory \\ \hline
+    \end{tabular}
+    \caption{Address format for loading a parameter.}
+    \label{fig:memory_map}
+\end{figure}
 
 \end{document}
