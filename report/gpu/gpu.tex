@@ -171,7 +171,7 @@ The lowest bit of the memory-address determines which bank holds that location.
 
 Because there are two independent memory banks, the incoming request are routed to two separate queues, one for each memory.
 Each queue then feeds requests to its associated memory control unit.
-Read responses are then handed to the writeback unit, which delivers the data to the appropriate register file.
+Read responses are then handed to the write-back unit, which delivers the data to the appropriate register file.
 
 The queues are necessary because Demolicious has more streaming processors than memory banks, so all the requests from a warp can not be completed in a single cycle.
 The streaming processors work in tandem, and issue requests simultaneously.
