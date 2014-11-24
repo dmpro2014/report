@@ -2,23 +2,20 @@
 \begin{document}
 \chapter{CPU}
 
-\subfile{../cpu/responsibilities.tex}
+The main control unit of the Demolicious computer is the CPU,
+implemented on an EFM32GG Microcontroller, making it ill-suited for parallel tasks.
 
-\section{Communication with Host Computer}
-TBD. Might not be needed if this does not end up being an important part of the architecture.
+The parts of an application which are not parallelizable, called the host program, will be executing on this component.
+Kernels written for the GPU can be launched by the CPU when requested by the host program.
+
+\subfile{../cpu/functionality.tex}
 
 \subfile{../cpu/bus.tex}
 
-\section{Program Initialization}
-At the beginning of a program, the CPU must load all kernels it's going to use into the instruction memory of the GPU. This ensures fast execution of kernels, by reducing overhead of a kernel call to a minimum.
-The CPU maintains a list of start addresses for different kernels, and uses them to tell the GPU where to start executing.
+\subfile{../cpu/load-kernel.tex}
 
-\section{Running a Program}
-Big parts of a demo program is serial in nature, and will not benefit from running on the parallel architecture of the GPU.
-These parts of the demo are executed sequentially on the CPU.
-When the CPU encounters a part of the program which has a dedicated kernel,
-it loads any required parameters into the GPUs constant memory, and then sends a start signal to the GPU.
-When the GPU has completed the kernel, it triggers an interrupt on a dedicated wire,
-so the CPU can continue executing.
+\subfile{../cpu/run-kernel.tex}
+
+\subfile{../cpu/load-constant.tex}
 
 \end{document}
