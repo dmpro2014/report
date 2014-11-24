@@ -3,10 +3,9 @@
 
 HDMI is an interface for transmitting live video and audio.
 It is widely popular in consumer TVs and computer screens.
-\todo{[Citation needed]}
 It was decided that Demolicious will use HDMI for its video output, making it easy to connect to any recent video display.
 
-The HDMI specification describes a streaming protocol.
+The HDMI specification\cite{hdmi-spec} describes a streaming protocol.
 The receiver reads data off of the cable at a steady rate.
 In the design of Demolicious, the GPU has priority access to the memory.
 The video unit has to wait whenever that happens.
@@ -14,6 +13,7 @@ This means that the video unit may not have access to the framebuffer (which lie
 To solve this issue, a buffer is used.
 Whenever the memory is idle, as much of the framebuffer as there is room for is prefetched into the buffer.
 
+When and how fast pixels are sent is specified by CEA-861-D\cite{timings-spec} standard.
 The pixels are sent at a rate of 25 million pixels per second.
 This is the slowest the specification allows for and gives the most time for the buffer to fill in time.
 Should the buffer still underflow, the sending of the late pixels must be abandoned so as to stay synchronized with the position they will appear at on the screen.
