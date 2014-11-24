@@ -7,6 +7,12 @@ Does it work?
 
 \section{VHDL system integration tests}
 
+Before deploying to an actual FPGA, it is important to ensure correct behavior in system-level testbenches.
+This testing is valuable, as if one can verify correct behavior in simulation, one has fewer potential errors when debugging the FPGA itself.
+
+System tests for each of the major datapaths through the design have been created and ran successfully.
+The result of each test is verified by comparing all pixels in the framebuffer after the kernel has been ran, to precomputed values in Isim.
+
 \subsection{Memory stores and kernel parameterization}
 
 To verify that memory stores, as well as constant memory actually works, a simple kernel to fill the screen with a given color from constant memory was written.
