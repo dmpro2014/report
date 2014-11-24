@@ -27,7 +27,9 @@ By removing one of the VGA ports, the size of the PCB could have been reduced, o
     \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
 \end{figure}
 
-\subsection{Oscillator}
+\subsection{Clocks}
+
+\subsubsection*{Oscillator}
 
 As seen on figure \ref{fig:oscillator-scope}, the measured period of the oscillator, with a ruler, is around $8.5 ns$, which translates to around 118 MHz.
 The tolerance of the oscillator is up to 100 ppm, see datasheet \cite{xpresso-oscillator}.
@@ -38,6 +40,12 @@ Since using a ruler as a mesure tool will give unreliable results, one can assum
 		\label{fig:oscillator-scope}
 		\caption{The oscillator on an oscilloscope.}
 \end{figure}
+
+\subsubsection*{MCU crystals}
+As can be seen from the frequency tests \ref{tbl:oscillation-tests}, the crystal output frequency tests did not pass their requirements.
+They were probed for output, but this resulted in no discernable signal on the oscilloscope.
+However, as the implementation continued, we found that the MCU worked as we desired.
+This led us to conclude that we had likely misunderstood how to measure the frequencies of the crystals.
 
 \subfile{../discussion/hacks.tex}
 
