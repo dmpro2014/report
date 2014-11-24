@@ -11,7 +11,7 @@ The system consists of a number of fairly isolated components.
 It's valuable to test the components in isolation before they are connected.
 Both implementation errors, and design flaws, can be uncovered before the components are introduced to the system.
 The unit tests were implemented as VHDL test benches
-Table \ref{tab:vhdl_unit_tests} describes the unit tests that was run.
+Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run.
 \begin{table}[H]
 	\centering
 	\begin{tabularx}{\textwidth}{|c|X|c|}
@@ -19,7 +19,7 @@ Table \ref{tab:vhdl_unit_tests} describes the unit tests that was run.
 	\multicolumn{3}{|c|}{Unit tests.} \\
 	\hline  Component under test & What is tested  	  & Status \\ 
 	\hline  \multirow{3}{*}{Barrel selector} 		  & Barrel row is incremented each clock cycle.  & \multirow{3}{*}{ Passed } \\
-	 										 		  & Barrow row wraps around to 0. & \\			
+	 										 		  & Barrel row wraps around to 0. & \\			
 	 										 		  & PC write enabled high on row 0.& \\								
 	\hline  \multirow{2}{*}{Constant memory} 	      & Constants can be written.  & \multirow{2}{*}{ Passed } \\
 	 										 		  & Constants can be read. & \\												
@@ -31,7 +31,7 @@ Table \ref{tab:vhdl_unit_tests} describes the unit tests that was run.
 													  & Instructions are read from the correct address.  & \\ 
 	\hline \multirow{3}{*}{Register file} 		  	  & Read/write to general purpose registers. & \multirow{3}{*}{ Passed } \\
 													  & Dedicated registers behave correctly.  & \\ 
-													  & Does the masking bit work.  & \\ 													  
+													  & Does the masking bit work?  & \\ 													  
 	\hline  Register directory 		 				  & Multiplexes input/output signals to the correct register file. & Passed  \\
 	
 	\hline \multirow{3}{*}{Processor core} 		  	  & Arithmetic operations. & \multirow{3}{*}{ Passed } \\
@@ -39,7 +39,7 @@ Table \ref{tab:vhdl_unit_tests} describes the unit tests that was run.
 													  
 	\hline \multirow{3}{*}{ALU} 		  			  & Computes arithmetic operations. & \multirow{3}{*}{ Passed } \\
 													  & Can do left/right shifts.  & \\ 
-													  & Performs \emph{Set if les than} correctly. &	\\								  											  
+													  & Performs \emph{Set if less than} correctly. &	\\								  											  
 	\hline
 	\end{tabularx} 
 	\caption{Unit tests for components in the Demolicious system.}
