@@ -19,13 +19,13 @@ This design decision allows for a steady stream of load/store instructions witho
 The GPU has a relatively simple job:
 \begin{enumerate}
   \item
-    Receive instructions and constants from the MCU
+    Receive instructions and constants from the CPU
   \item
-    Handle kernel invocations from the MCU
+    Handle kernel invocations from the CPU
   \item
     Write results to external SRAM
   \item
-    Assert the 'computation finished' signal to the MCU
+    Assert the 'computation finished' signal to the CPU
 \end{enumerate}
 
 \section{Architecture Overview}
