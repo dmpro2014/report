@@ -15,22 +15,19 @@ The result of each test is verified by comparing all pixels in the framebuffer a
 
 \subsection{Memory stores and kernel parameterization}
 
-To verify that memory stores, as well as constant memory actually works, a simple kernel to fill the screen with a given color from constant memory was written.
-This thereby also tests kernel parameterization, that is changing kernel behaviour with constants loaded at runtime.
+To verify that stores to memory, as well as constant memory actually works, the kernel presented in listing \ref{lst:param-color-kernel} is used as a system test.
+It has been relisted in listing \ref{lst:test-param-kernel} for convenience.
+If successful, this allows for parameterizing kernel behaviour with values loaded at runtime, reducing the need for recompilation.
 
-\begin{figure}[H]
-  \begin{code}
-    ldc $data, 0       # Load the color green
-    mv $address_hi, $id_hi
-    mv $address_lo, $id_lo
-    sw
-    thread_finished
-  \end{code}
-  \caption{Kernel to test constant memory and parameterization}
-  \label{fig:test-kernel-parameterization}
-\end{figure}
+\begin{assembly}[caption={Kernel to test constant memory and parameterization}, label=lst:test-param-kernel]
+  ldc $data, 0
+  mv $address_lo, $id_lo
+  mv $address_hi, $id_hi
+  sw
+  thread_finished
+\end{assembly}
 
-Expected behaviour of test:
+Expected behavior of test:
 \begin{enumerate}
   \item
     The color green should successfully be loaded from constant memory.
@@ -57,12 +54,14 @@ Expected behaviour of test:
   \caption{Results from simulation and LX16}
 \end{figure}
 
+The testbench passes.
+
 In the left yellow square of figure \ref{fig:isim-kernel-parameterization}, one can see the load constant instruction being executed (0x08050000) in barrel line 1.
 The Constant to reg signal is asserted, and the constant value 0x07E0 is passed into the register write data signal.
 
 In the right yellow square, the store word instruction (0x100000000) executes in barrel line 0.
 The LSU accepts the write request same cycle (LSU write request goes high), and two cycles later the request packet reaches the LSU data line.
-The LSU deasserts LSU write\_n, as the signal is active low, and the external ram handles the store request.
+The LSU deasserts LSU write\_n, (the signal is active low), and external ram handles the store request.
 
 The value has now been successfuly written to memory, as can be verified in figure \ref{fig:LX16-kernel-parameterization}.
 
