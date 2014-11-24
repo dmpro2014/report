@@ -5,7 +5,7 @@
 
 Does it work?
 
-\section{VHDL system integration tests}
+\section{VHDL System Integration Tests}
 
 Before deploying to an actual FPGA, it is important to ensure correct behavior in system-level testbenches.
 This testing is valuable, as if one can verify correct behavior in simulation, one has fewer potential errors when debugging the FPGA itself.
@@ -13,7 +13,7 @@ This testing is valuable, as if one can verify correct behavior in simulation, o
 System tests for each of the major datapaths through the design have been created and run successfully.
 The result of each test is verified by comparing all pixels in the framebuffer after the kernel has been run, to precomputed values in Isim.
 
-\subsection{Memory stores and kernel parameterization}
+\subsection{Memory Stores and Kernel Parameterization}
 
 To verify that stores to memory, as well as constant memory, actually works, the kernel presented in listing \ref{lst:param-color-kernel} is used as a system test.
 It has been relisted in listing \ref{lst:test-param-kernel} for convenience.
@@ -37,7 +37,7 @@ Expected behavior of test:
     The screen should be filled with the color green.
 \end{enumerate}
 
-\subsubsection*{simulation results}
+\subsubsection*{Simulation Results}
 
 \begin{figure}[H]
   \centering
@@ -64,7 +64,7 @@ The LSU asserts LSU write\_n, (the signal is active low), and external RAM handl
 The testbench passes, and values have now been successfully written to memory.
 It also runs on actual hardware, the result shown in figure \ref{fig:LX16-kernel-parameterization}.
 
-\subsection{Masked instruction execution}
+\subsection{Masked Instruction Execution}
 
 Masked instructions are used to allow for some degree of conditional execution in the lack of proper branching and jumps.
 This requires that the architecture actually respects the mask bit when set.
@@ -89,7 +89,7 @@ Expected behavior of test:
     Each row should be colored according to the last bit of their y position.
 \end{enumerate}
 
-\subsubsection*{simulation results}
+\subsubsection*{Simulation Results}
 
 \begin{figure}[H]
   \centering
@@ -118,9 +118,67 @@ As the mask enable signal goes high, the register write enable signal is pulled 
 The testbench passes, and predicated instructions are not executed when masking is enabled.
 As can be seen in figure \ref{fig:LX16-masked-execution}, the kernel runs on actual hardware, and every second line is colored differently.
 
-\subsection{Loads from primary memory}
 
-\subsection{Kernel square}
+\subsection{Loads From Primary Memory}
+
+If one wishes to support multi-pass kernels, that is a kernel that uses the result of previous kernels to compute its own result, then results have to be stored and loaded from somewhere persistent.
+Stores to main memory have already been confirmed working, so load instructions are up next for testing.
+With functioning loads, it is fairly straightforward to implement things like Conway's Game of Life  \cite{game-of-life} for the Demolicious system.
+
+The fillscreen kernel from earlier is modified to load its value from main memory, and store it back to the framebuffer.
+It is presented in figure \ref{lst:test-load-kernel}.
+
+\begin{assembly}[caption={Kernel to test loads from main memory}, label=lst:test-load-kernel]
+mv $address_hi, $0         ; Load some color from main memory
+mv $address_lo, $0
+lw
+mv $address_hi, $id_hi
+ldi $8, 2
+add $address_lo, $8, $id_lo
+sw                         ; Store data to ID + 2, to avoid overriding address 0
+nop
+thread_finished
+\end{assembly}
+
+Expected behavior of test:
+\begin{enumerate}
+  \item
+    The loaded color should be stored to the entire framebuffer
+\end{enumerate}
+
+\subsubsection*{Simulation Results}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics[width=\textwidth]{../testing/assets/Load-Store-working.png}
+    \caption{Isim simulation showing working loads from memory}
+    \label{fig:isim-load-kernel}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{../testing/assets/halfworking-load.jpg}
+    \caption{LX16 run}
+    \label{fig:LX16-load-kernel}
+  \end{subfigure}
+  \caption{Results from simulation and LX16 of load kernel}
+\end{figure}
+
+Figure \ref{fig:isim-load-kernel} shows a barrel of height 2 performing successful loads.
+
+In the first cycle of the yellow dotted square, barrel row 0 executes a load word instruction (0x20000000).
+LSU read request is asserted in the control, and routed to the LSU.
+Two cycles later the request has passed through the LSU unit, and SRAM responds with the value 55.
+In the last cycle of the yellow square, the LSU asynchronously writes the result back to the registers storing the values on the LSU data writeback line to barrel row 0.
+
+In the blue dotted square, the same procedure is executed again, this time for the second barrel row.
+Notice that register\_file\_select is now set to 1, writing the result back to the second barrel row.
+
+The testbench passes. Multi-pass kernels can now successfully be implemented.
+
+There is however a discrepancy between the simulation and the actual implementation, resulting in the LSU dropping some writebacks, as shown in figure \ref{fig:LX16-load-kernel}.
+Both the RAM used for simulation, as well as the SRAM located on the PCB is combinatoric.
+On the development kit however, SRAM had to be mapped onto block RAM due to a lack of space.
+This forces the RAM to be clock driven, not allowing for the same-cycle memory responses required, and therefore dropping writebacks.
 
 \subfile{../testing/io_testing.tex}
 
