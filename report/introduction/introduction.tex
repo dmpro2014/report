@@ -189,7 +189,7 @@ In addition to some details specific to Fermi, this section introduces central c
 
 \todo{Rewrite these two paragraphs to fit together. Also the second paragraphs talk about Tesla, while we are presenting Fermi}
 
-\emph{Unified Shader Architecture@}
+
 \todo{Move this paragraph up?@}
 
 In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}.
@@ -198,18 +198,10 @@ but with this architecture the major operations are executed on the same hardwar
 This is significantly different from earlier GPU microarchitectures, and opened
 for the possibility to do other calculations on a GPU than graphics processing.
 
-
-\emph{General numbers of cores etc@}
-
-
-\emph{Streaming Multiprocessors@}
-
 At the heart of Fermi lies the 16 Streaming Multiprocessors (SMs). 
 Each SM contains 32 execution cores that can do integer and floatig point operations, 
 along with four special-function units, 16 load store units, 
 and 64K of SRAM used for cache and local memory.
-
-\emph{Special Function Unit@}
 
 To be able to have as many cores as possible, NVIDIA kept them simple by not allowing them to do more advanced functions, such as sin, cos or reciprocal.
 Instead, there are special cores for these operations, called special-function units, and they are much fewer.
@@ -221,7 +213,6 @@ Instead, there are special cores for these operations, called special-function u
 \label{fig:simple-nvidia-warps}
 \end{figure}
 
-\emph{Warps@}
 
 Threads are divided into logical units of 32 threads that are called \emph{warps}. 
 The threads in a warp always execute the instruction at the same time.
@@ -232,12 +223,8 @@ At any point in time there is a set of active warps that are dynamically schedul
 A warp is always executed in the same SM, and when it executes an instruction, there is one thread per core, hence 32 cores per SM.
 
 
-\emph{Blocks / memory etc? Maybe not@}
-
-
 
 \subsection{CUDA/OpenCL}
-\emph{Introductory paragraph explaining what CUDA and OpenCL is@}
 
 To open the powers of the graphics card for other applications, there was a need for a new API that could be
 used run code on the GPUs. It has been possible to do non-graphical calculations on GPUs before by 
@@ -245,7 +232,6 @@ redifining problems as graphical problems, but this is highly impractical.
 So with the new architecture NVIDIA released a framework for running code on their GPUs called CUDA, 
 which let's the programmer run arbitrary code that gains he benefit of the massively parallel hardware.
 
-\emph{Introduce the CUDA programming model. Walk through a simple example storing values to memory.@}
 In order to explain the programming model, we'll jump straight to an example.
 Let's say you want to fill a frame buffer, an area of memory, with the color green.
 We'll assume that the memory area starts at location 0.
