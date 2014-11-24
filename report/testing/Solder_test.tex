@@ -1,33 +1,35 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
 
-
-\todo{Possibly split into several tables. One for Solder stuff, one for power and signal test for example}
-
-\begin{table}
-%\centering
-\begin{tabular}{ | L{2cm} | L{3cm} | L{3cm} | L{3cm} | L{3cm} |}
-\hline
-\multicolumn{5}{|c|}{Solder and test plan} \\
-\hline 
-Step & Components & Description & Expected Results & Status\\\hline
-5V power & USB connector & Measure voltage on the header & Measure 5 volts on the incoming power line. & Passed \\
-\hline
- & & & &\\
-3.3V power & 3.3V header, 3.3V LDO, voltage regulator capacitors, power indicator LED and ARM programming header  & Solder the component and measure the voltage on the voltage-pin and observe the  LED & Observe the power indicator LED light up and measure 3.3V on the programming header. & Passed \\
-\hline
- & & & &\\
-1.2V & 1.2V LDO, power indicator LED, capacitor, resistor. & Solder the components and measure the BGA solder pads for 1.2V and observe the LED & 1.2V on BGA solder pads, power indicator LED lights up. & Passed\\
-\hline
- & & & &\\
-BGA & EFM32GG990, LX45 & Place the components on a new PCB and bake them in the oven & Components do not fall off and all pins are connected. & Passed\\
- \hline
- & & & &\\
-Connecting FPGA and MCU to power & Power supply, LDO voltage regulator, capacitor & Reconnect the electrical circuit on the new board & The FPGA and MCU get the needed power. & Passed\\
-\hline
-
-\end{tabular}
-\caption{\label{tab:widgets}Solder plan.}
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6.5cm}|L{1.5cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        5 V power from USB connector &
+        Solder components, measure voltage on headers on 5 V power line, verify that it is 5 V &
+        Passed \\
+    \hline
+        3.3 V power from regulator and VDD headers &
+        Solder components, measure voltage on 3.3 V power plane, verify that it is 3.3 V &
+        Passed \\
+    \hline
+        1.2 V power from regulator and power indicator LED &
+        Solder components, measure voltage from 1.2 V regulator and power indicator LED, verify that it is 1.2 V &
+        Passed \\
+    \hline
+        MCU and FPGA soldering &
+        Place MCU and FPGA on PCB and bake them in oven, make sure baking looks good and balls have melted into sockets &
+        Passed \\
+    \hline
+        MCU and FPGA connected correctly &
+        Solder helping headers, connect FPGA and MCU to power, verify correct soldering by flashing MCU and FGPA &
+        Passed \\
+    \hline
+    \end{tabular}
+    \label{tab:solder-plan}
+    \caption{Solder plan and verification}
 \end{table}
 
 \end{document}
