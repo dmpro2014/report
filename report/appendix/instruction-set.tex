@@ -1,0 +1,132 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\chapter{Instruction set architecture}
+
+This appendix will provide an overview of the instruction set supported by the GPU.
+
+\clearpage
+
+\section{Registers}
+
+The following registers are available:
+
+\begin{table}[H]
+    \begin{tabular}{|l|l|p{4cm}|l|l|}
+    \hline
+    \textbf{Number} & \textbf{Name} & \textbf{Description}                                                             & \textbf{R/W}    & \textbf{Size} \\ \hline \hline
+    \$0       & zero                & Always contains the value zero                                          & Read-only  & 16   \\ \hline
+    \$1, \$2 & id\_hi, id\_lo      & The current thread's ID                                                 & Read-only  & 16   \\ \hline
+    \$3, \$4 & address\_hi, address\_lo & Address used by load \& store instructions                              & Read/Write    & 16   \\ \hline
+    \$5       & data               & Data loaded/stored by load \& store instructions                        & Read/Write    & 16   \\ \hline
+    \$6       & mask               & Conditional instructions will be masked (\autoref{sec:masking}) when this register is set to 1. & Read/Write & 1    \\ \hline
+    \$7-\$15  & General-purpose    & ~                                                                       & Read/Write    & 16   \\ \hline
+    \end{tabular}
+    \caption{Register overview}
+    \label{table:registers}
+\end{table}
+
+Special registers may be referenced by their name in assembly code.
+
+\clearpage
+
+\section{Predicated instructions}
+\label{sec:masking}
+
+The only supported way of conditional execution is through predicated instructions (masking).
+All instructions except for \verb/sw/ have a predicated version which will only execute when masking is disabled.
+
+In assembly, an instrution prepended with a question mark will be executed conditionally.
+The first bit of the instruction will be set to one for the conditional versions.
+These predicated instructions will still be executed, but they will never store their result in the destination register.
+
+Masking is controlled by the dedicated masking register.
+Instructions can write to this register to turn masking on and off.
+The register is only one bit, and will therefore only keep the least significant bit of data written to it.
+
+\clearpage
+
+\section{Instructions}
+
+\subsection{R-type Instructions}
+
+All R-type instructions have opcode \verb/00000/.
+Their syntax, meaning and underlying ALU function are described in table \ref{table:r_type_instructions}.
+
+\begin{table}[H]
+    \begin{tabular}{llll}
+    \textbf{Instruction}   & \textbf{Example}  & \textbf{Meaning}          & \textbf{ALU Function} \\
+    \hline
+    \hline
+    Add                    & add \$1, \$2, \$3 & \$1 = \$2 \verb/+/ \$3    & 0x4          \\
+    Subtract               & sub \$1, \$2, \$3 & \$1 = \$2 \verb/-/ \$3    & 0x5          \\
+    Multiply               & mul \$1, \$2, \$3 & \$1 = \$2 \verb/*/ \$3    & 0x9          \\ \hline
+    And                    & and \$1, \$2, \$3 & \$1 = \$2 \verb/&/ \$3    & 0x6          \\
+    Or                     & or \$1, \$2, \$3  & \$1 = \$2 \verb/|/ \$3    & 0x7          \\
+    Xor                    & xor \$1, \$2, \$3 & \$1 = \$2 \verb/^/ \$3    & 0x8          \\ \hline
+    Set on less than       & slt \$1, \$2, \$3 & \$1 = (\$2 \verb/</ \$3) ? 1 : 0 & 0x3   \\
+    Set on equal           & seq \$1, \$2, \$3 & \$1 = (\$2 \verb/==/ \$3) ? 1 : 0 & 0xA  \\ \hline
+    Shift Left Logical     & sll \$1, \$2, 10  & \$1 = \$2 \verb/<</ 10    & 0x0          \\
+    Shift Right Logical    & srl \$1, \$2, 10  & \$1 = \$2 \verb/>>>/ 10   & 0x1          \\
+    Shift Right Arithmetic & sra \$1, \$2, 10  & \$1 = \$2 \verb/>>/ 10    & 0x2          \\
+    \end{tabular}
+    \caption{R-type instructions}
+    \label{table:r_type_instructions}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5}    \\ \hline
+    mask & opcode & rs & rt & rd & sh & X & function \\ \hline
+    \end{tabular}
+    \caption{Instruction format for R-type instructions.}
+    \label{table:r_type_format}
+\end{table}
+
+\subsection{I-type Instructions}
+\begin{table}[H]
+    \begin{tabular}{llll}
+        \textbf{Instruction} & \textbf{Example} & \textbf{Meaning}          & \textbf{Opcode} \\
+        \hline
+        \hline
+         Load constant       & ldc \$7, 1       & \$7 = constant\_memory[1]  & 0x2 \\
+         Add immediate       & addi \$7, \$7, 2 & \$7 = \$7 + 2              & 0x1 \\ \hline
+         Load                & lw               & \$data = memory[\$address] & 0x8 \\
+         Store               & sw               & memory[\$address] = \$data & 0x4 \\ \hline
+         Thread finished     & thread\_finished & Stops executing the kernel & 0x10 \\
+         Nop                 & nop              & Do nothing                 & 0x0 \\
+    \end{tabular}
+    \caption{I-type instructions.}
+    \label{table:i_type_instructions}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{5} & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{5}  & \multicolumn{1}{c}{16} \\ \hline
+    mask & opcode & rs & rd & immediate \\ \hline
+    \end{tabular}
+    \caption{Instruction format for I-type instructions.}
+    \label{table:i_type_format}
+\end{table}
+
+\subsection{Pseudo Instructions}
+
+Some additional instructions are supported by the assembler in order to make programming for the GPU easier.
+An overview of these instructions is provided in table \ref{table:pseudo_instructions}.
+
+\begin{table}[H]
+    \begin{tabular}{lll}
+        \textbf{Instruction} & \textbf{Example} & \textbf{Translated instruction} \\
+        \hline
+        \hline
+         Move                & mv \$1, \$2      & add \$1, \$0, \$2               \\
+         Load immediate      & ldi \$1, 1       & addi \$1, \$0, 1                \\
+    \end{tabular}
+    \caption{Pseudo instructions}
+    \label{table:pseudo_instructions}
+\end{table}
+
+
+\end{document}

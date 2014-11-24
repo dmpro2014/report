@@ -5,12 +5,17 @@
 
 
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
 \usepackage{siunitx}
 \usepackage{float}
 \usepackage{subfiles} %Enables inclusions of files that can compile standalone
-\usepackage{subfigure}
+
 \usepackage{todonotes}
 \usepackage{wrapfig}
+
+\usepackage{courier}
 
 \usepackage[nottoc]{tocbibind}
 
@@ -72,9 +77,9 @@
 {\minipage{\linewidth}
 \lstset{ %
 language=assembly,  % choose the language of the code
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+basicstyle=\ttfamily\footnotesize,       % the size of the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
-numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+numberstyle=\ttfamily\footnotesize,      % the size of the fonts that are used for the line-numbers
 stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
 resetmargins=true,              % reset line numbers
 numbersep=10pt,                  % how far the line-numbers are from the code
@@ -101,9 +106,9 @@ framexleftmargin=5pt,
 {\minipage{\linewidth}
 \lstset{ %
 language=C,  % choose the language of the code
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+basicstyle=\ttfamily\footnotesize,       % the size of the fonts that are used for the code
 numbers=left,                   % where to put the line-numbers
-numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+numberstyle=\ttfamily\footnotesize,      % the size of the fonts that are used for the line-numbers
 stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
 resetmargins=true,              % reset line numbers
 numbersep=10pt,                  % how far the line-numbers are from the code

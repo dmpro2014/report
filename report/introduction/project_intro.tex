@@ -1,0 +1,65 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\chapter{Computer Design Project}
+\label{sec:intro}
+
+This report presents the TDT4295 Computer Design Project at NTNU for the fall semester of 2014.
+
+The project is the single task of a course every fall in which a group of students make a working computer from scratch.
+This year's group was made out of 9 students from the Computer Science department.
+Gunnar Tufte and Yaman Umuroğlu, served as advisors for the group throughout the semester and assisted in administrative tasks.
+
+\section{Assignment}
+
+The Computer Design Project's primary tasks include making a custom printed circuitboard (PCB) and  implementing a custom processor architecture on an FPGA.
+Together with a microcontroller (MCU) and a choice of I/O components, these will form a complete and working system.
+The project is evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
+
+The task this year was to create a processor inspired by GPU architectures.
+Core requirements included having multiple processor cores and a graphical display output.
+
+\newpage
+
+\subsection{Original Assignment Text}
+
+\vspace{1cm}
+\noindent
+
+\begin{quotation}
+
+	\subsubsection{Construct a graphics processing unit (GPU) inspired processor}
+    \noindent GPUs play a large role in graphical applications as well as high performance computing.
+    They are typically constructed around the SIMD (single instruction multiple data) paradigm and
+    include special hardware for accelerating graphics-related operation. The idea is to make a
+    GPU-inspired processor architecture that exploits the possibility of parallel computation on a
+    single chip. The GPU must be a multi-core system.
+    
+    \subsubsection{Additional requirements}
+    \noindent Your processor will be implemented on an FPGA, and you are free to choose how to
+    realize your computer architecture. Studying the architecture of general multicore processors
+    and parallel machines options can be a good starting point.\\
+    
+    \noindent Energy efficiency should be a primary consideration in all phases of the project, from early
+    design decisions to how software is written.\\
+    
+    \noindent The task should also include a suitable application that can produce a graphical output on a
+    display to demonstrate the processor.\\
+    
+    \noindent The unit must utilize a Silicon Labs EFM32 series microcontroller (to act as an I/O processor)
+    and a Xilinx FPGA (to implement your architecture on). The budget is 10.000 NOK, which must
+    cover components and PCB production. The unit design must adhere to the limits set by the
+    course staff at any given time.
+\end{quotation}
+\newpage
+
+\section{A Parallel Processing Accelerator}
+
+The group decided to make the custom GPU inspired processor as an accelerator processor for parallelizable computations.
+This means that it would not be designed to run entire programs on its own, but would instead be tasked with particular parallelizable parts of a program.
+Its purpose would primarily be to run graphics related operations.
+However, it would be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
+Graphics output would be sent to screen directly from the accelerator, like it is from a GPU.
+This would form a graphical computer system similar to how modern PCs are organized.
+
+\end{document}

@@ -1,69 +1,10 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
 
-\chapter{Introduction}
-\label{sec:intro}
+\chapter{Modern Graphics Processing Units}
+\label{sec:modern_gpu}
 
-This report presents the TDT4295 Computer Design Project at NTNU for the fall semester of 2014.
-
-The project is the single task of a course every fall in which a group of students make a working computer from scratch.
-This year's group was made out of 9 students from the Computer Science department.
-Gunnar Tufte and Yaman Umuroglu, served as advisors for the group throughout the semester and assisted in administrative tasks.
-
-\section{Assignment}
-
-The Computer Design Project's primary tasks include making a custom printed circuitboard (PCB) and  implementing a custom processor architecture on an FPGA.
-Together with a microcontroller (MCU) and a choice of I/O components, these will form a complete and working system.
-The project is evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
-
-The task this year was to create a processor inspired by GPU architectures.
-Core requirements included having multiple processor cores and a graphical display output.
-
-\newpage
-
-\subsection{Original Assignment Text}
-
-\vspace{1cm}
-\noindent
-
-\begin{quotation}
-
-	\subsubsection{Construct a graphics processing unit (GPU) inspired processor}
-    \noindent GPUs play a large role in graphical applications as well as high performance computing.
-    They are typically constructed around the SIMD (single instruction multiple data) paradigm and
-    include special hardware for accelerating graphics-related operation. The idea is to make a
-    GPU-inspired processor architecture that exploits the possibility of parallel computation on a
-    single chip. The GPU must be a multi-core system.
-    
-    \subsubsection{Additional requirements}
-    \noindent Your processor will be implemented on an FPGA, and you are free to choose how to
-    realize your computer architecture. Studying the architecture of general multicore processors
-    and parallel machines options can be a good starting point.\\
-    
-    \noindent Energy efficiency should be a primary consideration in all phases of the project, from early
-    design decisions to how software is written.\\
-    
-    \noindent The task should also include a suitable application that can produce a graphical output on a
-    display to demonstrate the processor.\\
-    
-    \noindent The unit must utilize a Silicon Labs EFM32 series microcontroller (to act as an I/O processor)
-    and a Xilinx FPGA (to implement your architecture on). The budget is 10.000 NOK, which must
-    cover components and PCB production. The unit design must adhere to the limits set by the
-    course staff at any given time.
-\end{quotation}
-\newpage
-
-\subsection{A Parallel Processing Accelerator}
-
-The group decided to make the custom GPU inspired processor as an accelerator processor for parallelizable computations.
-This means that it would not be designed to run entire programs on its own, but would instead be tasked with particular parallelizable parts of a program.
-Its purpose would primarily be to run graphics related operations.
-However, it would be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
-Graphics output would be sent to screen directly from the accelerator, like it is from a GPU.
-This would form a graphical computer system similar to how modern PCs are organized.
-
-\section{Modern Graphics Processing Units}
-
+\section{What is a GPU}
 % What is a GPU?
 % What is its purpose?
 
@@ -78,7 +19,7 @@ Today, GPUs also have general computing capabilities and may serve as co-process
 Non-graphics applications for a GPU include image processing, video encoding, and many scientific computing problems and other large, highly regular calculations.
 
 
-\subsection{The GPU Market}
+\section{The GPU Market}
 
 % Who makes graphics accelerators?
 % For what market do they make these?
@@ -113,7 +54,7 @@ The three dominant GPU design companies in the SoC market are Qualcomm, ARM, and
 % SoC market share reference: http://jonpeddie.com/press-releases/details/qualcomm-single-largest-proprietary-gpu-supplier-imagination-technologies-t/
 % "Jon Peddie Research (JPR) is a technically oriented computer graphics marketing and management-consulting firm"
 
-\subsection{An Enormous Task}
+\section{An Enormous Task}
 
 Producing computer graphics is a highly processing intensive task.
 To illustrate why computers and mobile devices include a separate GPU, lets look at some back-of-the-envelope calculations.
@@ -126,7 +67,7 @@ In this case, even with a clock speed of 4 GHz and no other interfering work, a 
 Fortunately, pixels can often be computed independently of each other.
 CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
 
-\subsection{Taking Advantage of Parallelism}
+\section{Taking Advantage of Parallelism}
 
 For a CPU, latency is of primary concern because the next instruction often depends on the result of the previous one.
 The CPU needs to complete each instruction as quickly as possible.
@@ -144,7 +85,7 @@ Filling every cycle and every pipeline stage with useful work is, of course, ess
 
 % Sophisticated dynamic scheduling schemes works to maximize the utilization of GPU resources.
 
-\subsection{At The Mercy of Memory}
+\section{At The Mercy of Memory}
 
 A GPU can achieve a very high throughput because of its massive amount of parallelism.
 But with great computing power comes great memory demand.
@@ -169,7 +110,7 @@ Other techniques to improve memory bandwidth include data compression to reduce 
 Bundling adds latency to memory requests.
 But, as mentioned earlier, this is not an issue as the GPU has plenty of other work to do while a particular thread waits.
 
-\subsection{GPU Complications}
+\section{GPU Complications}
 
 % What kind of jobs is a GPU ill-suited for?
 
@@ -184,7 +125,7 @@ In addition to some details specific to Fermi, this section introduces central c
 
 \todo{Rewrite these two paragraphs to fit together. Also the second paragraphs talk about Tesla, while we are presenting Fermi}
 
-\emph{Unified Shader Architecture@}
+
 \todo{Move this paragraph up?@}
 
 In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}.
@@ -193,18 +134,10 @@ but with this architecture the major operations are executed on the same hardwar
 This is significantly different from earlier GPU microarchitectures, and opened
 for the possibility to do other calculations on a GPU than graphics processing.
 
-
-\emph{General numbers of cores etc@}
-
-
-\emph{Streaming Multiprocessors@}
-
 At the heart of Fermi lies the 16 Streaming Multiprocessors (SMs). 
 Each SM contains 32 execution cores that can do integer and floatig point operations, 
 along with four special-function units, 16 load store units, 
 and 64K of SRAM used for cache and local memory.
-
-\emph{Special Function Unit@}
 
 To be able to have as many cores as possible, NVIDIA kept them simple by not allowing them to do more advanced functions, such as sin, cos or reciprocal.
 Instead, there are special cores for these operations, called special-function units, and they are much fewer.
@@ -216,7 +149,6 @@ Instead, there are special cores for these operations, called special-function u
 \label{fig:simple-nvidia-warps}
 \end{figure}
 
-\emph{Warps@}
 
 Threads are divided into logical units of 32 threads that are called \emph{warps}. 
 The threads in a warp always execute the instruction at the same time.
@@ -226,29 +158,28 @@ In reality, Fermi executes two instructions per warp per cycle.
 At any point in time there is a set of active warps that are dynamically scheduled. 
 A warp is always executed in the same SM, and when it executes an instruction, there is one thread per core, hence 32 cores per SM.
 
-
-\emph{Blocks / memory etc? Maybe not@}
+\todo{Should this section be after CUDA instead?}
+\todo{Talk about scheduling and thread divergence?}
+\todo{Talk about memory hierarchy?}
 
 
 
 \subsection{CUDA/OpenCL}
-\emph{Introductory paragraph explaining what CUDA and OpenCL is@}
 
 To open the powers of the graphics card for other applications, there was a need for a new API that could be
 used run code on the GPUs. It has been possible to do non-graphical calculations on GPUs before by 
 redifining problems as graphical problems, but this is highly impractical. 
 So with the new architecture NVIDIA released a framework for running code on their GPUs called CUDA, 
-which let's the programmer run arbitrary code that gains he benefit of the massively parallel hardware.
+which let's the programmer run arbitrary code that gains the benefit of the massively parallel hardware.
 
-\emph{Introduce the CUDA programming model. Walk through a simple example storing values to memory.@}
 In order to explain the programming model, we'll jump straight to an example.
 Let's say you want to fill a frame buffer, an area of memory, with the color green.
 We'll assume that the memory area starts at location 0.
 In a sequential programming model one would typically write a loop that would fill
-the memory locations with the value for green one by one. 
-See listing \ref{sequential-green}.
+the memory locations with the value for green one by one.
+See listing \ref{lst:sequential-green}.
 
-\begin{c-code}[caption=A sequential program filling the screen with green, label=sequential-green]
+\begin{c-code}[caption=A sequential program filling the screen with green, label=lst:sequential-green]
 int green = 0x00FF00;
 for (int i = 0; i < nr_of_pixels; i++){
 	framebuffer[i] = green;
@@ -257,77 +188,80 @@ for (int i = 0; i < nr_of_pixels; i++){
 
 However, in CUDA it is more natural to write a \emph{kernel} that fills only a single pixel with green, 
 and then run it with one thread for every pixel.
-Below, in listing \ref{lst:green-kernel}, 
-you see a CUDA kernel that fills a single memory location, or pixel, with green. 
+Below, in listing \ref{lst:green-kernel},
+you see a CUDA kernel that fills a single memory location, or pixel, with green.
 
-\begin{c-code}[caption=A sequential program filling the screen with green@, label=sequential-green]
-__global__ void fill_screen(int* framebuffer_start){
-	int global_id = blockIdx.x * blockDim.x + threadIdx.x; //Calculate global id of this thread
+\begin{c-code}[caption=A CUDA kernel filling a single pixel with green, label=lst:green-kernel]
+__global__ void fill_screen(int* framebuffer){
+	/* Calculate global id of this thread */
+	int global_id = blockIdx.x * blockDim.x + threadIdx.x; 
 	int green     = 0x00FF00;
-	*(framebuffer_start + global_id) = green;
+	framebuffer[global_id] = green;
 }
 \end{c-code}
 
+The \_\_global\_\_ identifier simply tells the CUDA compiler that this is code that can be run on the GPU, or device as it's called in the CUDA terminology.
+
+The function starts, on line 3, by calculating global thread id, a number that is unique for every thread. 
+The unique IDs will go from 0 to the total number of threads - 1.
+We'll come back to the details of this calculation later. \todo{will we?}
+
+Line 4 simply stores the hex value for green,
+given that values are stored as RGB values with each color consisting of one byte.
+
+Line 5 is where the magic happens.
+It stores the green value to the framebuffer offset by the current thread's ID.
+The effect being that thread nr ID colors the pixel nr ID green.
+
+So, how do we make this code execute on the device (GPU)?
+You have to write code that runs on the host (CPU) which starts the kernel with an appropriate number of threads.
+
+But before we take a look at that, a few words have to be said on how CUDA organizes its threads.
+In CUDA, threads are divided into blocks.
+The programmer can decide how many threads there should be in each block, and how many blocks to launch.
+Threads within a block can communicate and work tighter than threads across different blocks.
+This is because all threads in a block is guaranteed to run on the same SM (Streaming Multiprocessor), and have access to the same shared memory.
+
+For our example, it seems reasonable to have one block correspond to one line on the screen.
+Let's assume the screen has a full HD resolution, that is 1920 * 1080 pixels.
+Then, one block should contain 1920 threads, and we can launch 1080 blocks.
+
+The CPU, or host as it's called in CUDA, is responsible for starting kernels and deciding how many threads should be run.
+Code is written for the host in C and compiled with a special CUDA compiler.
+Running code on the device (GPU) is done by a simple function call, as seen in listing \ref{cuda-kernel-launch}
+
+\begin{c-code}[caption=Starting the CUDA kernel with one thread per pixel, label=cuda-kernel-launch]
+int* frame_buffer_device = cudaMalloc(@);
+fill_screen<<<1080,1920>>>(frame_buffer_device);
+
+int* frame_buffer_host = malloc( sizeof(int) * 1920 * 1080 );
+cudaMemCpy(@);
+\end{c-code}
+
+The code starts running cudaMalloc, which works like a normal malloc except the memory allocated is located on the device (GPU), and the pointer is thus not valid on the CPU.
+
+The second line is the line that actually runs the kernel.
+The \verb/@<<<B,T>>>/ notation tells the compiler that this function should be run on the device with B blocks of T threads.
+So here we run the \verb/fill_screen/ kernel on the device with 1080 blocks, each with 1920 threads, which is a little over 2 million threads.
+The end result is that our frame buffer is filled with green.
+
+At this point we should mention that CUDA does not have direct access to the actual frame buffers on the graphics card that is displayed on the screen, as one uses other libraries, OpenGL and DirectX, to do graphics operations. 
+The reason we are using CUDA instead of those APIs for graphics is that it is closer to how the system we built works.
+
+So for the code presented to make sense, we copy the framebuffer back into memory on the host, through a cudaMemCpy call.
+It is now easy to convert this framebuffer to an image.
+Which would now be green! 
 
 
 
+\todo{How to end this section?}
 
-\emph{Explain how kernels are are written, uploaded and data moved@}
+\todo{Mention what a framebuffer is, first time it is used?}
 
-\emph{Give a greenscreen example@}
+\todo{Talk about why we don't memory allocate on Demolicious somewhere}
+
 
 \emph{Maybe give a scientific example with result read back. But only if we show it for Demolicious as well@}
 
-
-\section{Demolicious}
-
-% Why is the name of our system "Demolicious"?@
-% What approach did we take in making a graphics accelerator?@
-% What trade-offs did we have to make?@
-% What were our concerns?@
-% What kind of numbers did we hope to achieve?@
-
-The system created in this project is named Demolicious.
-It is made for running graphical demo's, which is the inspiration for its name.
-A graphical demo is a visually pleasing programming feat made to demonstrate the capabilities of the computer as well as the programmer.
-
-Demolicious is inspired by modern PCs' CPU-GPU coordination, both in its programming model and its architectural design.
-The CPU will handle programs by default, and offload parallelizable tasks to the GPU.
-It will run on a microcontroller.
-The GPU will handle parallelizable tasks, like the many graphical operations in a demo, and send graphical data to screen.
-Its architecture will be designed and implemented on an FPGA.
-
-Modern GPUs have long development cycles and are very complex.
-Demolicious' GPU architecture is necessarily a greatly simplified version.
-Because of both time and space constraints, many features that define modern GPUs had to be left out in its design.
-The GPU has no branching, and there are no caches.
-Modern GPUs have dynamic scheduling to better utilize the resources.
-The Demolicious GPU uses barrel processing as a static scheduling scheme, and to hide memory latency.
-
-\subsection{Solution Requirements}
-
-% How did we arrive at our list of requirements?@
-
-\begin{table}[htp]
-    \centering
-    \begin{tabular}{|p{8cm}|l|}
-        \hline
-        \textbf{Demolicious Functional Goals}                & \textbf{Priority} \\ \hline
-        Demolicious should display graphics on screen                           & HIGH    \\ \hline
-        Demolicious should be general purpose                                   & HIGH    \\ \hline
-        Demolicious should drive video from GPU module on FPGA                  & MEDIUM  \\ \hline
-        Demolicious should handle an output rate of about 30 frames per second  & MEDIUM  \\ \hline
-        Demolicious should use HDMI for its graphics output	                    & MEDIUM  \\ \hline
-        Demolicious should have an example application in the form of a visual demo displayed on screen & LOW \\ \hline
-        Demolicious should have a toolchain to make life easier for programmers & LOW     \\ \hline
-    \end{tabular}
-    \caption{Goals set for the Demolicious system}
-    \label{tab:goals}
-\end{table}
-
-\newpage
-\section{Structure of the Report}
-
-\todo{Write this!}
 
 \end{document}

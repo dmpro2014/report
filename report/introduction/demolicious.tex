@@ -1,0 +1,57 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\chapter{Demolicious}
+\label{sec:demolicious}
+
+
+% Why is the name of our system "Demolicious"?@
+% What approach did we take in making a graphics accelerator?@
+% What trade-offs did we have to make?@
+% What were our concerns?@
+% What kind of numbers did we hope to achieve?@
+
+The system created in this project is named Demolicious.
+It is made for running graphical demo's, which is the inspiration for its name.
+A graphical demo is a visually pleasing programming feat made to demonstrate the capabilities of the computer as well as the programmer.
+
+Demolicious is inspired by modern PCs' CPU-GPU coordination, both in its programming model and its architectural design.
+The CPU will handle programs by default, and offload parallelizable tasks to the GPU.
+It will run on a microcontroller.
+The GPU will handle parallelizable tasks, like the many graphical operations in a demo, and send graphical data to screen.
+Its architecture will be designed and implemented on an FPGA.
+
+Modern GPUs have long development cycles and are very complex.
+Demolicious' GPU architecture is necessarily a greatly simplified version.
+Because of both time and space constraints, many features that define modern GPUs had to be left out in its design.
+The GPU has no branching, and there are no caches.
+Modern GPUs have dynamic scheduling to better utilize the resources.
+The Demolicious GPU uses barrel processing as a static scheduling scheme, and to hide memory latency.
+
+\section{Solution Requirements}
+
+% How did we arrive at our list of requirements?@
+
+\begin{table}[htp]
+    \centering
+    \begin{tabular}{|p{8cm}|l|}
+        \hline
+        \textbf{Demolicious Functional Goals}                & \textbf{Priority} \\ \hline
+        Demolicious should display graphics on screen                           & HIGH    \\ \hline
+        Demolicious should be general purpose                                   & HIGH    \\ \hline
+        Demolicious should drive video from GPU module on FPGA                  & MEDIUM  \\ \hline
+        Demolicious should handle an output rate of about 30 frames per second  & MEDIUM  \\ \hline
+        Demolicious should use HDMI for its graphics output	                    & MEDIUM  \\ \hline
+        Demolicious should have an example application in the form of a visual demo displayed on screen & LOW \\ \hline
+        Demolicious should have a toolchain to make life easier for programmers & LOW     \\ \hline
+    \end{tabular}
+    \caption{Goals set for the Demolicious system}
+    \label{tab:goals}
+\end{table}
+
+\newpage
+\section{Structure of the Report}
+
+\todo{Write this!}
+
+\end{document}
