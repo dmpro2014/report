@@ -22,4 +22,17 @@ Of course, with barrel processing, the memory would need to be able to complete 
 But a request \emph{can} take more than one instruction's time to be processed, if the memory can \emph{start} to process one request per instruction.
 This is (with some slight simplification) how modern SDRAM works, and it is called \emph{pipelining} the memory.
 
+Since barrel processing is a good thing\texttrademark, it was incorporated in the early design of the Demolicious.
+The assumption was made that SRAM has, like SDRAM (which after all is only a letters difference\todo{Remove this. It's getting late.}) a latency higher than the time it takes to make a request and is pipelined.
+Now the problem that Demolicious also has simultaneous multiprocessing by having multiple streaming processors, and all of these make requests to the same memory simultaneously.
+The memory would now have to be able to start one request for every streaming processor for every instruction that take one cycle each.
+This would mean running the memory at a higher clock speed than the processor, which would mean slowing down the processor.
+Slowing down the processor would not serve to increase throughput, which was the reason for the barrels in the first place.
+
+At this point, all the threads in the barrel's thread pool in the Demolicious' design run the same instruction.
+That means that all the memory request would always come one after another and would have to be put in a gigantic queue.
+The requests would not be done in time for all the warps, and since the same instruction has to be executed on all the warps, the warps that did get a benefit from the barrel processing would have to wait for the rest.
+In any case, the SRAM memory used was not pipelined, but was in fact asynchronous, thus eliminating the purpose of the barrels.
+The barrel processor seemed to be a useless complication, a failure in this hardware combination.
+
 \end{document}
