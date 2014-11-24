@@ -222,6 +222,10 @@ In reality, Fermi executes two instructions per warp per cycle.
 At any point in time there is a set of active warps that are dynamically scheduled. 
 A warp is always executed in the same SM, and when it executes an instruction, there is one thread per core, hence 32 cores per SM.
 
+\todo{Should this section be after CUDA instead?}
+\todo{Talk about scheduling and thread divergence?}
+\todo{Talk about memory hierarchy?}
+
 
 
 \subsection{CUDA/OpenCL}
@@ -311,6 +315,8 @@ The reason we are using CUDA instead of those APIs for graphics is that it is cl
 So for the code presented to make sense, we copy the framebuffer back into memory on the host, through a cudaMemCpy call.
 It is now easy to convert this framebuffer to an image.
 Which would now be green! 
+
+
 
 \todo{How to end this section?}
 
