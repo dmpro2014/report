@@ -23,15 +23,15 @@ This interaction allows for programs that consist of both parallel and sequentia
 \subsection{Kernels}
 The GPU can start a massive amount of threads executing the same kernel.
 Each thread executing the kernel is assigned a unique thread id.
-The thread id can be used to compute memory addresses and make control decisions
-to make the threads behave differently even though they are executing the same code.
+The thread id can be used to compute memory addresses and make control decisions.
+This allows threads to behave differently even though they are executing the same code.
 
 To best illustrate the programming model, a few examples will be walked through.
 Let's start with a simple one; fill the screen with the color green.
-We assume that the pixel color values are stored in memory from location 0.
+We assume that the pixel color values are stored in memory from location 0 and upwards.
 In a sequential programming model one would typically write a loop that would fill
-the memory locations with the value for green one by one. 
-See listing \ref{sequential-green}.
+the memory locations with the value for green one by one.
+This can be seen in listing \ref{sequential-green}.
 
 \begin{c-code}[caption=A sequential program filling the screen with green, label=sequential-green]
 int green = 0x00FF00;
@@ -40,13 +40,13 @@ for (int i = 0; i < nr_of_pixels; i++){
 }
 \end{c-code}
 
-However, in the SIMT programming paradigm our architecture is inspired by,
+However, in the SIMT programming paradigm which our architecture is inspired by,
 you write a \emph{kernel} that fills only a single pixel with green, 
 and then run it with one thread for every pixel.
 Below, in listing \ref{lst:green-kernel}, 
-you see a kernel written for Demolicious that fills a single memory location,
-or pixel, with green.
-The memory location to be written to is decided by the special id register. 
+a kernel written for Demolicious that fills a single memory location,
+or pixel, with green is presented.
+The memory location to be written to is decided by the special id register.
 
 
 \begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
@@ -58,11 +58,10 @@ thread_finished
 \end{assembly}
 
 Let's walk through the kernel one line at a time.
-The first uses the \verb/ldi/ instruction, which stands for load immediate.
+The first line uses the \verb/ldi/ instruction, which stands for load immediate.
 It loads the value 0b0000011111100000,
 which corresponds to the color green in the Demolicious color space,
 into the special register \textbf{\$data}.
-How it is used will become clear later.
 The second and third line move the kernel's thread ID into the address registers.
 This means all pixels starting with address zero and up until the number of executed threads
 will get colored green.
@@ -72,9 +71,9 @@ The thread stops running after executing the \verb/thread_finished/ instruction.
 
 Now, how do we execute this kernel on the GPU?
 The program running on the CPU, referred to as the \emph{host program},
-has to upload the assembled kernel, and then run it.
+has to upload the assembled kernel, and then notify the GPU to run it.
 Kernels can be assembled using a custom-built assembler,
-which translates special registers, and outputs as c arrays for convenience.
+which translates special registers and pseudo instructions, and outputs as c arrays for convenience.
 
 \begin{c-code}[caption=Loading and executing a kernel, label=lst:load-kernel]
 instruction_t fill_screen_kernel[] = {
@@ -98,8 +97,9 @@ In addition, the \verb/run_kernel/ function needs to know the number of threads 
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
 While being able to make the screen green by running a specialized kernel is nice,
-we can do even better.
-Kernels can take parameters as input, which lets them be reused with varying output.
+it would require many very similar kernels to color the screen in different colors.
+To improve on this, kernels can take parameters as input,
+which lets them be reused with varying output.
 The CPU can set these parameters to different values each time a kernel is run.
 For instance, the CPU can set the desired color as a parameter,
 and the kernel will store that value to memory instead of a predefined immediate.
