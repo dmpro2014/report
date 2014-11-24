@@ -97,7 +97,7 @@ Intel is largest overall but only makes GPUs integrated with their CPUs.
 AMD and NVIDIA share the discrete GPU market \cite{gpu_discrete_sales}.
 A big market for the more powerful discrete GPUs is the computer gaming industry.
 This market has contributed a great deal to the rapid progression of graphics technologies.
-With the advent of general purpose GPUs, scientific computing also have an interest in powerful GPUs.
+With the advent of general purpose GPUs, scientific computing has also gained an interest in powerful GPUs.
 
 In the past 6 years, the booming market for mobile smart devices has introduced a new arena for GPUs.
 Mobile devices are currently outselling workstations, and every new mobile device sold today is shipped with a small-format GPU.
@@ -137,10 +137,10 @@ It gains throughput by making its architecture highly parallel in all respects.
 
 The fast single-threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
 A GPU gains throughput by spending resources on execution units instead of more cache, prediction logic, or dynamic reordering logic to make one execution unit very effective.
-It also exploit parallelism with its deep pipelines, executing many instructions concurrently within each core.
+It also exploits parallelism with its deep pipelines, executing many instructions concurrently within each core.
 These architectural decisions cause each individual thread to require more wait cycles to wait for memory access or pipeline hazards.
 Fortunately, a GPU is not concerned about each individual thread's tardiness, and instead fills these wait cycles by interleaving many threads at once in each core.
-Filling each pipeline stage in every cycle with useful work is, of course, essential in optimizing throughput.
+Filling every cycle and every pipeline stage with useful work is, of course, essential in optimizing throughput.
 
 % Sophisticated dynamic scheduling schemes works to maximize the utilization of GPU resources.
 
@@ -151,9 +151,14 @@ Filling each pipeline stage in every cycle with useful work is, of course, essen
 % Some numbers to show amount of memory.
 % Graphics workloads demand very high data tranfer rates.
 
-The GPU can deliver very high throughput because of the massive amount of processing units, but with great computing power comes great memory demand.
-The challenge in GPUs is keeping the computational units supplied with enough data.
-\todo{Insert number}
+A GPU can deliver very high throughput because of its massive amount of parallelism, but with great computing power comes great memory demand.
+Keeping all the computational units in a GPU supplied with enough data is a difficult challenge.
+Taking NVIDIA's GeForce 8800 GPU, a top-end model in 2006, as an example, it can process 32 pixels per clock at 600 MHz \cite{gpu_appendix}.
+A pixel will usually be 4 bytes in size.
+Calculating its value will typically require a read and write of color and depth, and a few texture element reads.
+So, on average, there may be a demand of 7 memory accesses of 4 bytes each per pixel.
+To sustain this for 32 pixels per clock, this requires up to 896 bytes per clock, or over 537 GB/s, in memory transfers.
+
 To supply the processing units with data, the GPU has to have a complex memory system. 
 The memory system uses techniques such as batching memory requests, compression, and different types of memories.
 The memory is organized in a hierarchy of memories and caches, of different sizes.
