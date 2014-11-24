@@ -43,15 +43,15 @@ Expected behavior of test:
   \centering
   \begin{subfigure}[b]{\textwidth}
     \includegraphics[width=\textwidth]{assets/Constant_load_&_store.png}
-    \caption{Isim simulation of fillscreen @ 2 cores \& 2 barrels}
+    \caption{Isim simulation showing constant load and store word}
     \label{fig:isim-kernel-parameterization}
   \end{subfigure}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{assets/green_screen.jpg}
-    \caption{LX16 run of fillscreen}
+    \caption{LX16 run @ 2 cores \& 2 barrels}
     \label{fig:LX16-kernel-parameterization}
   \end{subfigure}
-  \caption{Results from simulation and LX16}
+  \caption{Results from simulation and LX16 of fillscreen kernel}
 \end{figure}
 
 The testbench passes.
@@ -65,13 +65,66 @@ The LSU deasserts LSU write\_n, (the signal is active low), and external ram han
 
 The value has now been successfuly written to memory, as can be verified in figure \ref{fig:LX16-kernel-parameterization}.
 
+
+\subsection{Masked instruction execution}
+
+Masked instructions are used to allow for some degree of conditional execution in the lack of proper branching and jumps.
+This requires that the architecture actually respects the mask bit when set.
+The masked execution kernel presented earlier in listing \ref{lst:lst:masked-execution} is used for this test.
+It has been relisted in listing \ref{lst:test-masked-execution} for convenience.
+
+\begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:test-masked-execution]
+  ldc $10, 0 ; Load color one
+  ldc $11, 1 ; Load color two
+  srl $mask, $id_lo, 6 ; Shift to the right converts ID to y pos
+  mv $data, $10
+  ? mv $data, $11 ; Will only be executed every other row
+  mv $address_lo, $id_lo
+  mv $address_hi, $id_hi
+  sw
+  thread_finished
+\end{assembly}
+
+Expected behavior of test:
+\begin{enumerate}
+  \item
+    Each row should be colored according to the last bit of their y position.
+\end{enumerate}
+
+\subsubsection*{simulation results}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{\textwidth}
+    \includegraphics[width=\textwidth]{assets/masking-yes.png}
+    \caption{Isim simulation showing successful masking.}
+    \label{fig:isim-masked-execution}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{assets/lines.jpg}
+    \caption{LX16 run @ 2 cores / barrels}
+    \label{fig:LX16-masked-execution}
+  \end{subfigure}
+  \caption{Results from simulation and LX16 of masked execution}
+\end{figure}
+
+The testbench passes.
+
+In the left yellow square of figure \ref{fig:isim-masked-execution}, we can see the srl instruction being executed (0x00023181). As this thread has thread id 192, the result out is 3.
+The low bit is stored into the mask register, enabling masking for this thread.
+
+In the middle yellow square, barrel 0 is once again active, and we can see that the predicate bit of core 0 has been asserted.
+As this instruction isn't masked, the predicate bit is ignored and the value of 001f is stored into the data register.
+
+In the right yellow square, the conditional data move is executed (0x81602804).
+As the mask enable signal goes high, the register write enable signal is pulled low due to the predicate bit, resulting in the data not being written to registers.
+
+As can be seen in figure \ref{fig:LX16-masked-execution}, every second line is colored differently.
+
+
 \subsection{Loads from primary memory}
 
-\subsection{Instruction masking}
-
 \subsection{Kernel square}
-
-
 
 
 \subfile{../testing/io_testing.tex}
