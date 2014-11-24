@@ -1,27 +1,27 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
 
-\todo{oscillation test: results}
-
-\begin{table}
-\centering
-\begin{tabular}{| L{2cm} | L{4cm} | L{2cm} |}
-\hline
-\multicolumn{3}{|c|}{Oscillation tests} \\
-\hline
-Test & Expected results  & Status\\\hline
-FPGA oscillator & Wave frequency at approximately 120 MHz & Passed\\\hline
-MCU Low frequency clock & Wave frequency at approximately 32.768 kHz & Not passed\\\hline
-MCU high frequency clock & Wave frequency at approximately 48 MHz & Not passed\\\hline
-
-\end{tabular}
-\caption{Frequency output tests}
-\label {tbl:oscillation-tests}
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6cm}|L{2cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        FPGA oscillator wave frequency at 120 MHz &
+        Use oscilloscope on out pin on the FPGA oscillator &
+        Passed \\
+    \hline
+        MCU low frequency crystal clock at 32.768 kHz &
+        Use oscilloscope to measure low frequency crystal &
+        Incomprehensible results \\
+    \hline
+        MCU low frequency crystal clock at 32.768 kHz &
+        Use oscilloscope to measure low frequency crystal &
+        Incomprehensible results \\
+    \hline
+    \end{tabular}
+    \label{tab:oscillation-test}
+    \caption{Frequency output tests}
 \end{table}
-
-%\missingfigure{oscilloscope screenshot of FPGA oscillator output}
-%\todo{put in picture(s)}
-%\missingfigure{oscilloscope screenshot of MCU crystal outputs}
-
 
 \end{document}
