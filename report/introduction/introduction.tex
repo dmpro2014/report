@@ -265,15 +265,33 @@ and then run it with one thread for every pixel.
 Below, in listing \ref{lst:green-kernel}, 
 you see a CUDA kernel that fills a single memory location, or pixel, with green. 
 
-\begin{c-code}[caption=A sequential program filling the screen with green@, label=sequential-green]
-__global__ void fill_screen(int* framebuffer_start){
-	int global_id = blockIdx.x * blockDim.x + threadIdx.x; //Calculate global id of this thread
+\begin{c-code}[caption=A CUDA kernel filling a single pixel with green, label=sequential-green]
+__global__ void fill_screen(int* framebuffer){
+	/* Calculate global id of this thread */
+	int global_id = blockIdx.x * blockDim.x + threadIdx.x; 
 	int green     = 0x00FF00;
-	*(framebuffer_start + global_id) = green;
+	framebuffer[global_id] = green;
 }
 \end{c-code}
 
+The \_\_global\_\_ identifier simply tells the CUDA compiler that this is code that can be run on the GPU, or device as it's called in the CUDA terminology.
 
+The function starts, on line 3, by calculating global thread id, a number that is unique for every thread. 
+The unique IDs will go from 0 to the total number of threads - 1.
+We'll come back to the details of this calculation later.
+
+Line 4 simply stores the hex value for green
+, given that values are stored as RGB values with each color consisting of one byte.
+
+Line 5 is where the magic happens. 
+It stores the green value to the framebuffer offset by the current thread's ID.
+The effect being that thread nr ID colors the pixel nr ID green.
+
+So, how do make this code execute on the device (GPU)?
+You have to write code that runs on the host (CPU) which starts the kernel with an appropriate number of threads.
+ 
+
+\todo{Remember to say that you cannot write directly to the framebuffer in CUDA and this is shown to illustrate how we are doing stuff.}
 
 
 
