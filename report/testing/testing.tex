@@ -5,13 +5,55 @@
 
 Does it work?
 
-\section{VHDL System Integration Tests}
+
+\section{Component testing}
+The system consists of a number of fairly isolated components.
+It's valuable to test the components in isolation before they are connected.
+Both implementation errors, and design flaws, can be uncovered before the components are introduced to the system.
+The unit tests were implemented as VHDL test benches
+Table \ref{tab:vhdl_unit_tests} describes the unit tests that was run.
+\begin{table}[H]
+	\centering
+	\begin{tabularx}{\textwidth}{|c|X|c|}
+	\hline
+	\multicolumn{3}{|c|}{Unit tests.} \\
+	\hline  Component under test & What is tested  	  & Status \\ 
+	\hline  \multirow{3}{*}{Barrel selector} 		  & Barrel row is incremented each clock cycle.  & \multirow{3}{*}{ Passed } \\
+	 										 		  & Barrow row wraps around to 0. & \\			
+	 										 		  & PC write enabled high on row 0.& \\								
+	\hline  \multirow{2}{*}{Constant memory} 	      & Constants can be written.  & \multirow{2}{*}{ Passed } \\
+	 										 		  & Constants can be read. & \\												
+	\hline \multirow{2}{*}{Inst decode/Control unit}  & Decodes instruction types correctly. & \multirow{2}{*}{ Passed } \\
+		   											  & Sets control signal values correctly. &\\
+	\hline \multirow{2}{*}{Instruction memory} 		  & Instructions can be written. & \multirow{2}{*}{ Passed } \\
+													  & Instructions are read from the correct address  & \\ 
+	\hline \multirow{2}{*}{Instruction memory} 		  & Instructions can be written. & \multirow{2}{*}{ Passed } \\
+													  & Instructions are read from the correct address.  & \\ 
+	\hline \multirow{3}{*}{Register file} 		  	  & Read/write to general purpose registers. & \multirow{3}{*}{ Passed } \\
+													  & Dedicated registers behave correctly.  & \\ 
+													  & Does the masking bit work.  & \\ 													  
+	\hline  Register directory 		 				  & Multiplexes input/output signals to the correct register file. & Passed  \\
+	
+	\hline \multirow{3}{*}{Processor core} 		  	  & Arithmetic operations. & \multirow{3}{*}{ Passed } \\
+													  & Can mask instructions.  & \\ 
+													  
+	\hline \multirow{3}{*}{ALU} 		  			  & Computes arithmetic operations. & \multirow{3}{*}{ Passed } \\
+													  & Can do left/right shifts.  & \\ 
+													  & Performs \emph{Set if les than} correctly. &	\\								  											  
+	\hline
+	\end{tabularx} 
+	\caption{Unit tests for components in the Demolicious system.}
+	\label{tab:vhdl_unit_tests}
+\end{table}
+\section{VHDL system integration tests}
+
 
 Before deploying to an actual FPGA, it is important to ensure correct behavior in system-level testbenches.
 This testing is valuable, as if one can verify correct behavior in simulation, one has fewer potential errors when debugging the FPGA itself.
 
 System tests for each of the major datapaths through the design have been created and run successfully.
 The result of each test is verified by comparing all pixels in the framebuffer after the kernel has been run, to precomputed values in Isim.
+
 
 \subsection{Memory Stores and Kernel Parameterization}
 
