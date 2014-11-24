@@ -5,6 +5,7 @@
 Barrels and Jaktstart}
 
 Usually, when a processor executes a memory operation, a few extra cycles need to pass before the response arrives.
-The processor might stall while this happens, or it may be expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
+The processor might stall while this happens to hide the wait and make the result of the request ready in the next instruction.
+It may also not stall so that the processor can continue to do useful work, but it is then expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
 
 \end{document}
