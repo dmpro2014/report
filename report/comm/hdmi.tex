@@ -42,6 +42,9 @@ When the video timing unit indicates that it is in the actual video-portion of t
 
 To send the data over HDMI, the control signals and pixel data are split into three channels (one for each color) and encoded using the TMDS scheme, the purpose of which is to minimize noise on the physical connection.
 The scheme uses 10-bit to encode either 8-bit color-values when sending a image or 2-bit control values when blanking.
+Since Demolicious uses a 16-bit word size, colors are represented with 5 bits for red, 6 for green and 5 for blue.
+These are resized to 8-bit values by filling the least significant bits with the value of the most significant bit.
+This is a simple scheme that allows for both complete black and complete white.
 Each channel is then serialized before being output together with a clock using differential-signaling.
 
 \end{document}
