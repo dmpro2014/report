@@ -20,11 +20,11 @@ It has been relisted in listing \ref{lst:test-param-kernel} for convenience.
 If successful, this allows for parameterizing kernel behaviour with values loaded at runtime, reducing the need for recompilation.
 
 \begin{assembly}[caption={Kernel to test constant memory and parameterization}, label=lst:test-param-kernel]
-  ldc $data, 0
-  mv $address_lo, $id_lo
-  mv $address_hi, $id_hi
-  sw
-  thread_finished
+ldc $data, 0
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+thread_finished
 \end{assembly}
 
 Expected behavior of test:
@@ -74,15 +74,15 @@ The masked execution kernel presented earlier in listing \ref{lst:lst:masked-exe
 It has been relisted in listing \ref{lst:test-masked-execution} for convenience.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:test-masked-execution]
-  ldc $10, 0 ; Load color one
-  ldc $11, 1 ; Load color two
-  srl $mask, $id_lo, 6 ; Shift to the right converts ID to y pos
-  mv $data, $10
-  ? mv $data, $11 ; Will only be executed every other row
-  mv $address_lo, $id_lo
-  mv $address_hi, $id_hi
-  sw
-  thread_finished
+ldc $10, 0 ; Load color one
+ldc $11, 1 ; Load color two
+srl $mask, $id_lo, 6 ; Shift to the right converts ID to y pos
+mv $data, $10
+? mv $data, $11 ; Will only be executed every other row
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+thread_finished
 \end{assembly}
 
 Expected behavior of test:
