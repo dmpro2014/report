@@ -1,16 +1,13 @@
-file = report.tex
-bibfile = report.aux
+file = state_of_the_art.tex
 
 .PHONY: all
 all:
-	pdflatex $(file)
-	bibtex $(bibfile)
 	pdflatex $(file)
 	pdflatex $(file)
 
 .PHONY: open
 open: all
-	open $(file:.tex=.pdf)
+	open $(file)
 
 .PHONY: clean
 clean:

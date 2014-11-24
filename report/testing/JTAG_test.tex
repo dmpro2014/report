@@ -1,4 +1,19 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
-\todo{JTAG test}
+
+\todo{JTAG test: results}
+
+\begin{table}
+\begin{tabular}{| L{3cm} | L{4cm }| L{3cm} |}
+\hline
+\multicolumn{3}{|c|}{JTAG tests} \\
+\hline
+Test & Expected results & Status\\\hline
+FPGA JTAG & We are able to make the FPGA turn on an LED with some VHDL code  & Passed\\\hline
+MCU JTAG & We are able to make the MCU blink an LED &Passed \\\hline
+
+\end{tabular}
+\caption{ JTAG tests}
+\end{table}
+
 \end{document}
