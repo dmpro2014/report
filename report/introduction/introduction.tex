@@ -289,15 +289,49 @@ The effect being that thread nr ID colors the pixel nr ID green.
 
 So, how do make this code execute on the device (GPU)?
 You have to write code that runs on the host (CPU) which starts the kernel with an appropriate number of threads.
- 
 
-\todo{Remember to say that you cannot write directly to the framebuffer in CUDA and this is shown to illustrate how we are doing stuff.}
+But before we take a look at that, a few words have to be said on how CUDA organizes its threads.
+In CUDA, threads are divided into blocks. 
+The programmer can decide how many threads there should be in each block, and how many blocks to launch.
+Threads within a block can communicate and work tighter than threads across different blocks. 
+This is because all threads in block is guaranteed to run on the same SM (Streaming Multiprocessor), and have access to the same shared memory.
 
+For our example, it seems reasonable to have one block correspond to one line on the screen.
+Let's assume the screen has a full HD resolution, that is 1920 * 1080 pixels.
+Then, one block should contain 1920 threads, and we can launch 1080 blocks.
 
+The CPU, or host as it's called in CUDA, is responsible for starting kernels and deciding how many threads should be run.
+Code is written for the host in C and compiled with a special CUDA compiler.
+Running code on the device (GPU) is done by a simple function call, as seen in listing \ref{cuda-kernel-launch}
 
-\emph{Explain how kernels are are written, uploaded and data moved@}
+\begin{c-code}[caption=Starting the CUDA kernel with one thread per pixel, label=cuda-kernel-launch]
+int* frame_buffer_device = cudaMalloc(@);
+fill_screen<<<1080,1920>>>(frame_buffer_device);
 
-\emph{Give a greenscreen example@}
+int* frame_buffer_host = malloc( sizeof(int) * 1920 * 1080 );
+cudaMemCpy(@);
+\end{c-code}
+
+The code starts running cudaMalloc, which works like a normal malloc except the memory allocated is located on the device (GPU), and the pointer is thus not valid on the CPU.
+
+The second line is the line that actually runs the kernel. 
+The @<<<B,T>>> notation tells the compiler that this function should be run on the device with B blocks of T threads.
+So here we run the fill\_screen kernel on the device with 1080 block, each with 1920 threads, which is a little over 2 million threads.
+The end result is that our frame buffer is filled with green.
+
+At this point we should mention that CUDA does not have direct access to the actual frame buffers on the graphics card that is displayed on the screen, as one uses other libraries, OpenGL and DirectX, to do graphics operations. 
+The reason we are using CUDA instead of those APIs for graphics is that it is closer to how the system we built works.
+
+So for the code presented to make sense, we copy the framebuffer back into memory on the host, through a cudaMemCpy call.
+It is now easy to convert this framebuffer to an image.
+Which would now be green! 
+
+\todo{How to end this section?}
+
+\todo{Mention what a framebuffer is, first time it is used?}
+
+\todo{Talk about why we don't memory allocate on Demolicious somewhere}
+
 
 \emph{Maybe give a scientific example with result read back. But only if we show it for Demolicious as well@}
 
