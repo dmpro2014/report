@@ -6,17 +6,17 @@
 
 This report presents the TDT4295 Computer Design Project at NTNU for the fall semester of 2014.
 
-The project is the single task of a course every fall in which a group of students make a working computer from scratch.
-This year's group was made out of 9 students from the Computer Science department.
-Gunnar Tufte and Yaman Umuroğlu, served as advisors for the group throughout the semester and assisted in administrative tasks.
+The course is held every fall, and consists of a single task in which a group of students make a working computer from scratch.
+This report's group was made out of 9 students from the Computer Science department.
+Gunnar Tufte and Yaman Umuroğlu served as advisors for the group throughout the semester and assisted in administrative tasks.
 
 \section{Assignment}
 
-The Computer Design Project's primary tasks include making a custom printed circuitboard (PCB) and  implementing a custom processor architecture on an FPGA.
-Together with a microcontroller (MCU) and a choice of I/O components, these will form a complete and working system.
-The project is evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
+The Computer Design Project's primary tasks included making a custom printed circuitboard (PCB) and implementing a custom processor architecture on an FPGA.
+Together with a microcontroller (MCU) and a choice of I/O components, these were to form a complete and working system.
+The project was evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
 
-The task this year was to create a processor inspired by GPU architectures.
+The specific assignment for this year was to create a processor inspired by GPU architectures.
 Core requirements included having multiple processor cores and a graphical display output.
 
 \newpage
@@ -58,8 +58,23 @@ Core requirements included having multiple processor cores and a graphical displ
 The group decided to make the custom GPU inspired processor as an accelerator processor for parallelizable computations.
 This means that it would not be designed to run entire programs on its own, but would instead be tasked with particular parallelizable parts of a program.
 Its purpose would primarily be to run graphics related operations.
-However, it would be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
-Graphics output would be sent to screen directly from the accelerator, like it is from a GPU.
-This would form a graphical computer system similar to how modern PCs are organized.
+However, it would be designed to be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
+The group was determined to also send graphics output directly from the accelerator to screen, as is common for a GPU.
+
+The accelerator design would be implemented on an FPGA.
+It would be mounted on a PCB together with a microcontroller, memory, and HDMI port, and form a graphical computer system similar to how modern PCs are organized.
+
+\section{Structure of the Report}
+
+Having introduced the problem, the report will continue by giving a short introduction to what a GPU is and what it is for.
+It will present concepts and challenges in graphical computations and GPU design.
+These topics help to appreciate the need for a GPU in modern computers, and to understand the trade-offs and optimizations involved in its design.
+
+The system created in this project, and its purpose, will be introduced in light of modern GPU concepts.
+In the solution part, a detailed explanation of the system will be given by roughly following the path of an executing program, going from high to low levels of abstraction.
+
+The physical product produced in this project, and the test and verification methods involved in making it work, will also be presented.
+The results chapter will go through which parts of the system worked and which did not, and will look at measurements of its performance.
+Lastly, the discussion chapter will comment on some of the difficulties with the completed system, and on topics such as possible further work. 
 
 \end{document}
