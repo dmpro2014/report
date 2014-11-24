@@ -106,7 +106,7 @@ and the kernel will store that value to memory instead of a predefined immediate
 Listing \ref{lst:param-color-kernel} shows an example kernel where the color is stored as a parameter.
 
 \begin{assembly}[caption=A kernel loading the color value from a parameter, label=lst:param-color-kernel]
-ldc, $data, 0
+ldc $data, 0
 mv $address_lo, $id_lo
 mv $address_hi, $id_hi
 sw
