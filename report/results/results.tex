@@ -66,7 +66,7 @@ The decrease in execution time will allow both the host CPU and the GPU to enter
 
 \section{Performance}
 
-In the Demolicious system, the kernel call overhead is as low as 2-3 clock cyles.
+In the Demolicious system, the kernel calls can be issues by the CPU in only a few cycles.
 This means that the number of frames per second that the system can display is dominated by the run time of the kernels.
 
 \begin{figure}[H]
@@ -86,7 +86,7 @@ This means that the number of frames per second that the system can display is d
 
 \end{figure}
 
-Figure \ref{fig:kernel_outputs} show the output from the green screen kernel, and the more complex tunnel effect kernel.
+Figure \ref{fig:kernel_outputs} shows the output from the green screen kernel, and the more complex tunnel effect kernel.
 It's desirable that both these kernels can be run at about 30 FPS.
 Using the results presented in section \ref{sec:scalability}, the expected frames per second for varying resolutions can be estimated.
 
@@ -170,7 +170,7 @@ Using the results presented in section \ref{sec:scalability}, the expected frame
 
 
 The figures \ref{fig:kernel_tunnel_fps}, and \ref{fig:kernel_green_screen_fps} display the relationship between frame rate, resolution and number of cores.
-Both figures display that doubling the amount of cores, roughly doubles the frame rate.
+Both figures display that doubling the amount of core roughly doubles the frame rate.
 
 For a configuration of cores, the time it takes to process one pixel is constant.
 This means that the time to execute one kernel scales linearly with the resolution.
