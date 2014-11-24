@@ -165,7 +165,7 @@ A load/store unit is responsible for handling memory requests from the core proc
 The load/store unit of Demolicious needs to be capable of simultaneously servicing incoming request from all the streaming processors.
 Requests are asynchronously carried out in the background, and replies are delivered directly into the appropriate registers of the threads that made the request.
 
-The peripheral design includes two independent memory banks, each capable of reading or writing one word every cycle.
+Demolicious has two independent memory banks, each capable of reading or writing one word every cycle.
 To maximize the throughput to the memory, a word-striping scheme was used:
 The lowest bit of the memory address determines which bank holds that location.
 
