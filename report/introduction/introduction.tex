@@ -53,13 +53,13 @@ Core requirements included having multiple processor cores and a graphical displ
 \end{quotation}
 \newpage
 
-\subsection{A Graphics Accelerator}
+\subsection{A Parallel Processing Accelerator}
 
 The group decided to make the custom GPU inspired processor as an accelerator processor for parallelizable computations.
 This means that it would not be designed to run entire programs on its own, but would instead be tasked with particular parallelizable parts of a program.
 Its purpose would primarily be to run graphics related operations.
 However, it would be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
-It was also decided to send graphical output to screen directly from the accelerator, akin to modern GPUs.
+Graphics output would be sent to screen directly from the accelerator, like it is from a GPU.
 This would form a graphical computer system similar to how modern PCs are organized.
 
 \section{Modern Graphics Processing Units}
@@ -82,7 +82,6 @@ Non-graphics applications for a GPU include image processing, video encoding, an
 
 % Who makes graphics accelerators?
 % For what market do they make these?
-% What is performance like for modern GPUs?
 
 % PC market reference:
 % http://www.zdnet.com/latest-retail-figures-show-a-stable-pc-market-led-by-apple-and-cheap-notebooks-7000034024/
@@ -95,6 +94,7 @@ These GPUs can take the form of discrete chips or be integrated with the CPU.
 Intel, AMD, and NVIDIA are the big actors in the PC GPU market \cite{gpu_overall_sales}.
 Intel is largest overall but only makes GPUs integrated with their CPUs.
 AMD and NVIDIA share the discrete GPU market \cite{gpu_discrete_sales}.
+One of NVIDIA's GPU architectures will be used as an example later.
 A big market for the more powerful discrete GPUs is the computer gaming industry.
 This market has contributed a great deal to the rapid progression of graphics technologies.
 With the advent of general purpose GPUs, scientific computing has also gained an interest in powerful GPUs.
@@ -120,7 +120,7 @@ To illustrate why computers and mobile devices include a separate GPU, lets look
 
 Consumers expect their computers to display videos and games in Full HD resolution (1920*1080 pixels), which adds up to about 2 million pixels per frame.
 To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
-All of these tasks require several floating point operations.
+All of these tasks require several demanding floating point operations.
 For an optimistic estimate in a fairly simple scene, assume that the CPU needs to perform LOLSOMANY operations per pixel. \todo{fix some numbers}
 In this case, even with a clock speed of 4 GHz and no other interfering work, a Full HD screen will receive an unacceptably low framerate.
 Fortunately, pixels can often be computed independently of each other.
@@ -146,41 +146,36 @@ Filling every cycle and every pipeline stage with useful work is, of course, ess
 
 \subsection{At The Mercy of Memory}
 
-%"Modern GPUs are highly parallel, as shown in Figure C.2.5. For example, the GeForce 8800 can process 32 pixels per clock, at 600 MHz. Each pixel typically requires a color read and write and a depth read and write of a 4-byte pixel. Usually an average of two or three texels of four bytes each are read to generate the pixel’s color. So for a typical case, there is a demand of 28 bytes times 32 pixels = 896 bytes per clock. Clearly the bandwidth demand on the memory system is enormous."
-
-% Some numbers to show amount of memory.
-% Graphics workloads demand very high data tranfer rates.
-
-A GPU can deliver very high throughput because of its massive amount of parallelism, but with great computing power comes great memory demand.
+A GPU can achieve a very high throughput because of its massive amount of parallelism.
+But with great computing power comes great memory demand.
 Keeping all the computational units in a GPU supplied with enough data is a difficult challenge.
-Taking NVIDIA's GeForce 8800 GPU, a top-end model in 2006, as an example, it can process 32 pixels per clock at 600 MHz \cite{gpu_appendix}.
+Using NVIDIA's top-end GPU in 2006, GeForce 8800, as an example, it can process 32 pixels per clock at 600 MHz \cite{gpu_appendix}.
 A pixel will usually be 4 bytes in size.
 Calculating its value will typically require a read and write of color and depth, and a few texture element reads.
 So, on average, there may be a demand of 7 memory accesses of 4 bytes each per pixel.
-To sustain this for 32 pixels per clock, this requires up to 896 bytes per clock, or over 537 GB/s, in memory transfers.
+To sustain 32 pixel values per clock, this requires up to 896 bytes per clock, or 537 GB/s, in memory transfers.
 
-To supply the processing units with data, the GPU has to have a complex memory system. 
-The memory system uses techniques such as batching memory requests, compression, and different types of memories.
-The memory is organized in a hierarchy of memories and caches, of different sizes.
-The dram interface for the GeForce 8800 had 384 pins, making a bandwidth of up to 96 GB/s possible.
-To further increase the bandwidth compression is used to reduce the amount of data that has to be transmitted.
-To increase the memory throughput memory requests are saved up and sent in batches.
-This creates a lot of latency for memory requests, which means hiding this latency from the programmer is important.
- 
-\begin{itemize}
-	\item The memory buses are wide.
-\end{itemize}
+Many techniques are used by the memory system to meet such demanding requirements.
+First of all, the memory system consists of many different types of memories that are optimized for different access patterns.
+Some data must be globally available to all threads, others are local to one or a handful of threads.
+Some data is read only, some data is accessed with a high spatial locality in 3D space, and so on.
+Tailoring the memory system to suit important and commonly used access patterns is key to high performance.
+Some examples of memory types that NVIDIA use in their GPU architectures are texture memory, constant memory, local memory, and shared memory.
 
+The different types of memories are usually organized into several separate banks, often with their own memory controller, so that more requests can be handled at a time.
+Interleaving consecutive virtual addresses over different physical memory banks will assist in spreading requests evenly across the set of banks. 
+All memories typically have multiple levels of cache associated with it as well.
+Other techniques to improve memory bandwidth include data compression to reduce the amount of bits to transfer, and bundling memory accesses into sets that the memory system handle well.
+Bundling adds latency to memory requests.
+But, as mentioned earlier, this is not an issue as the GPU has plenty of other work to do while a particular thread waits.
 
-\subsection{Design Considerations}
+\subsection{GPU Complications}
 
-% What kind of functional requirements does a GPU have?
-% What issues are important to deal with when designing a GPU?
-% - keeping the memory bus saturated
-% - scheduling, to utilize the resources
-% - thread divergence(branching)
+% What kind of jobs is a GPU ill-suited for?
 
-\section{NVIDIA's Fermi Architecture} % or whatever architecture you want...
+GPUs are bad at branching!@
+
+\section{NVIDIA's Fermi Architecture}
 %http://www.nvidia.com/content/PDF/fermi_white_papers/P.Glaskowsky_NVIDIAFermi-TheFirstCompleteGPUComputingArchitecture.pdf
 %http://www.nvidia.com/content/PDF/fermi_white_papers/NVIDIA_Fermi_Compute_Architecture_Whitepaper.pdf
 
@@ -286,28 +281,32 @@ __global__ void fill_screen(int* framebuffer_start){
 
 \section{Demolicious}
 
-\textit{Why is the name of our system "Demolicious"?@}
-\textit{What approach did we take in making a graphics accelerator?@}
-\textit{What trade-offs did we have to make?@}
-\textit{What were our concerns?@}
-\textit{What kind of numbers did we hope to achieve?@}
+% Why is the name of our system "Demolicious"?@
+% What approach did we take in making a graphics accelerator?@
+% What trade-offs did we have to make?@
+% What were our concerns?@
+% What kind of numbers did we hope to achieve?@
 
-The Demolicious design is inspired by modern GPU design, like the one described above.
-Modern GPUs are very complex, and have long development cycles.
-For the Demolicious system the design had to be greatly simplified.
-Because of both time and space constraints, many features that define modern GPUs had to be left out.
-There is no branching, and there are no caches because of this.
+The system created in this project is named Demolicious.
+It is made for running graphical demo's, which is the inspiration for its name.
+A graphical demo is a visually pleasing programming feat made to demonstrate the capabilities of the computer as well as the programmer.
+
+Demolicious is inspired by modern PCs' CPU-GPU coordination, both in its programming model and its architectural design.
+The CPU will handle programs by default, and offload parallelizable tasks to the GPU.
+It will run on a microcontroller.
+The GPU will handle parallelizable tasks, like the many graphical operations in a demo, and send graphical data to screen.
+Its architecture will be designed and implemented on an FPGA.
+
+Modern GPUs have long development cycles and are very complex.
+Demolicious' GPU architecture is necessarily a greatly simplified version.
+Because of both time and space constraints, many features that define modern GPUs had to be left out in its design.
+The GPU has no branching, and there are no caches.
 Modern GPUs have dynamic scheduling to better utilize the resources.
 The Demolicious GPU uses barrel processing as a static scheduling scheme, and to hide memory latency.
 
-
-The project will enter history like a reking ball.@
-
-Her name is Licious. Demo Licious.@
-
 \subsection{Solution Requirements}
 
-\textit{How did we arrive at our list of requirements?@}
+% How did we arrive at our list of requirements?@
 
 \begin{table}[htp]
     \centering
