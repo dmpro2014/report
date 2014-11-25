@@ -19,7 +19,8 @@ There is a thread pool the same size as the number of instructions that pass fro
 The threads take turn executing in a circular fashion, such that the threads are resumed after just enough time to complete a memory request.
 This concept is called \emph{barrel processing} and is a type of \emph{static scheduling}.
 
-Of course, with barrel processing, the memory would need to be able to complete one request for every instruction.
+The memory would need to be able to complete one request by every thread-change.
+This is because even if all the threads access memory one after another, the results should still be ready by the next time they run.
 But a request \emph{can} take more than one instruction's time to be processed, if the memory can \emph{start} to process one request per instruction.
 This is (with some slight simplification) how modern SDRAM works, and it is called \emph{pipelining} the memory.
 
