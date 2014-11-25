@@ -42,7 +42,7 @@ will get colored green.
 The thread stops running after executing the \verb/thread_finished/ instruction.
 \\
 
-\todo{A small header here? subsubsection?}
+\subsection{Executing Kernels}
 
 Now, how do we execute this kernel on the GPU?
 The program running on the CPU, referred to as the \emph{host program},
@@ -74,8 +74,7 @@ A reference to the uploaded kernel is returned, which can be used when running t
 In addition, the \verb/run_kernel/ function needs to know the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
-\todo{Can "another" be used here?}
-Another difference from CUDA is that on demolicious kernels can access the actual framebuffers directly.
+A difference from the CUDA programming model is that on Demolicious, kernels can access the actual framebuffers directly.
 So while you had to read back the framebuffer from the GPU memory in CUDA to visualize it,
 this kernel writes directly to one of the framebuffers \footnote{see double buffering? @ref or elaborate@} that is being shown on screen through HDMI.
 
@@ -107,9 +106,9 @@ load_constant(0, 0x001F);
 run_kernel(fill_screen, 4096);
 \end{c-code}
 
-\todo{This paragraph breaks the flow. Should be rewritten somewhat to fit with the rest. }
+\subsection{More Advanced Kernels}
 The instruction set available to kernels is fairly limited.
-Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps. See section @ for more detail.\todo{Reference to somewhere that explains why they cannot branch}
+Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps. See section @ for more detail. \todo{Reference to somewhere that explains why they cannot branch}
 Although the kernels don't support diverging control flow,
 conditional execution is accomplished through predicated instructions.
 
