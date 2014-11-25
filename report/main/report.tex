@@ -1,4 +1,4 @@
-\documentclass[paper=a4, fontsize=11pt]{report} % A4 paper and 11pt font size
+\documentclass[a4paper, fontsize=11pt]{report} % A4 paper and 11pt font size
 \input{../main/_setup.tex}
 
 %----------------------------------------------------------------------------------------
@@ -55,6 +55,8 @@ Torkel Berli}
 
 \tableofcontents
 
+\todo{Add list of listings in table of contents}
+
 \setcounter{secnumdepth}{3}
 
 \newpage
@@ -83,9 +85,6 @@ Torkel Berli}
 % GPU
 \subfile{../gpu/gpu.tex}
 
-% Comm
-\subfile{../comm/comm.tex}
-
 %PCB
 \subfile{../pcb/pcb.tex}
 
@@ -104,6 +103,12 @@ Torkel Berli}
 \subfile{../conclusion/conclusion.tex}
 
 \printbibliography
+
+\listoftables
+
+\listoffigures
+
+\lstlistoflistings
 
 \newpage
 

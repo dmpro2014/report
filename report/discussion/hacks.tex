@@ -21,9 +21,9 @@ Due to a poor schematic in the clock component datasheet, the clock was wired in
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../pcb/assets/pcb-clock.pdf}
-    \label{fig:pcb-clock}
     \caption{On the left: How the clock from the FPGA should be connected.
              On the right: how it was connected on the PCB.}
+    \label{fig:pcb-clock}
 \end{figure}
 
 Because of this, the clock did not work.
@@ -34,8 +34,8 @@ This caused the circuit on the PCB to match up with the correct circuit from the
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{../pcb/assets/pcb-clock-fix.pdf}
-    \label{fig:pcb-clock-fix}
     \caption{How the FPGA clock fix was implemented.}
+    \label{fig:pcb-clock-fix}
 \end{figure}
 
 \subsection*{Mismatch LDO}
@@ -49,8 +49,8 @@ The solution was to place the LDO diagonally, \todo{insert the picture of the LD
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../pcb/assets/ldo-footprints.pdf}
-    \label{fig:ldo-footprints}
     \caption{On the left: 3.3 V LDO footprint. On the right: 1.2 V LDO footprint.}
+    \label{fig:ldo-footprints}
 \end{figure}
 
 \end{document}

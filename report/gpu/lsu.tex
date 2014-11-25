@@ -1,0 +1,25 @@
+\subsection{Load/Store Unit}
+A load/store unit is responsible for handling memory requests from the core processors.
+The load/store unit of Demolicious needs to be capable of simultaneously servicing incoming request from all the streaming processors.
+Requests are asynchronously carried out in the background, and replies are delivered directly into the appropriate registers of the threads that made the request.
+
+Demolicious has two independent memory banks, each capable of reading or writing one word every cycle.
+To maximize the throughput to the memory, a word-striping scheme was used:
+The lowest bit of the memory address determines which bank holds that location.
+
+Because there are two independent memory banks, the incoming request are routed to two separate queues, one for each memory.
+Each queue then feeds requests to its associated memory control unit.
+Read responses are then handed to the write-back unit, which delivers the data to the appropriate register file.
+
+The queues are necessary because Demolicious has more streaming processors than memory banks, so all the requests from a warp can not be completed in a single cycle.
+The streaming processors work in tandem, and issue requests simultaneously.
+Each memory bank can service at most one request per cycle.
+As such, it takes several cycles to complete the requests for a single warp.
+Since there is a limit to how many requests can be in the queue at any time, there is also a limit to how often requests can be issued.
+
+\todo{The following does should be moved to another chapter.}
+This several-cycle latency and queue size limit would have to be taken into consideration when programming for this architecture.
+Loads would be not ready before several cycles later, and it would be ill-behaved to issue a request before there is room in the queue again.
+To hide this latency a barrel is introduced to processor design.
+A barrel makes the processor take turns executing warps from an active set in a round-robin fashion.
+If the number of warps in a barrel is equal to the number of cycles of latency, the result of the first load of in the barrel can be used in the next instruction.

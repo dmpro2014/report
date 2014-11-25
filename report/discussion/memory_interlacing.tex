@@ -1,0 +1,19 @@
+\section{SRAM - Alternative Memory Layouts}
+
+The presented architecture uses interlaced SRAM banks, presenting one large unified memory space.
+An alternative approach is to dedicate one SRAM bank to the LSU, the other to the HDMI unit.
+With dedicated banks there will be no need for arbitration, as there never will be more than one unit accessing each at bank the time.
+This would result in the HDMI unit never starving due to memory lockout from the LSU.
+The LSU would also be simpler, needing only a single queue to service memory requests.
+
+The major advantage of interlacing the address space of the two memory banks is that memory throughput effectively doubles.
+Two requests can be processed in parallel from the unit currently granted access by the SRAM arbiter.
+The double data rate requires the barrel height to be equal to only half the number of processor cores.
+This due to that when a warp of size $n$ requests memory access, it will take $n/2$ cycles to dispatch all requests, as each SRAM bank services half of the requests.
+With the dedicated memory banks, however, only one memory request can be serviced each cycle.
+This requires that the barrel height is increased to $n$.
+
+As the register directories compose a significant part of the design footprint, the barrel height reduction is significant.
+Signal fanout is also reduced from- and to the register banks, dampening the reduction in clock frequency when scaling the number of computation cores.
+More hardware resources can now be allocated to processor cores, power is saved due to less registers being used, and the clock frequency can stay higher.
+Drawbacks include the occasional flicker due to HDMI unit starvation.
