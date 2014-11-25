@@ -228,7 +228,7 @@ The image in the figure does have some artifacts, but the ones caused by single 
 	\label{fig:double_buffering}
 \end{figure}
 
-\section{Power efficiency}
+\section{Demolicious Power efficiency}
 
 With a power draw of \SI{0.353}{W} for a Demolicious setup of 8 cores \ref{table:scalability},
 it is in the interest of nature to keep it spinning for as short as possible.
@@ -239,7 +239,7 @@ Therefore, Demolicious has been designed with the goal \ref{tab:goals} of allowi
 
 The Giant Gecko micro controller used as the host device has four different energy modes, each lower energy mode more efficient, but more constrained.
 Deeper power levels may conserve more power, but require a longer time to wake up.
-EM0 is normal operation, while EM2 (Deep sleep mode) is the deepest power level with acceptable wake-up times for our usecase (less than 2 ms) \cite{efm-referencemanual}.
+EM0 is normal operation, while EM2 (Deep sleep mode) is the deepest power level with acceptable wake-up times for our usecase (somewhere around 2 ms) \cite{efm-referencemanual}.
 
 There are two different sleep patterns used by the MCU based on the executing program:
 \begin{enumerate}
@@ -251,24 +251,23 @@ There are two different sleep patterns used by the MCU based on the executing pr
     The host device can therefore enter EM2 after launching a kernel, using the kernel complete pin to trigger an interrupt, waking the host device from sleep.
 \end{enumerate}
 
+The design is sound, an has been implemented successfully before by the authors, but there was not enough time to fully implement it for this proect in the host code.
+The following numbers are therefore harvested from from Silicon labs Simplicity studio energyAware Battery estimator.
 
-Now for some numbers!
-Let's say we're targeting 30 FPS on the tunnel kernel.
-The kernel itself takes 3 ms to complete, when rendered at 64 x 64 resolution.
-Kernel launch overhead is negligible.
-This allows the CPU to spend 90 \% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
+Demolicous with 8 execution cores can run the tunnel kernel at 50 FPS @ 512x256, spending \SI{12.5}{ms} per frame \ref{fig:kernel_tunnel_fps}.
+The tunnel kernel is to be executed 30 times per second, with the MCU waking via a timer interrupt to spawn the new kernels.
+Kernel launch overhead is roughly $ 10\si\micro + 2 ms ~= 2 ms.$ When waking 30 times per second, this results in 60 ms awake per second.
+EM0 with EBI consumes 142.6 mAh, EM2 190\si\micro a. This then averages to roughly $ 142.6 mAh * 0.060 + 0.19 mAh * 0.940 = 8.734$ mAh average consumption.
 
-For the throughput-intensive kernel, say the kernel itself takes 20ms to complete.
-\todo{How much time does the MCU spend executing?}
-Kernel launch overhead is 5\si\micro s, resulting in a 95 \% idle time that can be spent sleeping.
-This averages to a power consumption of NUMBER.
+For the large dataset kernel, assume it takes 100ms to complete execution.
+The MCU will have to wake 10 times per second, using 2 ms to wake and a negligible overhead to deploy new kernels.
+This results in $ 10 * 2 ms = 20 ms $ spent in EM0, and 980 ms spent in EM2.
+This averages to $ 142.6 mAh * 0.020 + 0.19 mAh * 0.980 = 3.038 mAh $ average consumption.
 
+Compare these power draws, 3.038 mAh and 8.734 mAh to the 353 mW power consumption of the FPGA, and the 142.6 mAh consumption of the MCU in EM0.
+The low power modes really pay for themselves.
 
-Finally, the system can run for SOME HOURS on external batteries, mainly being limited by the GPU power draw.
-
-\todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
-
-\subsection{PCB stuff MOVE THIS}
+\subsection{PCB & components power efficiency}
 
 The system is powered by a EH-70p USB charger for the Nikon Coolpix S2700 camera \cite[p. 196]{usb-charger}.
 This charger outputs a 5 V voltage and delivers 550 mA.
