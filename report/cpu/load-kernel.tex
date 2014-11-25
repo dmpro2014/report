@@ -2,13 +2,13 @@
 As seen in the Programming Model chapter, host programs can upload kernels to the GPU.
 They should preferably do so at the beginning of the program, to avoid delays during execution.
 
-The CPU's Demolicious library has a built-in function for this called \verb/load_kernel/, seen in listing \ref{lst:load-kernel}.
+The CPU's Demolicious library has a built-in function for this called \verb/load_kernel/, seen in listing \ref{lst:load-kernel-function}.
 It takes an array of assembled instructions as parameter,
 allocates memory on the GPU and uploads the kernel,
 before it returns a reference to GPU memory pointing to the start of the kernel.
 This reference is used when starting kernels.
 
-\begin{c-code}[caption=A load\_kernel function call with the fillscreen kernel, label=lst:load-kernel]
+\begin{c-code}[caption=A load\_kernel function call with the fillscreen kernel, label=lst:load-kernel-function]
 kernel_t fill_screen = load_kernel(fill_screen_kernel);
 \end{c-code}
 
