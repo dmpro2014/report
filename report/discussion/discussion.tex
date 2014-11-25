@@ -3,10 +3,10 @@
 \chapter{Discussion}
 
 \section{Multiple clock domains in HDMI unit}
-HDMI needs to output words with a frequency of \SI{25}{MHz}.
+The HDMI unit needs to output words with a frequency of \SI{25}{MHz}.
 If it were to share clock with the rest of the system, the system clock would have to be \SI{25}{Mhz} itself or a multiple thereof.
-To avoid posing this limitation, the buffer in the HDMI unit crosses clock domains.
-Since the buffer receives data at native memory speed, it is filled faster than otherwise possible.
+To avoid imposing this limitation, the buffer in the HDMI unit crosses clock domains.
+Since the buffer receives data at native memory speed, it is filled faster than the HDMI unit can read from it.
 The data read out at \SI{25}{MHz} also need to be serialized to a frequency of \SI{250}{MHz} before being output from the FPGA.
 This is to the knowledge of the authors, the first project in the Computer Project course with a design incorporating multiple clocks.
 
@@ -22,17 +22,17 @@ Since at the time we still had much else to do, implementing input by USB became
 This also applied to the serial backup as well.
 
 \subsection*{VGA-port}
-The PCB was designed with two VGA headers, one for the FPGA and one for the MCU. \todo{Maybe add picture showing the headers.}
-Looking back, it was redundant to support two VGA ports.
+The PCB was designed with two VGA headers, one for the FPGA and one for the MCU.
 An alternative solution is having one VGA port with exposed headers.
 With exposed headers from the MCU and the FPGA as well, one could change which one the VGA port is connected to by jumpers like \ref{fig:vga-solution}.
+
 By removing one of the VGA ports, the size of the PCB could have been reduced, or used for other components. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../discussion/assets/vga-solution.pdf}
-    \label{fig:vga-solution}
     \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
+    \label{fig:vga-solution}
 \end{figure}
 
 \subsection{Clocks}
@@ -61,9 +61,7 @@ This led us to conclude that we had likely misunderstood how to measure the freq
 
 \subfile{../discussion/memory_interlacing.tex}
 
-\section{"Jaktstart"}
-
-Not everyone can start at the same time
+\subfile{../discussion/jaktstart.tex}
 
 \section{Redundancy design choices or w/e}
 What did we end up needing?
@@ -81,6 +79,8 @@ Or is memory the big bottleneck
 \section{SRAM bottleneck}
 HDMI vs. the GPU?
 Will the HDMI be fine with always being second in line?
+
+\subfile{../discussion/programming_challenges.tex}
 
 \subfile{../discussion/budget.tex}
 

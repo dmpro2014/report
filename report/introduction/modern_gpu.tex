@@ -1,0 +1,126 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\chapter{Modern Graphics Processing Units}
+\label{sec:modern_gpu}
+
+\section{What is a GPU}
+% What is a GPU?
+% What is its purpose?
+
+Modern GPUs are, in a way, an evolution of former Video Graphics Array (VGA) controllers \cite{gpu_appendix}.
+A VGA controller of the early 1990s served as a memory controller and display generator that wrote framebuffer values to a display.
+As technology advanced, it received hardware to perform specific graphics related functions.
+This eventually evolved into a processor, with its own memory, that incorporated a full set of graphical functions.
+
+A GPU's primary purpose has traditionally been to offload graphical calculations from the CPU and render graphical data to a screen.
+Graphical functions are accessed through graphical APIs like DirectX and OpenGL.
+Today, GPUs also have general computing capabilities and may serve as co-processors for the CPU in addition to handling their graphical duties.
+Non-graphics applications for a GPU include image processing, video encoding, and many scientific computing problems and other large, highly regular calculations.
+
+
+\section{The GPU Market}
+
+% Who makes graphics accelerators?
+% For what market do they make these?
+
+% PC market reference:
+% http://www.zdnet.com/latest-retail-figures-show-a-stable-pc-market-led-by-apple-and-cheap-notebooks-7000034024/
+% NDP provide consumer tracking services. Link: https://www.npd.com/wps/portal/npd/us/about-npd/consumer-panel/
+% This is their report: https://www.npd.com/wps/portal/npd/us/news/press-releases/apple-and-chrome-boost-us-retail-pc-back-to-school-sales/
+
+
+In general, at least one GPU is present in every PC these days, and the market for PCs has been relatively stable for many years \cite{pc_sales}.
+These GPUs can take the form of discrete chips or be integrated with the CPU.
+Intel, AMD, and NVIDIA are the big actors in the PC GPU market \cite{gpu_overall_sales}.
+Intel is largest overall but only makes GPUs integrated with their CPUs.
+AMD and NVIDIA share the discrete GPU market \cite{gpu_discrete_sales}.
+One of NVIDIA's GPU architectures will be used as an example later.
+A big market for the more powerful discrete GPUs is the computer gaming industry.
+This market has contributed a great deal to the rapid progression of graphics technologies.
+With the advent of general purpose GPUs, scientific computing has also gained an interest in powerful GPUs.
+
+In the past 6 years, the booming market for mobile smart devices has introduced a new arena for GPUs.
+Mobile devices are currently outselling workstations, and every new mobile device sold today is shipped with a small-format GPU.
+These GPUs are generally integrated in the device's system-on-a-chip (SoC), and have slightly different design considerations than traditional workstation GPUs.
+As for everything else that runs on batteries, power consumption is a primary concern in this format.
+Traditionally, this is a concern that GPU design has not needed to prioritize.
+The mobile GPU format has opened up for other GPU design companies than the three mentioned above.
+The three dominant GPU design companies in the SoC market are Qualcomm, ARM, and Imagination Technologies \cite{gpu_mobile_sales}.
+
+% PC GPU market share reference:
+% http://jonpeddie.com/news/comments/gpu-shipments-marketwatch-q2-2014-charts-and-images/
+% and: http://jonpeddie.com/publications/add-in-board-report/
+% SoC market share reference: http://jonpeddie.com/press-releases/details/qualcomm-single-largest-proprietary-gpu-supplier-imagination-technologies-t/
+% "Jon Peddie Research (JPR) is a technically oriented computer graphics marketing and management-consulting firm"
+
+\section{An Enormous Task}
+
+Producing computer graphics is a highly processing intensive task.
+Consumers expect their computers to display videos and games in high resolutions and at high framerates.
+To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
+All of these tasks require several demanding floating point operations.
+
+A CPU is optimized for serial programs, and will compute a picture frame in such a fashion.
+The problem is that, even with the processing power of 4 GHz, it is not able to handle the amount of calculations well enough for modern graphical demands.
+Fortunately, pixels can often be computed independently of each other.
+A CPU fails to take advantage of this.
+
+\section{Taking Advantage of Parallelism}
+
+For a CPU, latency is of primary concern because the next instruction often depends on the result of the previous one.
+Therefore, the CPU needs to complete each instruction as quickly as possible.
+This makes the CPU very good at problems with a low level of parallelism, which after all characterizes most programs.
+Finishing an instruction as quickly as possible is less of a concern when problems are more parallel in nature.
+A GPU therefore optimizes for throughput instead of latency.
+It gains throughput by making its architecture highly parallel in all respects.
+
+The fast single-threaded cores in CPUs are replaced with a large quantity of smaller, slower cores.
+A GPU gains throughput by spending resources on execution units instead of more cache, prediction logic, or dynamic reordering logic to make one execution unit very effective.
+It also exploits parallelism with its deep pipelines, executing many instructions concurrently within each core.
+These architectural decisions cause each individual thread to require more wait cycles to wait for memory access or pipeline hazards.
+Fortunately, a GPU is not concerned about each individual thread's tardiness, and instead fills these wait cycles by interleaving many threads at once in each core.
+Filling every cycle and every pipeline stage with useful work is, of course, essential in optimizing throughput.
+
+% Sophisticated dynamic scheduling schemes works to maximize the utilization of GPU resources.
+
+\section{At The Mercy of Memory}
+
+A GPU can achieve a very high throughput because of its massive amount of parallelism.
+But with great computing power comes great memory demand.
+Keeping all the computational units in a GPU supplied with enough data is a difficult challenge.
+Using NVIDIA's top-end GPU in 2006, GeForce 8800, as an example, it can process 32 pixels per clock at 600 MHz \cite{gpu_appendix}.
+A pixel will usually be 4 bytes in size.
+Calculating its value will typically require a read and write of color and depth, and a few texture element reads.
+So, on average, there may be a demand of 7 memory accesses of 4 bytes each per pixel.
+To sustain 32 pixel values per clock, this requires up to 896 bytes per clock, or 537 GB/s, in memory transfers.
+
+Many techniques are used by the memory system to meet such demanding requirements.
+First of all, the memory system consists of many different types of memories that are optimized for different access patterns.
+Some data must be globally available to all threads, others are local to one or a handful of threads.
+Some data is read only, some data is accessed with a high spatial locality in 3D space, and so on.
+Tailoring the memory system to suit important and commonly used access patterns is key to high performance.
+Some examples of memory types that NVIDIA use in their GPU architectures are texture memory, constant memory, local memory, and shared memory.
+
+The different types of memories are usually organized into several separate banks, often with their own memory controller, so that more requests can be handled at a time.
+Interleaving consecutive virtual addresses over different physical memory banks will assist in spreading requests evenly across the set of banks. 
+All memories typically have multiple levels of cache associated with them as well.
+Other techniques to improve memory bandwidth include data compression to reduce the amount of bits to transfer, and bundling memory accesses into sets that the memory system handle well.
+Bundling adds latency to memory requests.
+But, as mentioned earlier, this is not an issue as the GPU has plenty of other work to do while a particular thread waits.
+
+\section{Shortcomings of a GPU}
+
+% What kind of jobs is a GPU ill-suited for?
+
+A GPU obviously does its parallel calculations effectively, but it comes at a cost.
+It gains throughput over a CPU in part by sacrificing low latency in individual instructions.
+As we have seen, this happens as a result of deep pipelines and delayed memory requests, among other things.
+Such architectural features reduce the performance of serial programs, especially ones with a lot of branching.
+Branching instructions on a deeply pipelined processor is heavily punished by control hazards.
+
+Since most programs are not particularly parallelizable and commonly contain branching, a GPU is insufficient for running an average program by today's standards.
+Computer users today are accustomed to the performance provided by the cooperation of a CPU and GPU.
+This is so essential that no computer, or even mobile unit, with a graphical display is produced today without the combination of both.
+
+\end{document}

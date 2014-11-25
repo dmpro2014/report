@@ -12,8 +12,9 @@
 \textsc{Norwegian University of Science and Technology} \\ [25pt] % Your university, school and/or department name(s)
 \horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
 \huge \textbf{Demolicious} \\ % The assignment title
-TDT4295 Computer Design Project\\
+A General-Purpose Graphics Processing Computer \\
 \horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+\large TDT4295 Computer Design Project \\
 }
 
 \author{Authors:\\ \\
@@ -53,6 +54,26 @@ Torkel Berli}
 
 \newpage
 
+\section*{Acknowledgements}
+A huge thank you goes out to the following for tremendous help during the project:
+
+\vspace*{\fill}
+\begin{description}
+
+    \item[Gunnar Tufte]
+        for guiding us towards a finished, working product.
+    \item[Yaman Umuroğlu]
+        for great project coordination and answers to questions at close to any hours of the day.
+    \item[Odd Rune S. Lykkebø]
+        for fantastic email response time, anywhere in the world.
+    \item[Omega Verksted]
+        for help with electronic circuits, as well as being able to provide endless amounts of headers at 4 a.m.
+
+\end{description}
+\vspace*{\fill}
+
+\newpage
+
 \tableofcontents
 
 \setcounter{secnumdepth}{3}
@@ -63,11 +84,17 @@ Torkel Berli}
 
 \part{Introduction}
 
-%INTRODUCTION
-\subfile{../introduction/introduction.tex}
+% Introduction to Computer Design Project
+\subfile{../introduction/project_intro.tex}
 
-% STATE OF THE ART
-\subfile{../state_of_the_art/state_of_the_art.tex}
+% Modern GPUs
+\subfile{../introduction/modern_gpu.tex}
+
+% Fermi and CUDA
+\subfile{../introduction/fermi.tex}
+
+% Introduction to Demolicious
+\subfile{../introduction/demolicious.tex}
 
 \part{Solution}
 
@@ -82,6 +109,9 @@ Torkel Berli}
 
 %PCB
 \subfile{../pcb/pcb.tex}
+
+% Additional components
+\subfile{../misc/misc.tex}
 
 \part{Results \& Discussion}
 
@@ -99,6 +129,12 @@ Torkel Berli}
 
 \printbibliography
 
+\listoftables
+
+\listoffigures
+
+\lstlistoflistings
+
 \newpage
 
 \appendix
@@ -107,5 +143,9 @@ Torkel Berli}
 \subfile{../appendix/expenses.tex}
 
 \subfile{../appendix/instruction-set.tex}
+
+\subfile{../appendix/tunnel.tex}
+
+\subfile{../appendix/schematic.tex}
 
 \end{document}

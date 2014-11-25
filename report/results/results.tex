@@ -40,9 +40,9 @@ Limiting factors to this scalability include:
 Cores & Crit. path & Max freq. & Dynamic + quiescent power & LX16 & LX45 \\
 \hline
 \hline
-2 / 2      & 17.103ns      & 58.469MHz & 0.272: 0.088 + 0.184 & \checkmark & \checkmark  \\
-4 / 2     & 17.959ns      & 55.682MHz & 0.292: 0.107 + 0.184 & \checkmark & \checkmark \\
-8 / 4   & 19.722ns      & 50.108MHz & 0.353: 0.168 + 0.186 &            & \checkmark \\
+2 / 2      & 17.103ns      & 58.469MHz & 0.272 W: 0.088 W + 0.184 W & \checkmark & \checkmark  \\
+4 / 2     & 17.959ns      & 55.682MHz & 0.292 W: 0.107 W + 0.184 W & \checkmark & \checkmark \\
+8 / 4   & 19.722ns      & 50.108MHz & 0.353 W: 0.168 W + 0.186 W &            & \checkmark \\
 16 / 8     & X  & X & X          & \\
        &               &           &                   &    & \\
 \hline
@@ -66,7 +66,7 @@ The decrease in execution time will allow both the host CPU and the GPU to enter
 
 \section{Performance}
 
-In the Demolicious system, the kernel calls can be issues by the CPU in only a few cycles.
+In the Demolicious system, the kernel calls can be issued by the CPU in only a few cycles.
 This means that the number of frames per second (FPS) that the system can display is dominated by the run time of the kernels.
 
 \begin{figure}[H]
@@ -168,7 +168,6 @@ Using the results presented in section \ref{sec:scalability}, the expected frame
 \end{figure}
 
 
-
 The figures \ref{fig:kernel_tunnel_fps}, and \ref{fig:kernel_green_screen_fps} display the relationship between frame rate, resolution and number of cores.
 Both figures display that doubling the amount of core roughly doubles the frame rate.
 
@@ -204,6 +203,4 @@ When the video unit is starved the buffer containing pixels to output will under
 For the duration of the starve, a line containing the previous pixel on the bus will be displayed on the screen.
 
 
-
- 
 \end{document}

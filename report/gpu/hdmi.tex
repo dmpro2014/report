@@ -16,7 +16,7 @@
 	}
 	\label{fig:video_unit}
 \end{figure}
-A graphical processing unit without video output is commonly known as a space heater.
+From a demo makers perspective, a GPU without a video output is commonly known as a space heater.
 Demolicious uses HDMI for its video output, making it easy to connect to any recent video display.
 
 HDMI is a streaming protocol; the receiver reads data from the cable at a fixed rate.
@@ -35,14 +35,14 @@ For debugging purposes, the letterbox consists of a low-contrast checker pattern
 
 To actually send the data over HDMI, control signals and pixel data are split into three channels.
 They are then encoded using a scheme known as TMDS.
-The purpose of TDMS is to minimize the effect of noise over the physical connection.
+The purpose of TMDS is to minimize the effect of noise over the physical connection.
 
-TDMS uses 10 bits to encode either an 8-bit color value when sending a image, or control values when not.
+TMDS uses 10 bits to encode either an 8-bit color value when sending a image, or control values when not.
 Demolicious uses a 16-bit word size, so colors are represented with 5 bits for red, 6 for green and 5 for blue.
 These are resized to 8-bit values using a scheme that allows for both complete black and white colors.
 Each channel is then serialized before being output together with a clock using differential-signaling.
 
 Finally, to avoid a visual artifact known as \emph{screen tearing}, a technique known as \emph{V-sync} with \emph{double buffering} is used.
-These techniques ensure that only complete frames of video are output, increasing visual fidelty.
+These techniques ensure that only complete frames of video are output, increasing visual fidelity.
 
 \end{document}
