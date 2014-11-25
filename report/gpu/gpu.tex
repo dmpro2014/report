@@ -94,21 +94,22 @@ To keep the architecture as simple, Demolicious employs a simple static scheduli
 The active warps are simply rotated every instruction.
 \todo{insert figure and example walkthrough}
 
-However, there is an issue with this simple scheduling algorithm.  
- 
+However, there is an issue with this simple scheduling algorithm. Let's see what happens when we get to instruction D, marked in red. At clock cycle @\footnote{The cycle numbers are written in the upper right corner of each square} all threads in warp 0 executes a memory request, that is 8 memory requests. 
+As our memory system handles two requests per clock, it is busy the next 4 cycles with this request, and when warp 0 gets to execute the next instruction, the memory operation is complete for all the threads.
+Had this been a load instead of a store, it could be used on the next instruction, and we avoided a stall.
+So far, so good.
+However, when warp 1 executes the store instruction in cycle @, the memory is already busy with the request from warp 0.
+The memory requests from warp 0 cannot be started before cycle @, and is not ready for its next instruction. 
+It is even worse for warp 2 and 3. As all warps execute the same code, this can introduce up to 8 \emph{nop} instruction for every warp.
 
+Clearly, the introduction of this barrel processing technique did not solve our problems.
+Fortunately, this was a simplified version of the scheduling in Demolicious. 
+The actualing scheduling is shown in figure @. 
+By introducing an offset in the instructions executed, henceforth called jagged execution\footnote{Or "jaktstart" as we like to call it in Norwegian}, we can avoid this issue.
 
-
-\emph{Hide this with barrel}
-
-
-
-
-\emph{Bundling the writes. This bad. @}
-
-\emph{Solve by stagger@}
-
-\emph{Walk through example@}
+With this scheduling, you can see that there are 4 executions without a memory operation between every memory operation.
+This is true as long as memory operations have 4 non-memory operations between them in the kernel.
+It is up to the programmer or assembler to ensure that this holds.
 
 
 \subsection{Should this section be moved? What to call @}
