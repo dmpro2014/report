@@ -1,8 +1,8 @@
-\section{SRAM - To Interlace or not to Interlace}
+\section{SRAM - Alternative Memory Layouts}
 
 The presented architecture uses interlaced SRAM banks, presenting one large unified memory space.
 An alternative approach is to dedicate one SRAM bank to the LSU, the other to the HDMI unit.
-With dedicated banks there will be no need for arbitration, as there never will be more than one unit accessing each at the time.
+With dedicated banks there will be no need for arbitration, as there never will be more than one unit accessing each at bank the time.
 This would result in the HDMI unit never starving due to memory lockout from the GPU.
 The LSU would also be simpler, needing only a single queue to service memory requests.
 
