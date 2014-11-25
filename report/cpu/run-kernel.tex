@@ -26,13 +26,16 @@ When writing to this \emph{start kernel} address, we use the data value for tell
 For example, say the \verb/fill_kernel/ reference points to instruction 100 in instruction memory.
 Then, executing the code in listing \ref{lst:run-kernel} will write the value 4096 to address 100.
 
-To increase the maximum number of threads which may theoretically be spawned,
-the number of \emph{batches} of threads is what is actually written.
-A batch represents the number of threads which can be executed at the same time,
-and will be explained in more detail in the next chapter. \todo{will it?}
+Actually writing the number of threads to spawn over the data bus,
+will limit the maximum number of threads to 2\textsuperscript{16}, which is 65536.
+This will not suffice for our target resolution of 512*256,
+when running one thread per pixel.
+Instead, the number of \emph{batches} of threads is what is actually written to the GPU.
+\todo{Has it been discussed?}
+A batch represents the nuber of threads which can be executed at the same time,
+and will be explained in more detail in the next chapter.
 The number of threads in a batch will typically be between 8 and 32 depending on the size of the GPU.
-What's important is that this work-around will help in increasing the number of threads that can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21},
-which is needed for the target resolution of 512*256, i.e. 2\textsuperscript{17} pixels.
+What's important is that this work-around will help in increasing the number of threads that can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21}.
 
 Only one kernel can execute at the time in the GPU.
 Because of this, the \verb/run_kernel/ call is designed to block until the kernel has completed execution.
