@@ -7,18 +7,14 @@
 	\label{fig:programming_model_cpu_gpu}
 \end{figure}
 
-The programming model for Demolicious has been heavily inspired by CUDA and OpenCL, 
-@@
+The programming model for Demolicious has been heavily inspired by CUDA. 
 
+\todo{Insert reference to CUDA section. }
+So let's see how we can implement the same program filling a framebuffer with green, as we did in the CUDA introduction.
 
-\todo{Mention SIMT}
-
-
-
-Below, in listing \ref{lst:green-kernel}, 
-a kernel written for Demolicious that fills a single memory location,
-or pixel, with green is presented.
-The memory location to be written to is decided by the special id register.
+Below, in listing \ref{lst:green-kernel}, the kernel filling a framebuffer with green is written for Demolicious.
+The first thing you'll notice is that it is not written in C, but assembly.
+This is only because we only had time to write an assembler, and not a compiler for our architecture.
 
 
 \begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
@@ -37,7 +33,6 @@ which corresponds to the color green in the Demolicious color space,
 into the special register \textbf{\$data}.
 
 The second and third line move the kernel's thread ID into the address registers.
-
 
 Finally, the store instruction is executed, storing the value in the \textbf{\$data} register
 to the address given by the two address registers.
@@ -80,6 +75,11 @@ A reference to the uploaded kernel is returned, which can be used when running t
 In addition, the \verb/run_kernel/ function needs to know the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
+\todo{Can "another" be used here?}
+Another difference from CUDA is that on demolicious kernels can access the actual framebuffers directly. 
+So while you had to read back the framebuffer from the GPU memory in CUDA to visualize it, 
+this kernel writes directly to one of the framebuffers \footnote{see double buffering? @ref or elaborate@} that is being shown on screen through HDMI.
+
 While being able to make the screen green by running a specialized kernel is nice,
 it would require many similar kernels to color the screen in different colors.
 To improve on this, kernels can take parameters as input,
@@ -110,7 +110,7 @@ run_kernel(fill_screen, 4096);
 
 \todo{This paragraph breaks the flow. Should be rewritten somewhat to fit with the rest. }
 The instruction set available to kernels is fairly limited.
-Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
+Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps. See section @ for more detail.\todo{Reference to somewhere that explains why they cannot branch}
 Although the kernels don't support diverging control flow,
 conditional execution is accomplished through predicated instructions.
 
@@ -142,9 +142,29 @@ Line 4 first writes a color value to the \textbf{\$data} register.
 When masking is disabled this value will be overwritten on line 5.
 The kernel finishes by writing the data value to memory.
 
-\todo{Add "conclusion" to the paragraph?}
+
+During this section we have done some simplifications, namely ommiting some \verb/noop/ instructions that are required under some specific circumstances. 
+The actual kernel code that is sent to the GPU for the kernel that fills the screen with green can be seen in listing \ref{lst:real-green-kernel}. The kernel from listing \ref{lst:masked-execution} however, is executed as is. The reason for these \verb/noop/ instructions will be explained in later chapters.
+
+\todo{Finish the nop examples}
+\begin{assembly}[caption=The green-screen kernel as it is actually , label=lst:real-green-kernel]
+ldi $data, 0b0000011111100000
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+nop
+nop
+nop
+thread_finished
+\end{assembly}
+
+As illustrated by these examples, while the kernels on Demolicious are more limited than CUDA kernels, the programming model are very similar.
+With these examples in mind, it's time to take a look behind the scenes and see how the CPU and GPU actually runs this code.
 
 
+\todo{Should we introduce calling a kernel multiple times in a loop?}
+
+\todo{Should we show multiple kernels being loaded and executed in any order?}
 
 \todo{Talk about memory and cooldown}
 
