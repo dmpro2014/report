@@ -39,6 +39,9 @@ The CPU issues commands to the communication unit in the GPU. Commands are launc
 Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
 The processors load constants from the constant memory, and uses the load/store unit for accessing the data memory.
 
+\emph{Insert stats on how many cores etc etc@@@}
+
+
 \section{Receiving a Kernel Call}
 \begin{figure}[H]
 \centering
@@ -56,6 +59,33 @@ After holding the kernel launch signals high, the communication unit has complet
 When the kernel completes executing, the thread spawner asserts the kernel done signal, and the communication unit forwards the signal to the CPU, indicating that the kernel call has completed.
 
 \section{Running a Kernel}
+
+\subsection{Warps}
+
+\emph{We have them too@}
+
+\emph{Warpsize@}
+
+\emph{Always same instruction etc etc@}
+
+\emph{Thread divergence. Let's skip that@}
+
+
+\subsection{Static scheduling}
+
+\emph{Many mem requests per clock@}
+
+\emph{Hide this with barrel}
+
+\emph{Bundling the writes. This bad. @}
+
+\emph{Solve by stagger@}
+
+\emph{Walk through example@}
+
+
+\subsection{Should this section be moved? What to call @}
+
 Once the thread spawner has been initiated by the communication unit, the kernel runs to completion without intervention by the CPU. 
 When a kernel run starts, the thread spawner assigns thread IDs to each warp in the barrel.
 After the initial IDs have been assigned the GPU enters normal execution.
