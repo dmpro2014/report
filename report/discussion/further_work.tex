@@ -6,6 +6,13 @@
 A beautiful thing with projects like this, is that they can be done significantly better when done the second time.
 This section will focus on possible further improvements of the system.
 
+\subsection{Architecture}
+\subsubsection*{Pipelining}
+As one of the conseqences of the barrel processor, the processor lends itself very well to pipelining.
+The consecutive instructions in the pipeline will be from different threads.
+As long as there are fewer pipeline stages than the height of the barrel, an instruction will complete it's path through the pipeline before the next one from the same thread starts.
+This means that there are no data hazards in the pipeline. Thus it is as simple as dividing the processor into stages and adding registers.
+
 \subsection{Hardware}
 The physical design of Demolicious worked as intended.
 A second version will allow for a greater energy efficiency as well as a smaller size.
