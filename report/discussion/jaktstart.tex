@@ -6,8 +6,8 @@ Barrels and Jaktstart}
 
 Assume that when a processor executes a memory operation, a few extra cycles need to pass before the response arrives.
 This might happen because the memory needs more time to respond than the processor needs for other instructions.
-The processor might stall while this happens to hide the wait and make the result of the request ready in the next instruction.
-It may also not stall so that the processor can continue to do useful work, but it is then expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
+The processor might stall while this happens to hide the delay and make sure the result of the request ready before the next instruction.
+The processor may also not stall so that it can continue to do useful work. It is then expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
 
 If a processor stalls when doing a memory operation, some cycles will obviously be lost to that.
 Even if it continues on to the next instruction, if the result of the memory is needed to continue, the processor needs to be stalled by the program.
