@@ -75,6 +75,13 @@ This significantly reduces the complexity of scheduling these warps, and let's u
 \subsection{Static scheduling}
 
 \emph{Many mem requests per clock@}
+As every thread in a warp always executes the same instruction, our system has to handle 8 memory requests being issued during the same cycle.
+The memory system, consisting of two SRAM chips, can return two words every cycle, with a single cycle delay.
+This is not sufficient bandwidth to satisfy the memory requests without stalling.
+Some of the stalling can be hidden if the programmer manually loads the memory word enough instructions before usage, but even with this strategy there will be multiple programs that simply doesn't have enough indepentent instructions to execute while waiting for memory, and have to insert \emph{noops}, effectively stalling the GPU.
+
+But there are many warps waiting for execution at (almost) any time. 
+If these warps could execute while other warps are waiting for memory, we can utilize the system better.
 
 \emph{Hide this with barrel}
 
