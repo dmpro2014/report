@@ -12,7 +12,7 @@ The programming model for Demolicious is heavily inspired by CUDA.
 \todo{Insert reference to CUDA section.}
 So let's see how we can implement the same program filling a framebuffer with green, as we did in the CUDA introduction.
 
-Below, in listing \ref{lst:green-kernel}, a kernel filling a framebuffer with green is written for Demolicious.
+Below, in listing \ref{lst:green-kernel}, the fillscreen kernel has been converted for the Demolicious programming paradigm.
 The first thing you'll notice is that it is not written in C, but assembly.
 The complete introduction to the Demolocious instruction set and assembly programming can be found in appendix \ref{chap:isa}.
 
@@ -111,7 +111,7 @@ conditional execution is accomplished through predicated instructions.
 Each of the instructions in the instruction set (except for loads and stores) can be executed conditionally by prefixing them with '\textbf{?}'.
 Whether a conditional instruction is executed is controlled by a dedicated masking register.
 The programmer may use arithmetic and logic operations to manipulate this register (such as the \verb/srl/ instruction on line 3 in listing \ref{lst:masked-execution}).
-A masked instruction will not be stored to memory if the mask register is \textbf{1}.
+The result of a masked instruction will be discarded if the mask register is \textbf{1}.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:masked-execution]
 ldc $10, 0 ; Load color one
