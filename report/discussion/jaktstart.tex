@@ -40,5 +40,7 @@ Now each consecutive warp executes one instruction later than the previous.
 The barrel now serves to allow the completion of one warp's requests.
 Since the next warp is delayed by a instruction, it will not issue requests before the previous were done.
 This works out and the latency is hidden, allowing optimal utilization of the processor, as long as the program does not use the memory ``too often''.
+The usage of memory operations must be limited to one per barrel-size number of instructions.
+The barrel-size must be large enough to allow the memory to service the requests from a single warp.
 
 \end{document}
