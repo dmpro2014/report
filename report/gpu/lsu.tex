@@ -1,5 +1,13 @@
 \subsection{Load/Store Unit}
-A load/store unit is responsible for handling memory requests from the core processors.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{../gpu/diagrams/lsu.png}
+	\caption{RTL of the load/store unit. Notice the dual queueing system to handle the interlaced SRAM.}
+	\label{fig:lsu}
+\end{figure}
+
+A load/store unit, shown in figure \ref{fig:lsu}, is responsible for handling memory requests from the core processors.
 The load/store unit of Demolicious needs to be capable of simultaneously servicing incoming requests from all the processor cores.
 Requests are asynchronously carried out in the background, and replies are delivered directly into the appropriate registers of the threads that made the request.
 
