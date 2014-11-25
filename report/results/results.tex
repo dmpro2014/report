@@ -230,14 +230,13 @@ The image in the figure does have some artifacts, but the ones caused by single 
 
 \section{Demolicious Power efficiency}
 
-With a power draw of \SI{0.353}{W} for a Demolicious setup of 8 cores \ref{table:scalability},
-it is in the interest of nature to keep it spinning for as short as possible.
+A Demolicious setup of 8 cores \ref{table:scalability} has a power draw of \SI{0.353}{W}.
 By quickly and efficiently executing the kernel at hand, the GPU can reduce its total static power consumption.
 Reducing the dynamic consumption however, is more difficult.
 The current GPU architecture will execute nops when no kernels are active, keping dynamic power consumption sligthly lower than average, as no memory requests need to be served.
 Therefore, Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
 
-The Giant Gecko micro controller used as the host device has four different energy modes, each lower energy mode more efficient, but more constrained.
+The Giant Gecko microcontroller used as the host device has four different energy modes, each lower energy mode more efficient, but more constrained.
 Deeper power levels may conserve more power, but require a longer time to wake up.
 EM0 is normal operation, while EM2 (Deep sleep mode) is the deepest power level with acceptable wake-up times for our usecase (somewhere around 2 ms) \cite{efm-referencemanual}.
 
@@ -251,8 +250,9 @@ There are two different sleep patterns used by the MCU based on the executing pr
     The host device can therefore enter EM2 after launching a kernel, using the kernel complete pin to trigger an interrupt, waking the host device from sleep.
 \end{enumerate}
 
-The design is sound, an has been implemented successfully before by the authors, but there was not enough time to fully implement it for this proect in the host code.
-The following numbers are therefore harvested from from Silicon labs Simplicity studio energyAware Battery estimator.
+The design is sound, and has been implemented successfully before by the authors,
+but there was not enough time to fully implement it for this project in the host code.
+ehe following numbers are therefore harvested from Silicon labs Simplicity studio energyAware Battery estimator.
 
 Demolicous with 8 execution cores can run the tunnel kernel at 50 FPS @ 512x256, spending \SI{12.5}{ms} per frame \ref{fig:kernel_tunnel_fps}.
 The tunnel kernel is to be executed 30 times per second, with the MCU waking via a timer interrupt to spawn the new kernels.
