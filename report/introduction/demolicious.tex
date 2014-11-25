@@ -1,4 +1,5 @@
 \documentclass[../main/report.tex]{subfiles}
+\usepackage{graphicx}
 \begin{document}
 
 \chapter{Demolicious}
@@ -10,6 +11,11 @@
 % What trade-offs did we have to make?@
 % What were our concerns?@
 % What kind of numbers did we hope to achieve?@
+
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.24]{assets/PCP_logo.jpg}
+\end{figure}
 
 \section{A Graphical Demo Machine}
 
@@ -38,18 +44,16 @@ It certainly needed to display graphics, and a goal was to use HDMI instead of a
 This decision was partially based on the excitement that it had not been done before in earlier Computer Design Projects, and partially on the fact that it is a more modern technology than VGA.
 Driving video output from the custom GPU was important because a key point of the design was for it to mirror a modern GPU's purpose in a computer system.
 
-The performance goals were set to be challenging but still reasonable, based on a very rough estimate of potential memory bandwidth and FPGA clock frequency.
-512 by 256 pixels was an acceptable size of the picture frame, and at 30 fps it would have potential for relatively smooth demo programs.
-Writing interesting demos for the completed machine would be a bonus.
-A related bonus would be to write helpful tools to assist in writing the demos.
-
 Energy efficiency needed to be a primary concern throughout this project.
 In an experimental system like Demolicious, that concern will often be sidelined to making anything work in the first place.
 Energy efficiency is, after all, an optimization.
-Design philosophies like simplicity in GPU architecture and redundancy in PCB options collide somewhat with energy concerns, both were essential in producing a working system in the short timespan of this project.
+Design philosophies like simplicity in GPU architecture and redundancy in PCB options collide somewhat with energy concerns, and both were essential in producing a working system in the short timespan of this project.
 One very significant energy optimization for Demolicious made the list of functional goals: setting the CPU to sleep mode when it is idle.
 
-The list of goals and their relative priorities are listed below.
+The performance goals were set to be challenging but still reasonable, based on a very rough estimate of potential memory bandwidth and FPGA clock frequency.
+Writing interesting demos for the completed machine would be a bonus.
+A related bonus would be to write helpful tools to assist in writing the demos.
+Table \ref{tab:goals} below lists the initial functional goals, together with priorities, that were decided upon for Demolicious.
 
 \begin{table}[htp]
     \centering
