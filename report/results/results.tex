@@ -208,13 +208,29 @@ The CPU however, usually idles while
 By quickly and efficiently executing the kernel at hand, the GPU can be put in a lower power mode, reducing static power consumption to a minimum.
 
 With a power draw of \SI{0.353}{W} for a Demolicious setup @ 8 cores \ref{table:scalability}, it is in the interest of nature to keep this beast spinning for as short as possible.
+The EFM32GG MCU has a power draw of NUMBER in energy mode 0.
+When sleeping is enabled, it may enter energy mode 1 or 2, introducing significant energy savings.
+
+There are two use-cases resulting in different sleep times for the MCU
+\begin{enumerate}
+  \item
+    A recurring calculation, for example rendering frames targeting 60 fps.
+    The MCU will then be able to stay in deep sleep for the most of the time, waking only every 16 ms to calculate new kernel parameters, dispatching the call and going to sleep again.
+  \item
+    Data-throughput intensive calculation.
+    Some scientific data problem requires multiple kernel passes, where a single kernel may take multiple 100 ms to complete.
+    This usecase is slightly different, as one does not have a fixed interval one can wake at to check if data is finished.
+    As the completion time might be somewhat variable, the MCU may go to sleep, attaching an interrupt listener on the 'kernel complete' GPIO line from the GPU.
+    This allows the CPU to wait for exactly as long as is required until the kernel finishes, allowing for an extremely high sleep percentage.
+\end{enumerate}
+
 
 * Write about power consumption of CPU when using polling (current implementation)
 * Write about power consumption of CPU when using interrupt based event, with Power level 1 and 2
 
 * Write about potential clock / power gating of FPGA presented in:
 Xilinx® ISE® Design Suite 12 enables dynamic power reduction using patent pending automated clock gating technology.
-http://www.xilinx.com/support/documentation/sw_manuals/xilinx12_4/whatsnew.htm
+\url{http://www.xilinx.com/support/documentation/sw_manuals/xilinx12_4/whatsnew.htm}
 
 * show sleep time / pwoer consumption for the two kernels presented in Performance.
 
