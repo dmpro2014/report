@@ -105,7 +105,7 @@ Some examples of memory types that NVIDIA use in their GPU architectures are tex
 
 The different types of memories are usually organized into several separate banks, often with their own memory controller, so that more requests can be handled at a time.
 Interleaving consecutive virtual addresses over different physical memory banks will assist in spreading requests evenly across the set of banks. 
-All memories typically have multiple levels of cache associated with it as well.
+All memories typically have multiple levels of cache associated with them as well.
 Other techniques to improve memory bandwidth include data compression to reduce the amount of bits to transfer, and bundling memory accesses into sets that the memory system handle well.
 Bundling adds latency to memory requests.
 But, as mentioned earlier, this is not an issue as the GPU has plenty of other work to do while a particular thread waits.
@@ -129,7 +129,7 @@ In addition to some details specific to Fermi, this section introduces central c
 \todo{Move this paragraph up?@}
 
 In 2006 NVIDIA released their first GPUs with a so called \emph{unified shader architecture}.
-Before this GPUs had seperate and dedicated hardware for the main graphics operations, 
+Before this, GPUs had separate and dedicated hardware for the main graphics operations, 
 but with this architecture the major operations are executed on the same hardware.
 This is significantly different from earlier GPU microarchitectures, and opened
 for the possibility to do other calculations on a GPU than graphics processing.
@@ -151,7 +151,7 @@ Instead, there are special cores for these operations, called special-function u
 
 
 Threads are divided into logical units of 32 threads that are called \emph{warps}. 
-The threads in a warp always execute the instruction at the same time.
+The threads in a warp always execute instructions at the same time.
 This way, only a single instruction fetch is required.
 A simplified example execution order is shown in figure \ref{fig:simple-nvidia-warps}.
 In reality, Fermi executes two instructions per warp per cycle. 
