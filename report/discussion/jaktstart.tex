@@ -1,8 +1,7 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
 
-\section{Static resource management by means of\\
-Barrels and Jaktstart}
+\section{Static resource management: Barrels and Staggered Execution}
 
 Assume that when a processor executes a memory operation, a few extra cycles need to pass before the response arrives.
 This might happen because the memory needs more time to respond than the processor needs for other instructions.
@@ -24,7 +23,7 @@ This is because even if all the threads access memory one after another, the res
 But a request \emph{can} take more than one instruction's time to be processed as some types of memory can \emph{start} to process a request before the previous few are finished.
 This is (with some slight simplification) how modern SDRAM works, and it is called \emph{pipelining} the memory.
 
-When barrel processing was incorporated in the early design of the Demolicious, the assumption was made that SRAM has, like SDRAM, is pipelined.
+When barrel processing was incorporated in the early design of the Demolicious, the assumption was made that SRAM, like SDRAM, is pipelined.
 However, Demolicious also had multiple streaming processors, all of which make requests to memory simultaneously.
 With these two features combined, the memory would now have to be able to start one request for every streaming processor on every warp switch, which happens every cycle.
 This would mean running the memory at a higher clock speed than the processor, which would mean slowing down the processor.
@@ -36,12 +35,14 @@ The requests would not be done in time for all the warps, and since the same ins
 In any case, the SRAM memory used was not pipelined, but was in fact asynchronous, thus eliminating the purpose of the barrels.
 The barrel processor seemed to be a useless complication, a failure in this hardware combination.
 
-To solve the issue of generating more memory request than can be handled, \emph{jaktstart} was introduced.
+To solve the issue of generating more memory request than can be handled, \emph{staggered execution} was introduced.
 Now each consecutive warp executes one instruction later than the previous.
 The barrel now serves to allow the completion of one warp's requests.
-Since the next warp is delayed by a instruction, it will not issue requests before the previous were done.
-This works out and the latency is hidden, allowing optimal utilization of the processor, as long as the program does not use the memory ``too often''.
-The usage of memory operations must be limited to one per barrel-size number of instructions.
+Since the next warp is delayed by an instruction, it will not issue requests before the previous were done.
+This works out and the latency is hidden, allowing optimal utilization of the processor.
+Therefore, the usage of memory operations must be limited to one per barrel-size number of instructions, as not to overflow the LSU queue.
+
 The barrel-size must be large enough to allow the memory to service the requests from a single warp.
+With two interlaced SRAMs, as in Demolicious, the barrel-size equals $ warp size / 2 $.
 
 \end{document}
