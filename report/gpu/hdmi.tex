@@ -10,9 +10,9 @@
 		A prefetching unit tries to fill the buffer when it is not full.
 		The \emph{Accepted} signal signifies a sucessful memory request.
 		Across the clock domain boundary, the video timing unit generates control signals.
-		When pixel data should be transfered, the \emph{Send} signal moves pixels from the buffer to the transmission units.
+		When pixel data should be transferred, the \emph{Send} signal moves pixels from the buffer to the transmission units.
 		The 16-bit pixel data is converted to three 8-bit colors, TMDS encoded, serialized and output using differential signaling.
-		Should the buffer go empty, the prefetch unit needs to immeadetly advance to the next pixel to stay synchronized with the timing unit.
+		Should the buffer go empty, the prefetch unit needs to immediately advance to the next pixel to stay synchronized with the timing unit.
 	}
 	\label{fig:video_unit}
 \end{figure}
