@@ -38,7 +38,7 @@ Special registers may be referenced by their name in assembly code.
 The only supported way of conditional execution is through predicated instructions (masking).
 All instructions except for \verb/sw/ have a predicated version which will only execute when masking is disabled.
 
-In assembly, an instrution prepended with a question mark will be executed conditionally.
+In assembly, an instruction prepended with a question mark will be executed conditionally.
 The first bit of the instruction will be set to one for the conditional versions.
 These predicated instructions will still be executed, but they will never store their result in the destination register.
 

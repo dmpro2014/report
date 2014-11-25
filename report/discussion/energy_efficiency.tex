@@ -16,7 +16,7 @@ The addition of such a system-wide chip enable signal would reduce power usage d
 This was not implemented for this project however, mainly due to time constraints.
 
 Now for a quick calculation to see how much power can be saved in an absolute best-case scenario.
-Demolicous with 8 execution cores can run the tunnel kernel at 50 FPS @ 512x256 (as seen in figure \ref{fig:kernel_tunnel_fps}), spending \SI{12.5}{ms} per frame.
+Demolicious with 8 execution cores can run the tunnel kernel at 50 FPS @ 512x256 (as seen in figure \ref{fig:kernel_tunnel_fps}), spending \SI{12.5}{ms} per frame.
 When targeting 30 FPS, the GPU would spend \SI{375}{ms} calculating frames, allowing the GPU to be in a low power state for almost 62.5\% of the time.
 Using a theoretical maximum of 30\% dynamic power savings for the low power state, the dynamic power consumption of \SI{0.168}{W} from figure \ref{table:scalability}, can be reduced to $ 0.70 * 0.625 * 0.168 W + 0.375 * 0.168 W = 0.1365 W$.
 This represents a savings in dynamic power consumption of 18.7\%.

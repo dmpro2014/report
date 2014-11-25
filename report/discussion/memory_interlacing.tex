@@ -2,7 +2,7 @@
 
 The presented architecture uses interlaced SRAM banks, presenting one large unified memory space.
 An alternative approach is to dedicate one SRAM bank to the LSU, the other to the HDMI unit.
-This approach wil work when using double buffering, as the LSU and HDMI unit can swap banks on each framebuffer flip.
+This approach will work when using double buffering, as the LSU and HDMI unit can swap banks on each framebuffer flip.
 With dedicated banks there will be no need for arbitration, as there never will be more than one unit accessing each at bank the time.
 This would result in the HDMI unit never starving due to memory lockout from the LSU.
 The LSU would also be simpler, needing only a single queue to service memory requests.

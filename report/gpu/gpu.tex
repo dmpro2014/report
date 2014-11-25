@@ -102,7 +102,7 @@ So a context switch can be carried out with virtually no overhead, at the expens
 
 To keep the architecture as simple as possible, Demolicious employs a simple static scheduling algorithm.
 The active warps are simply rotated after every instruction. In figure \ref{fig:nojagged} we revisit our green-screen kernel, and see how the warps are scheduled.
-The numbers in the top right corner is the gpu cycle, and we refer to the rows as barrel lines.
+The numbers in the top right corner is the GPU cycle, and we refer to the rows as barrel lines.
 During cycle 0, instruction A is executed on warp 0.
 The next cycle, instruction A is executed on warp 1.
 And when we get to cycle 4, warp 0 is scheduled again, this time executing instruction B.
