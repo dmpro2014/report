@@ -10,7 +10,7 @@
 To explore some concepts of modern GPU architectures in detail, this chapter will take a look at an example from NVIDIA.
 The programming model used by NVIDIA for its modern GPUs, called CUDA, will be be examined.
 Then, NVIDIA's first architecture to use this programming model, the Fermi architecture, will be used as the example for illustrating GPU design concepts.  
-Demolicious is heavily inspired by NVIDIA, and the following concepts are relevant for both its programming model and its architecture.
+The system presented in this report is heavily inspired by NVIDIA, and the following concepts are relevant for both its programming model and its architecture.
 
 
 \section{The Fermi Architecture}
@@ -26,8 +26,8 @@ This ability been given the term General-Purpose GPU computing, or GPGPU.
 \section{CUDA Programming Model}
 \label{sec:cuda_prog_model}
 
-To open up the computing powers of the graphics card for general applications, there was a need for a new application programming interface (API) that could be used run code on the GPUs.
-It was possible to do non-graphical calculations on GPUs previously, but it required redefining any problem as a graphical problem.
+To expose the computing powers of the graphics card for general applications, there was a need for a new application programming interface (API) that could be used to run code on the GPUs.
+It was possible to do non-graphical calculations on GPUs previously, but it required redefining any problem as a graphics problem.
 This was highly impractical. 
 With the Fermi architecture, NVIDIA released a framework for running code on their GPUs called CUDA.
 
@@ -36,7 +36,6 @@ Such a function is called a \emph{kernel}.
 An example will be used to illustrate how a kernel executes on the Fermi architecture.
 
 Let's say you want to fill a frame buffer, an area of memory, with the color green.
-We'll assume that the memory area starts at location 0.
 In a sequential programming model, you would typically write a loop that would fill
 the memory locations with the value for green one by one.
 See Listing \ref{lst:sequential-green}.
@@ -48,8 +47,8 @@ for (int i = 0; i < nr_of_pixels; i++){
 }
 \end{c-code}
 
-For a CUDA kernel, on the other hand, the loop would be written as if filling only a single pixel with green. 
-The kernel would then be executed by one thread for every pixel in the screen.
+For a CUDA kernel, on the other hand, same program would be written as if filling only a single pixel with green. 
+The kernel would then be executed by one thread for every pixel on the screen.
 Each thread would receive a unique id number corresponding to the 'i' value from the serial example.
 Below, in Listing \ref{lst:cuda-green-kernel}, is an example CUDA kernel that fills a single memory location, or pixel, with green.
 
@@ -63,28 +62,30 @@ __global__ void fill_screen(int* framebuffer){
 \end{c-code}
 
 The CPU will need to load a kernel into the GPU at run time before calling it.
-When calling a kernel, the CPU specifies how many threads to run for it.
-Managing memory on the GPU and uploading and calling kernels on it is done using CUDA specific syntax.
+When calling a kernel, the CPU specifies how many threads to run.
+Managing memory, uploading kernels, and calling kernels on the GPU is done using CUDA specific syntax.
 Listing \ref{cuda-kernel-launch} shows example CUDA code for calling the "fill\_screen" kernel.
 
 \begin{c-code}[caption=Starting the CUDA kernel with one thread per pixel on a 1920x1080 screen, label=cuda-kernel-launch]
-int* frame_buffer_device = cudaMalloc(@); // allocate memory at GPU
+int* frame_buffer_device = cudaMalloc(data_size); // allocate memory at GPU
 fill_screen<<<1080,1920>>>(frame_buffer_device); // call kernel
 \end{c-code}
 
 Running a separate thread for each small task, like in CUDA, has another more general term, SIMT.
 SIMT is short for Single Instruction Multiple Threads.
 It is a common programming paradigm for modern GPUs because it a very flexible way of writing parallel programs.
-It is programs are easily portable and scalable because they ignore the underlying architecture of the machine.
+Its programs are easily portable and scalable because they ignore the underlying architecture of the machine.
 
 \section{Streaming Multiprocessors}
 
-\begin{wrapfigure}{r}{0.3\textwidth}
+%\begin{wrapfigure}{r}{0.3\textwidth}
+\begin{figure}[htp]
 \centering
 \includegraphics[scale=0.40]{../introduction/assets/SM.png}
 \caption{Streaming Multiprocessor}
 \label{fig:sm}
-\end{wrapfigure}
+\end{figure}
+%\end{wrapfigure}
 
 A CUDA function typically creates many, many threads.
 To handle all these, the Fermi architecture has a large number of cores organized into a hierarchy of groups that share different amounts of extra resources.
@@ -98,10 +99,10 @@ In Fermi, each SM contains 32 SP cores.
 Each core is capable of doing both integer and floating point operations.
 Their shared accessories include four Special Function units, 16 Load/Store units, and 64KB SRAM for shared memory and shared cache.
 A simplified diagram of a smaller SM is shown in Figure \ref{fig:sm}.
-
+\newpage
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\textwidth]{../introduction/assets/warp.png}
+\includegraphics[width=0.3\textwidth]{../introduction/assets/warp.png}
 \caption{Warps of 32 threads execute }
 \label{fig:simple-nvidia-warps}
 \end{figure}
@@ -112,7 +113,7 @@ Threads in Fermi are grouped together in logical units of up to 32 threads.
 This corresponds to the 32 Streaming Processor cores in a Streaming Multiprocessor.
 The 32 threads are collectively called a \emph{warp}. 
 Threads in the same warp always execute the same instruction at the same time.
-This way, only a single instruction fetch per warp is required for the SM.
+This way, only a single instruction fetch operation per warp is required for the SM.
 
 Many warps may be active in an SM at any time, and each thread in each warp has its own set of registers within the SM.
 This enables fine-grained interleaving of warps without needing expensive context switches with every warp switch. 
@@ -129,6 +130,6 @@ NVIDIA's GPUs support dynamic thread divergence by moving threads between warps 
 The concepts employed in NVIDIA's Fermi architecture and CUDA programming model are, needless to say, effective for parallel calculations.
 They have been a source of inspiration for this project.
 Most these concepts, like kernels, warps, and easy context switches, will return later in the report.
-Although they return in greatly simplified versions, they are helpful for exploiting parallelism.
+Although they return in simplified versions, they are helpful for exploiting parallelism.
 
 \end{document}

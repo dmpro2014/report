@@ -60,7 +60,7 @@ When the kernel completes executing, the thread spawner asserts the kernel done 
 
 \subsection{Warps}
 
-As in NVIDIA's Fermi architecture, see chapter \ref{sec:fermi}, Demolicious organizes threads into \emph{warps}.
+As in NVIDIA's Fermi architecture (see chapter \ref{sec:fermi}), Demolicious organizes threads into \emph{warps}.
 In Demolicious, a warp consists of 8 threads, one per core. 
 For versions with fewer cores, the warp size changes accordingly.
 Just as the warps in Fermi, every thread in these warps always execute the same instruction at the same time, with one thread in each core.
@@ -70,7 +70,7 @@ The Demolicious system is analogous to having a single Fermi \emph{Streaming Mul
 An important difference between Demolicious and Fermi, is that Demolicious kernels have no jumps, so its threads never diverge.
 This significantly reduces the complexity of scheduling these warps, and let's us get away with a single program counter.
 
-\subsection{Static scheduling}
+\subsection{Static Scheduling}
 
 % Many mem requests per clock
 As every thread in a warp always executes the same instruction, our system needs to handle 8 memory requests being issued during the same cycle.
@@ -95,6 +95,7 @@ Stalling a throughput-oriented machine is obviously unfortunate.
 \label{jagged}
 \end{figure}
 
+If the 
 But there are many warps waiting for execution at (almost) any time. 
 If these warps could execute while other warps are waiting for memory, we can utilize the system better.
 However, changing between warps that execute requires a context switch. 
