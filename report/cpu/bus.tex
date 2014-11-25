@@ -10,7 +10,7 @@ in the reference manual for the EFM32GG\cite[p.175]{efm32gg}.
 The bus has a 16-bit data line, and a 20-bit address line, as well as six control signals.
 
 All the pins connected between the MCU and the FPGA follow the specifications from the EFM32GG's Reference Manual\cite[p.175]{efm32gg}.
-This allows us to uitlize the built-in support for EBI which memory maps the whole bus on the microcontroller, and take advantage of utility functions in the \emph{emlib} software library\cite{emlib}.
+This allows us to utilize the built-in support for EBI which memory maps the whole bus on the microcontroller, and take advantage of utility functions in the \emph{emlib} software library\cite{emlib}.
 The mapping of addresses can be seen in figure \ref{fig:memory_map}.
 
 The CPU can interface three different memories for different purposes:
@@ -31,7 +31,7 @@ The CPU can interface three different memories for different purposes:
     \label{fig:memory_map}
 \end{figure}
 
-Writing to all of these memories is done by writing to the memory addresseses
+Writing to all of these memories is done by writing to the memory addresses
 outlined in figure \ref{fig:memory_map},
 in the same way as writing data locally on the microcontroller.
 Data can also be read back from the external GPU memory.
