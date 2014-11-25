@@ -2,14 +2,15 @@
 
 The presented architecture uses interlaced SRAM banks, presenting one large unified memory space.
 An alternative approach is to dedicate one SRAM bank to the LSU, the other to the HDMI unit.
+This approach wil work when using double buffering, as the LSU and HDMI unit can swap banks on each framebuffer flip.
 With dedicated banks there will be no need for arbitration, as there never will be more than one unit accessing each at bank the time.
 This would result in the HDMI unit never starving due to memory lockout from the LSU.
 The LSU would also be simpler, needing only a single queue to service memory requests.
 
 The major advantage of interlacing the address space of the two memory banks is that memory throughput effectively doubles.
 Two requests can be processed in parallel from the unit currently granted access by the SRAM arbiter.
-The double data rate requires the barrel height to be equal to only half the number of processor cores.
-This due to that when a warp of size $n$ requests memory access, it will take $n/2$ cycles to dispatch all requests, as each SRAM bank services half of the requests.
+When a warp of size $n$ requests memory access, it will take $n/2$ cycles to dispatch all requests, as each SRAM bank services half of the requests.
+Therefore, the barrel height only has to be equal to half of the number of processor cores.
 With the dedicated memory banks, however, only one memory request can be serviced each cycle.
 This requires that the barrel height is increased to $n$.
 
