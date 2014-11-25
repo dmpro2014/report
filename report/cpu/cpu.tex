@@ -2,12 +2,12 @@
 \begin{document}
 \chapter{CPU}
 
-Now that we have seen how to write code that colors the screen with a beautiful green color, 
+Now that we have seen how to write a kernel that colors the screen with a beautiful green color, 
 it is time to see what is actually happening on the Demolicious System during this execution. 
 
 Our journey starts in the main control unit of the Demolicious computer, namely the CPU, which is implemented on an EFM32GG Microcontroller.
 
-In this chapter we will follow a kernel from load to execution and explain what happens behind the scenes on the CPU, which is the component on Demolicious that runs the C code seen in the last chapter.
+In this chapter we will follow a kernel from load to execution and explain what happens behind the scenes on the CPU, which is the component on Demolicious that runs the C code seen in the previous chapter.
 
 \subfile{../cpu/functionality.tex}
 
@@ -21,8 +21,7 @@ In this chapter we will follow a kernel from load to execution and explain what 
 
 \subsection{Summary}
 
-We have seen how our kernel is bootstrapped and executed. 
+We have now seen how our kernel is bootstrapped and executed.
 The assembled kernel is uploaded to the GPU which is then given a command to run said kernel with one thread per pixel.
-
 
 \end{document}
