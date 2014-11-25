@@ -18,13 +18,14 @@ The PCB was designed with two VGA headers, one for the FPGA and one for the MCU.
 Looking back, it was redundant to support two VGA ports.
 An alternative solution is having one VGA port with exposed headers.
 With exposed headers from the MCU and the FPGA as well, one could change which one the VGA port is connected to by jumpers like \ref{fig:vga-solution}.
+
 By removing one of the VGA ports, the size of the PCB could have been reduced, or used for other components. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../discussion/assets/vga-solution.pdf}
-    \label{fig:vga-solution}
     \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
+    \label{fig:vga-solution}
 \end{figure}
 
 \subsection{Clocks}
@@ -37,12 +38,12 @@ Since using a ruler as a mesure tool will give unreliable results, one can assum
 \begin{figure}[H]
 		\centering
 		\includegraphics[width=0.85\textwidth]{../discussion/assets/oscillator.jpg}
-		\label{fig:oscillator-scope}
 		\caption{The oscillator on an oscilloscope.}
+		\label{fig:oscillator-scope}
 \end{figure}
 
 \subsubsection*{MCU crystals}
-As can be seen from the frequency tests \ref{tbl:oscillation-tests}, the crystal output frequency tests did not pass their requirements.
+As can be seen from the frequency tests \ref{tab:oscillation-tests}, the crystal output frequency tests did not pass their requirements.
 They were probed for output, but this resulted in no discernable signal on the oscilloscope.
 However, as the implementation continued, we found that the MCU worked as we desired.
 This led us to conclude that we had likely misunderstood how to measure the frequencies of the crystals.
@@ -50,6 +51,8 @@ This led us to conclude that we had likely misunderstood how to measure the freq
 \subfile{../discussion/hacks.tex}
 
 \subfile{../discussion/energy_efficiency.tex}
+
+\subfile{../discussion/memory_interlacing.tex}
 
 \section{"Jaktstart"}
 
@@ -73,5 +76,7 @@ HDMI vs. the GPU?
 Will the HDMI be fine with always being second in line?
 
 \subfile{../discussion/budget.tex}
+
+\subfile{../discussion/further_work.tex}
 
 \end{document}
