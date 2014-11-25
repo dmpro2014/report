@@ -7,8 +7,8 @@
 The GPU consists of a number of fairly isolated components.
 It's valuable to test the components in isolation before they are connected.
 Both implementation errors, and design flaws, can be uncovered before the components are introduced to the system.
-The unit tests were implemented as VHDL test benches
-Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run, and a summary of which feature are tested.
+The unit tests were implemented as VHDL test benches.
+Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run, and provides a summary of which features are tested.
 
 \begin{table}[H]
 	\centering
@@ -32,7 +32,7 @@ Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run, and a su
 													  & Does the masking bit work?  & \\ 													  
 	\hline  Register directory 		 				  & Multiplexes input/output signals to the correct register file. & Passed  \\
 	
-	\hline \multirow{3}{*}{Processor core} 		  	  & Arithmetic operations. & \multirow{3}{*}{ Passed } \\
+	\hline \multirow{2}{*}{Processor core} 		  	  & Arithmetic operations. & \multirow{2}{*}{ Passed } \\
 													  & Can mask instructions.  & \\ 
 													  
 	\hline \multirow{3}{*}{ALU} 		  			  & Computes arithmetic operations. & \multirow{3}{*}{ Passed } \\
