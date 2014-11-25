@@ -39,7 +39,7 @@ The CPU issues commands to the communication unit in the GPU. Commands are launc
 Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
 The processors load constants from the constant memory, and uses the load/store unit for accessing the data memory.
 
-\emph{Insert stats on how many cores etc etc@@@}
+\emph{Insert stats on how many cores etc etc. 1 SM@@@}
 
 
 \section{Receiving a Kernel Call}
@@ -62,14 +62,15 @@ When the kernel completes executing, the thread spawner asserts the kernel done 
 
 \subsection{Warps}
 
-\emph{We have them too@}
+As in the NVIDIA GPU architectures, see chapter \ref{sec:fermi}, Demolicious groups threads into \emph{warps}.
+These warps contain 8 threads, one per core. 
+For Demolicious versions with fewer cores, the warp size changes accordingly.
+Just as the warps in the NVIDIA architecture, every thread in these warps always execute the same instruction at the same time, one in each core.
+The main difference is that while NVIDIA has multiple \emph{Streaming Multiprocessors} which can each execute a warp at the same time, we can only execute a single warp at the time.
+In a way, the Demolicious system is analogous to having a single \emph{Streaming Multiprocessor}.
 
-\emph{Warpsize@}
-
-\emph{Always same instruction etc etc@}
-
-\emph{Thread divergence. Let's skip that@}
-
+Another central difference in the Demolicious warps is that since our kernels have no jumps, the threads never diverge.
+This significantly reduces the complexity of scheduling these warps, and let's us get away with a single program counter.
 
 \subsection{Static scheduling}
 
