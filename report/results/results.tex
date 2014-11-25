@@ -237,16 +237,9 @@ For the throughput-intensive kernel, say the kernel itself takes 20ms to complet
 Kernel launch overhead is 5µs, resulting in a 95\% idle time that can be spent sleeping.
 This averages to a power consumption of NUMBER.
 
-While the CPU can save power easily, it is more difficult for the GPU on the FPGA.
-Luckily Xilinx has recently implemented dynamic clock gating for the Spartan-6 series.
-This allows for a reduction up to 30\% of dynamic power consumption, introducing significant energy savings.
-This was not implemented for this project however, mainly due to time constraints.
-
-Xilinx® ISE® Design Suite 12 enables dynamic power reduction using patent pending automated clock gating technology.
-\url{http://www.xilinx.com/support/documentation/sw_manuals/xilinx12_4/whatsnew.htm}
 
 Finally, the system can run for SOME HOURS on external batteries, mainly being limited by the GPU power draw.
 
-SOME LAST WORDS.
+\todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
 
 \end{document}
