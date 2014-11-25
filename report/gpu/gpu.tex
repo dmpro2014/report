@@ -16,7 +16,7 @@ This design decision allows for a steady stream of load/store instructions witho
 
 \section{Responsibilities}
 
-The GPU has a relatively simple job:
+The GPU has these responsibilities
 \begin{enumerate}
   \item
     Receive instructions and constants from the CPU
@@ -35,8 +35,8 @@ The GPU has a relatively simple job:
 \caption{A high level overview of the GPU.}
 \label{fig:architecture_overview}
 \end{figure}
-Figure \ref{fig:architecture_overview} presents a high level overview over the data-flow in the GPU.
-The CPU issues commands to the GPU via the communication unit. Commands include actions such as launching a kernel, uploading kernels to the instruction memory, and writing to the constant memory.
+Figure \ref{fig:architecture_overview} presents a high level overview over the GPU.
+The CPU issues commands to the command unit in the GPU. Commands are launching a kernel, uploading kernels to the instruction memory, writing to the constant memory, and read/write to SRAM.
 Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
 The processors load constants from the constant memory, and uses the load/store unit for accessing the data memory.
 
