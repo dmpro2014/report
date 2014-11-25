@@ -1,3 +1,13 @@
 \subsection{SRAM Arbiter}
 
-\todo{SRAM Arbiter subsection}
+Connecting SRAM to the LSU, HDMI unit and CPU is a custom-built memory controller, the SRAM arbiter.
+As multiple units may request access to SRAM at the same time, and the Demolicous system using an interlaced memory model,
+dedicated access to SRAM cannot be guaranteed.
+Therefore, a prioritization scheme is required.
+
+The CPU has the highest read-write priority.
+As the host program by convention shouldn't access memory when kernels are executing, this is fine.
+The LSU comes in second, as it needs uninterrupted access to SRAM during execution.
+If the HDMI unit could prevent the LSU from accessing memory,
+the result of a kernel executions could differ based when the HDMI unit chooses to read the current framebuffer.
+Therefore the HDMI unit has the lowest priority, having to scavenge pixels whenever it can.
