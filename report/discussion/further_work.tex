@@ -1,0 +1,9 @@
+\subsection{Hardware}
+The physical design of Demolicious has proven to work as intended.
+Since this is the case, a second version will allow for a greater care towards energy efficiency.
+All headers and superfluous backup solutions can be removed, thereby letting a new design focus on a small pcb with short wires and subsequently, smaller power planes.
+However when it comes to the GPU, it is clear that more memory (more SRAMs ) is desirable, as memory bandwidth has been shown to be a severe bottleneck. \todo{Should probably cite somewhere back if this kind of wording is to stay}
+Consequently an improved version of Demolicious may add two SRAMs to the design.
+If a more powerful computer is to be made, a more powerful FPGA can be introduced along with a matching number of SRAMs.
+Furtermore, power and data can be unified in a single USB connection and in this new iteration, the USB and the FPGA can be positioned closer to one another such that the 1.2V wire can be made as short as possible.
+Lastly, implementing flash memory so that the FPGA architecture can be persistent across power disconnects makes for a simpler programming environment and was found to be convenient, lacking feature during implementation.
