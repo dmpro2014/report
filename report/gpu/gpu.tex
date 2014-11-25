@@ -36,7 +36,7 @@ The GPU has these responsibilities
 \label{fig:architecture_overview}
 \end{figure}
 Figure \ref{fig:architecture_overview} presents a high level overview over the GPU.
-The CPU issues commands to the command unit in the GPU. Commands are launching a kernel, uploading kernels to the instruction memory, writing to the constant memory, and read/write to SRAM.
+The CPU issues commands to the communication unit in the GPU. Commands are launching a kernel, uploading kernels to the instruction memory, writing to the constant memory, and read/write to SRAM.
 Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
 The processors load constants from the constant memory, and uses the load/store unit for accessing the data memory.
 
