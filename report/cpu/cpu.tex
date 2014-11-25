@@ -2,11 +2,9 @@
 \begin{document}
 \chapter{CPU}
 
-The main control unit of the Demolicious computer is the CPU,
-implemented on an EFM32GG Microcontroller, making it ill-suited for parallel tasks.
-
-The parts of an application which are not parallelizable, called the host program, will be executing on this component.
-Kernels written for the GPU can be launched by the CPU when requested by the host program.
+The main control unit of the Demolicious computer is the CPU, implemented on a Silicon Labs Giant Gecko microcontroller. Host programs, as described in the previous chapter, will run on the CPU,
+and can upload and launch kernels on the GPU.
+The CPU provides a framework of utility functions for interfacing the GPU.
 
 \subfile{../cpu/functionality.tex}
 

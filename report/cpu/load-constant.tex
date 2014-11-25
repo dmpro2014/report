@@ -1,6 +1,7 @@
 \section{Loading parameters}
-In addition to simply running kernels, the CPU may load parameters to the kernel, using the \verb/load_constant/ function.
-Listing \ref{lst:load-constant} shows the process of setting kernel parameters.
+The last important feature of the CPU library is to provide support for setting kernel parameters.
+As seen in listing \ref{lst:kernel-constant}, this is implemented in the \verb/load_constant/ function.
+The call takes an address and a value as parameters, as can be seen in listing \ref{lst:load-constant}
 
 \begin{c-code}[caption=Setting a kernel parameter, label=lst:load-constant]
 load_constant(0, 0x07E0);
@@ -13,15 +14,4 @@ load_constant(0, 0x07E0);
     \label{fig:loading_a_constant}
 \end{figure}
 
-Constants are written to the GPU in one chunk, as their size align with the size of the data bus.
-As seen in figure \ref{fig:load_constant_format}, the constant memory has no offset in the FPGA address space.
-
-\begin{figure}[H]
-    \centering
-    \begin{tabular}{|c|c|c|}
-    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{3} & \multicolumn{1}{c}{16} \\ \hline
-    X & 000 & address \\ \hline
-    \end{tabular}
-    \caption{Address format for loading a parameter.}
-    \label{fig:load_constant_format}
-\end{figure}
+The \verb/load_constant/ function is simply implemented by writing the constant value to the requested address.
