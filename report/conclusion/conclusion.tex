@@ -10,13 +10,12 @@ The goal of at least 30 FPS has been reached for several kernels,
 at the target screen resolution of 512x256 pixels when running with 8 processor cores.
 
 A fully functional PCB was created with each individual component working.
-Full implementation of a system on our custom made PCB was almost finalized with only a minor glitch remaining.
+Full implementation of a system on our custom made PCB was almost finalized with minor issues.
 
 There is still room for further improvement of the computer, which will be detailed in the next section.
 
 This project has been extremely challenging and demanding.
-Because of this it has given the group as a whole great insights into the inner workings of computers,
-and GPUs specifically.
+Because of this, the group as a whole have gained great insights into the inner workings of computers and GPUs.
 
 \section{Further Work}
 
@@ -24,9 +23,9 @@ A beautiful thing with projects like this, is that they can be done significantl
 This section will focus on possible further improvements of the system.
 
 \subsection{Architecture}
-\subsubsection*{Pipelining}
+
 As one of the consequences of the barrel processor, the processor lends itself very well to pipelining.
-The consecutive instructions in the pipeline will be from different threads.
+The consecutive instructions in the pipeline will always be from different threads.
 As long as there are fewer pipeline stages than the height of the barrel, an instruction will complete its path through the pipeline before the next one from the same thread starts.
 This means that there are no data hazards in the pipeline. Thus it is as simple as dividing the processor into stages and adding registers.
 Currently the critical path in Demolicious is going through the processor cores.
@@ -45,8 +44,8 @@ The power USB and the FPGA are currently positioned far from one another, but in
 Lastly, it would have been convenient to have had flash memory for the FPGA as this would allow for retaining the program after the power has been shut off.
 This would eliminate the need to flash the FPGA after each power off.
 
-\subsection{Support}
-\subsubsection*{Compiler}
+\subsection{Compiler}
+
 A major hurdle to exploiting the full potential of the Demolicious system was the difficulty and lack of user-friendliness when writing programs in Demolicious assembly.
 To greatly simplify the programming, a C compiler with Demolicious assembly as target could be implemented.
 
