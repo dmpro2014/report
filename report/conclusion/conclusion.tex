@@ -2,5 +2,51 @@
 \begin{document}
 \chapter{Conclusion}
 
-It works(!)
+We designed and implemented a graphics processing unit inspired system,
+capable of executing a large amount of threads fast enough to display graphics to a display over HDMI.
+
+The final system meets all the requirements set in the beginning of the project.
+The goal of at least 30 FPS has been reached for several kernels,
+at the target screen resolution of 512x256 pixels when running with 8 processor cores.
+
+A fully functional PCB was created with each individual component working.
+Full implementation of a system on our custom made PCB was almost finalized with minor issues.
+
+There is still room for further improvement of the computer, which will be detailed in the next section.
+
+This project has been extremely challenging and demanding.
+Because of this, the group as a whole have gained great insights into the inner workings of computers and GPUs.
+
+\section{Further Work}
+
+A beautiful thing with projects like this, is that they can be done significantly better when done the second time.
+This section will focus on possible further improvements of the system.
+
+\subsection{Architecture}
+
+As one of the consequences of the barrel processor, the processor lends itself very well to pipelining.
+The consecutive instructions in the pipeline will always be from different threads.
+As long as there are fewer pipeline stages than the height of the barrel, an instruction will complete its path through the pipeline before the next one from the same thread starts.
+This means that there are no data hazards in the pipeline. Thus it is as simple as dividing the processor into stages and adding registers.
+Currently the critical path in Demolicious is going through the processor cores.
+Adding a pipeline to the processor would therefore increase the maximum frequency the processor can run at.
+As the SRAMs on the Demolicious can handle \SI{100}{MHz}, there is room for improvement in the system clock frequency.
+This directly translates to higher throughput.
+
+\subsection{Physical design}
+The physical design of Demolicious worked as intended.
+A second version will allow for a greater energy efficiency and a smaller size.
+All headers and unnecessary backup solutions can be removed, letting a new design focus on a small PCB with short wires and small power planes.
+If a more powerful computer is to be made, a more powerful FPGA can be introduced along with a matching number of SRAMs, as a more powerful FPGA will have a greater memory need.
+
+Furthermore, power and data can be unified in a single USB connection.
+The power USB and the FPGA are currently positioned far from one another, but in a new design they can be moved closer so that the 1.2V wire that powers the FPGA can be made as short as possible.
+Lastly, it would have been convenient to have had flash memory for the FPGA as this would allow for retaining the program after the power has been shut off.
+This would eliminate the need to flash the FPGA after each power off.
+
+\subsection{Compiler}
+
+A major hurdle to exploiting the full potential of the Demolicious system was the difficulty and lack of user-friendliness when writing programs in Demolicious assembly.
+To greatly simplify the programming, a C compiler with Demolicious assembly as target could be implemented.
+
 \end{document}
