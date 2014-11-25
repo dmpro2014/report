@@ -7,47 +7,13 @@
 	\label{fig:programming_model_cpu_gpu}
 \end{figure}
 
-\todo{That sentence is a bit dangling and not part of the rest of the chapter. Maybe talk more about CUDA/OpenCL before we start explaining?}
-The programming model for Demolicious has been heavily inspired by CUDA and OpenCL, 
-and readers with programming experience with those technologies will find much of this chapter familiar.
+The programming model for Demolicious is heavily inspired by CUDA.
 
-Many applications can be divided into sequential and parallel parts,
-where the characteristics of each part make them benefit from different hardware.
-On the Demolicious system, the sequential parts of a program will be run by the CPU, and the parallel parts can be performed by the GPU through kernels.
-\todo{Mention SIMT}
-A kernel is a simple program meant to be executed by multiple threads.
-The kernels are uploaded to the GPU, and then executed when requested by the CPU.
-This interaction allows for programs that consist of both parallel and sequential tasks, such as graphics applications.
-\todo{Replace last sentence}
+So let's see how we can implement the same program filling a framebuffer with green, as we did in the CUDA introduction in section \ref{sec:cuda_prog_model}.
 
-\subsection{Kernels}
-The GPU can start a massive amount of threads executing the same kernel.
-Each thread executing the kernel is assigned a unique thread id.
-The thread id can be used to compute memory addresses and make control decisions.
-This allows threads to behave differently even though they are executing the same code.
-
-To best illustrate the programming model, a few examples will be walked through.
-Let's start with a simple one; fill the screen with the color green.
-We assume that the pixel color values are stored in memory from location 0 and upwards.
-In a sequential programming model one would typically write a loop that would fill
-the memory locations with the value for green one by one.
-This can be seen in listing \ref{sequential-green}.
-
-\begin{c-code}[caption=A sequential program filling the screen with green, label=sequential-green]
-int green = 0x00FF00;
-for (int i = 0; i < nr_of_pixels; i++){
-    write(i, green);
-}
-\end{c-code}
-
-However, in the SIMT programming paradigm which our architecture is inspired by,
-you write a \emph{kernel} that fills only a single pixel with green, 
-and then run it with one thread for every pixel.
-Below, in listing \ref{lst:green-kernel}, 
-a kernel written for Demolicious that fills a single memory location,
-or pixel, with green is presented.
-The memory location to be written to is decided by the special id register.
-
+Below, in listing \ref{lst:green-kernel}, the fillscreen kernel has been converted for the Demolicious programming paradigm.
+The first thing you'll notice is that it is not written in C, but assembly.
+The complete introduction to the Demolicious instruction set and assembly programming can be found in appendix \ref{chap:isa}.
 
 \begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
 ldi $data, 0b0000011111100000
@@ -58,22 +24,27 @@ thread_finished
 \end{assembly}
 
 Let's walk through the kernel one line at a time.
+
 The first line uses the \verb/ldi/ instruction, which stands for load immediate.
 It loads the value 0b0000011111100000,
 which corresponds to the color green in the Demolicious color space,
 into the special register \textbf{\$data}.
+
 The second and third line move the kernel's thread ID into the address registers.
-This means all pixels starting with address zero and up until the number of executed threads
-will get colored green.
+
 Finally, the store instruction is executed, storing the value in the \textbf{\$data} register
 to the address given by the two address registers.
+This means all pixels starting with address zero and up until the number of executed threads
+will get colored green.
+
 The thread stops running after executing the \verb/thread_finished/ instruction.
+
+\subsection{Executing Kernels}
 
 Now, how do we execute this kernel on the GPU?
 The program running on the CPU, referred to as the \emph{host program},
-has to upload the assembled kernel, and then notify the GPU to run it.
-Kernels can be assembled using a custom-built assembler,
-which translates special registers and pseudo instructions, and outputs as c arrays for convenience.
+has to upload the assembled kernel to the GPU, and then tell the GPU to run it.
+Kernels can be assembled using the provided assembler\ref{sec:assembler}.
 
 \begin{c-code}[caption=Loading and executing a kernel, label=lst:load-kernel]
 instruction_t fill_screen_kernel[] = {
@@ -92,12 +63,16 @@ run_kernel(fill_screen, 4096);
 In listing \ref{lst:load-kernel}, we first see the assembled kernel stored in the
 \verb/fill_screen_kernel/ array.
 It is then uploaded to the GPU using the \verb/load_kernel/ function.
-A reference to the uploaded kernel is returned, which can be used when running the kernel.
-In addition, the \verb/run_kernel/ function needs to know the number of threads to spawn.
+A reference to the uploaded kernel is returned, which will be used when starting the kernel.
+In addition, the \verb/run_kernel/ function is also provided with the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
+A difference from the CUDA programming model is that on Demolicious, kernels can access the actual framebuffers directly.
+So while you had to read back the framebuffer from the GPU memory in CUDA to visualize it,
+this kernel writes directly to one of the framebuffers \footnote{see double buffering? @ref or elaborate@} that is being shown on screen through HDMI.
+
 While being able to make the screen green by running a specialized kernel is nice,
-it would require many very similar kernels to color the screen in different colors.
+it would require many similar kernels to color the screen in different colors.
 To improve on this, kernels can take parameters as input,
 which lets them be reused with varying output.
 The CPU can set these parameters to different values each time a kernel is run.
@@ -124,16 +99,16 @@ load_constant(0, 0x001F);
 run_kernel(fill_screen, 4096);
 \end{c-code}
 
+\subsection{More Advanced Kernels}
 The instruction set available to kernels is fairly limited.
-Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps.
+Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps. See section @ for more detail. \todo{Reference to somewhere that explains why they cannot branch}
 Although the kernels don't support diverging control flow,
 conditional execution is accomplished through predicated instructions.
 
-Each of the instructions in the instruction set can be executed conditionally by prefixing them with \emph{?}.
-Whether a conditional instruction is executed is controlled by a dedicated masking register.
-The programmer may use arithmetic and logic operations to manipulate this register (such as the \verb/srl/ instruction in listing \ref{lst:masked-execution}).
-The mask register is only one bit, so only the least significant bit of data written to it will be stored.
-A masked instruction is not executed if the mask register is \textbf{1}.
+Each of the instructions in the instruction set (except for loads and stores) can be executed conditionally by prefixing them with '\textbf{?}'.
+Whether a conditional instruction is executed is controlled by a dedicated mask register.
+The programmer may use arithmetic and logic operations to manipulate this register (such as the \verb/srl/ instruction on line 3 in listing \ref{lst:masked-execution}).
+The result of a predicated instruction will be discarded if the mask register is \textbf{1}.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:masked-execution]
 ldc $10, 0 ; Load color one
@@ -147,7 +122,7 @@ sw
 thread_finished
 \end{assembly}
 
-The kernel starts with loading two color parameters.
+The kernel starts by loading two color parameters.
 It then stores a shifted thread ID into the mask register.
 Shifting a thread ID to the right is a trick to convert the ID to a y value,
 which works when the screen width is a power of two.
@@ -157,6 +132,24 @@ Line 4 first writes a color value to the \textbf{\$data} register.
 When masking is disabled this value will be overwritten on line 5.
 The kernel finishes by writing the data value to memory.
 
-\todo{Talk about memory and cooldown}
+This section contains some simplifications, namely some \verb/nop/ instructions that are required under some specific circumstances have been omitted.
+The actual kernel code that is sent to the GPU for the kernel that fills the screen with green,
+can be seen in listing \ref{lst:real-green-kernel}.
+The kernel from listing \ref{lst:masked-execution} however, is executed as is. The reason for these \verb/nop/ instructions will be explained in later chapters.
+
+\todo{Finish the nop examples}
+\begin{assembly}[caption=The green-screen kernel as it is actually , label=lst:real-green-kernel]
+ldi $data, 0b0000011111100000
+mv $address_lo, $id_lo
+mv $address_hi, $id_hi
+sw
+nop
+nop
+nop
+thread_finished
+\end{assembly}
+
+As illustrated by these examples, while the kernels on Demolicious are more limited than CUDA kernels, the programming models are very similar.
+With these examples in mind, it's time to take a look behind the scenes and see how the CPU and GPU actually run this code.
 
 \end{document}

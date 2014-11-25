@@ -3,15 +3,12 @@
 
 \chapter{Testing}
 
-Does it work?
-
-
-\section{Component testing}
-The system consists of a number of fairly isolated components.
+\section{GPU Component testing}
+The GPU consists of a number of fairly isolated components.
 It's valuable to test the components in isolation before they are connected.
 Both implementation errors, and design flaws, can be uncovered before the components are introduced to the system.
-The unit tests were implemented as VHDL test benches
-Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run, and a summary of which feature are tested.
+The unit tests were implemented as VHDL test benches.
+Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run, and provides a summary of which features are tested.
 
 \begin{table}[H]
 	\centering
@@ -35,7 +32,7 @@ Table \ref{tab:vhdl_unit_tests} describes the unit tests that were run, and a su
 													  & Does the masking bit work?  & \\ 													  
 	\hline  Register directory 		 				  & Multiplexes input/output signals to the correct register file. & Passed  \\
 	
-	\hline \multirow{3}{*}{Processor core} 		  	  & Arithmetic operations. & \multirow{3}{*}{ Passed } \\
+	\hline \multirow{2}{*}{Processor core} 		  	  & Arithmetic operations. & \multirow{2}{*}{ Passed } \\
 													  & Can mask instructions.  & \\ 
 													  
 	\hline \multirow{3}{*}{ALU} 		  			  & Computes arithmetic operations. & \multirow{3}{*}{ Passed } \\
@@ -59,8 +56,8 @@ The result of each test is verified by comparing all pixels in the framebuffer a
 \subsection{Memory Stores and Kernel Parameterization}
 
 To verify that stores to memory, as well as constant memory, actually works, the kernel presented in listing \ref{lst:param-color-kernel} is used as a system test.
-It has been relisted in listing \ref{lst:test-param-kernel} for convenience.
-If successful, this allows for parameterizing kernel behaviour with values loaded at runtime, reducing the need for recompilation.
+It has been re-listed in listing \ref{lst:test-param-kernel} for convenience.
+If successful, this allows for parameterizing kernel behavior with values loaded at runtime, reducing the need for recompilation.
 
 \begin{assembly}[caption={Kernel to test constant memory and parameterization}, label=lst:test-param-kernel]
 ldc $data, 0
@@ -107,12 +104,12 @@ The LSU asserts LSU write\_n, (the signal is active low), and external RAM handl
 The testbench passes, and values have now been successfully written to memory.
 It also runs on actual hardware, the result shown in figure \ref{fig:LX16-kernel-parameterization}.
 
-\subsection{Masked Instruction Execution}
+\subsection{Predicated Instruction Execution}
 
-Masked instructions are used to allow for some degree of conditional execution in the lack of proper branching and jumps.
+Predicated instructions are used to allow for some degree of conditional execution in the lack of proper branching and jumps.
 This requires that the architecture actually respects the mask bit when set.
-The masked execution kernel presented earlier in listing \ref{lst:masked-execution} is used for this test.
-It has been relisted in listing \ref{lst:test-masked-execution} for convenience.
+The predicated execution kernel presented earlier in listing \ref{lst:masked-execution} is used for this test.
+It has been re-listed in listing \ref{lst:test-masked-execution} for convenience.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:test-masked-execution]
 ldc $10, 0 ; Load color one
@@ -146,7 +143,7 @@ Expected behavior of test:
     \caption{LX16 run}
     \label{fig:LX16-masked-execution}
   \end{subfigure}
-  \caption{Results from simulation and LX16 of masked execution}
+  \caption{Results from simulation and LX16 of predicated execution}
 \end{figure}
 
 In the left yellow square of figure \ref{fig:isim-masked-execution}, we can see the \verb/srl/ instruction being executed (0x00023181). As this thread has thread id 192, the result out is 3.
@@ -211,17 +208,17 @@ Figure \ref{fig:isim-load-kernel} shows a barrel of height 2 performing successf
 In the first cycle of the yellow dotted square, barrel row 0 executes a load word instruction (0x20000000).
 LSU read request is asserted in the control, and routed to the LSU.
 Two cycles later the request has passed through the LSU unit, and SRAM responds with the value 55.
-In the last cycle of the yellow square, the LSU asynchronously writes the result back to the registers storing the values on the LSU data writeback line to barrel row 0.
+In the last cycle of the yellow square, the LSU asynchronously writes the result back to the registers storing the values on the LSU data write-back line to barrel row 0.
 
 In the blue dotted square, the same procedure is executed again, this time for the second barrel row.
 Notice that register\_file\_select is now set to 1, writing the result back to the second barrel row.
 
 The testbench passes. Multi-pass kernels can now successfully be implemented.
 
-There is however a discrepancy between the simulation and the actual implementation, resulting in the LSU dropping some writebacks, as shown in figure \ref{fig:LX16-load-kernel}.
+There is however a discrepancy between the simulation and the actual implementation, resulting in the LSU dropping some write-backs, as shown in figure \ref{fig:LX16-load-kernel}.
 Both the RAM used for simulation, as well as the SRAM located on the PCB is combinatoric.
 On the development kit however, SRAM had to be mapped onto block RAM due to a lack of space.
-This forces the RAM to be clock driven, not allowing for the same-cycle memory responses required, and therefore dropping writebacks.
+This forces the RAM to be clock driven, not allowing for the same-cycle memory responses required, and therefore dropping write-backs.
 
 \subfile{../testing/io_testing.tex}
 

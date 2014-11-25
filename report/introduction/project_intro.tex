@@ -18,6 +18,7 @@ The project was evaluated based on this report and an oral presentation of the w
 
 The specific assignment for this year was to create a processor inspired by GPU architectures.
 Core requirements included having multiple processor cores and a graphical display output.
+\todo{Energy efficiency should also be a primary concern during development, no?}
 
 \newpage
 
@@ -38,7 +39,7 @@ Core requirements included having multiple processor cores and a graphical displ
     
     \subsubsection{Additional requirements}
     \noindent Your processor will be implemented on an FPGA, and you are free to choose how to
-    realize your computer architecture. Studying the architecture of general multicore processors
+    realize your computer architecture. Studying the architecture of general multi-core processors
     and parallel machines options can be a good starting point.\\
     
     \noindent Energy efficiency should be a primary consideration in all phases of the project, from early
@@ -63,7 +64,7 @@ However, it would be designed to be programmable with general arithmetic and log
 The group was determined to also send graphics output directly from the accelerator to screen, as is common for a GPU.
 
 The accelerator design needed be implemented on an FPGA.
-The FPGA were to be mounted on a PCB together with a microcontroller, memory, and HDMI port, and form a graphical computer system similar to how modern PCs are organized.
+The FPGA was to be mounted on a PCB together with a microcontroller, memory, and HDMI port, and form a graphical computer system similar to how modern PCs are organized.
 
 
 \section{Structure of the Report}
@@ -71,7 +72,7 @@ The FPGA were to be mounted on a PCB together with a microcontroller, memory, an
 The accelerator processor will fill the role of a modern GPU in the system presented by this report.
 Therefore, it will be referred to in this report as the GPU.
 
-Having introduced the problem, the report will continue by giving a short introduction to what a GPU is and what it is for.
+Having introduced the problem, the report will continue by giving a short introduction to what a GPU is and what they are for.
 It will present concepts and challenges in graphical computations and GPU design.
 These topics help to appreciate the need for a GPU in modern computers, and to understand the trade-offs and optimizations involved in its design.
 
@@ -80,6 +81,7 @@ In the solution part, a detailed explanation of the system will be given by roug
 
 The physical product produced in this project, and the test and verification methods involved in making it work, will also be presented.
 The results chapter will go through which parts of the system worked and which did not, and will look at measurements of its performance.
+\todo{Does the results chapter go through what parts didn't work?}
 Lastly, the discussion chapter will comment on some of the difficulties with the completed system, and on topics such as possible further work.
 
 Note that the reader of this report is expected to have a basic understanding of logic design, computer components, and programming.

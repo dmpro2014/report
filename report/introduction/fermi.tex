@@ -1,5 +1,4 @@
 \documentclass[../main/report.tex]{subfiles}
-\usepackage{graphicx}
 \begin{document}
 
 \chapter{NVIDIA's Fermi Architecture and CUDA Programming Model}
@@ -25,6 +24,7 @@ This ability been given the term General-Purpose GPU computing, or GPGPU.
 
 
 \section{CUDA Programming Model}
+\label{sec:cuda_prog_model}
 
 To open up the computing powers of the graphics card for general applications, there was a need for a new application programming interface (API) that could be used run code on the GPUs.
 It was possible to do non-graphical calculations on GPUs previously, but it required redefining any problem as a graphical problem.
@@ -81,7 +81,7 @@ It is programs are easily portable and scalable because they ignore the underlyi
 
 \begin{wrapfigure}{r}{0.3\textwidth}
 \centering
-\includegraphics[scale=0.40]{assets/SM.png}
+\includegraphics[scale=0.40]{../introduction/assets/SM.png}
 \caption{Streaming Multiprocessor}
 \label{fig:sm}
 \end{wrapfigure}
@@ -91,7 +91,7 @@ To handle all these, the Fermi architecture has a large number of cores organize
 At its heart lies 16 Streaming Multiprocessors (SMs).
 
 A Streaming Multiprocessor is a collection of tightly coupled Streaming Processor cores (SP) along with some shared accessories.
-To enable a large number of coress, NVIDIA makes each of the SP cores simple.
+To enable a large number of cores, NVIDIA makes each of the SP cores simple.
 For example, common but difficult functions like sin and reciprocal are delegated to a few separate hardware units within the SM, called Special Function Units (SFU).
 
 In Fermi, each SM contains 32 SP cores. 
