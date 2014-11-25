@@ -24,19 +24,17 @@ but in the \emph{start kernel} space instead of the instruction memory will tell
 
 When writing to this \emph{start kernel} address, we use the data value for telling the GPU how many threads should be spawned.
 For example, say the \verb/fill_kernel/ reference points to instruction 100 in instruction memory.
-Then, executing the code in listing \ref{lst:run-kernel} will write the value 4096 to address 100.
+Then, executing the code in listing \ref{lst:run-kernel} will write the value 4096 to address 100 in the \emph{start kernel} area.
 
-Actually writing the number of threads to spawn over the data bus
-will limit the maximum number of threads to 2\textsuperscript{16}, which is 65536.
-This will not suffice for our target resolution of 512*256,
-when running one thread per pixel.
+Actually, writing the number of threads to spawn
+will limit the maximum number of threads to 2\textsuperscript{16}, as the data bus is 16 bits wide.
+This will not suffice for our target resolution of 512*256, when running one thread per pixel, as that requires 2\textsuperscript{17} number of threads.
 Instead, the number of \emph{batches} of threads is written to the GPU.
-A batch represents the nuber of threads which can be executed at the same time,
-and will be explained in more detail in the next chapter.
+A batch represents the number of threads which are active in the GPU at the same time.
 The number of threads in a batch will typically be between 8 and 32 depending on the size of the GPU.
 What's important is that this work-around will help in increasing the number of threads that can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21}.
 
 Only one kernel can execute at the time in the GPU.
 Because of this, the \verb/run_kernel/ call is designed to block until the kernel has completed execution.
-This is implemented by having a dedicated line from the GPU to the CPU which will be asserted whenever the GPU is idle.
-The CPU may sleep when the GPU is executing and wait for an interrupt on this line.
+This is implemented by having a dedicated signal from the GPU to the CPU which will be asserted whenever the GPU is idle.
+The CPU can sleep when the GPU is executing and wait for an interrupt on this signal, saving energy while waiting for the GPU.
