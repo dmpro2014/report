@@ -1,7 +1,7 @@
 \subsection{SRAM Arbiter}
 
-Connecting SRAM to the LSU, HDMI unit and CPU is a custom-built memory controller, the SRAM arbiter.
-As multiple units may request access to SRAM at the same time, and the Demolicous system using an interlaced memory model,
+The SRAM arbiter connects the LSU, HDMI unit and CPU to the SRAM.
+As multiple units may request access to SRAM at the same time, and the Demolicous system is using an interlaced memory model,
 dedicated access to SRAM cannot be guaranteed.
 Therefore, a prioritization scheme is required.
 

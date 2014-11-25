@@ -34,15 +34,14 @@ Within the register directory, signals are routed to the active register file us
 Consequently, from the processor core's point of view, there's just one register file.
 
 In the architecture the dedicated registers have special functions.
-<direct access>
 Ignoring registers \$0 and \$6, the dedicated registers may be used as general purpose registers.
 
-
-The masking register is used to enable conditional execution.
+The masking register is used to enable conditional execution, as introduced in section \ref{subsec:masking_kernels}.
 When executing predicated instructions, the masking register is used to disable writes to the register file.
-This makes the instruction have no effect (Figure \ref{fig:masking}).
-To reduce the complexity of the architecture \emph{store word} instructions cannot be predicated.
-Instead the programmer has to manage the values written explicitly.
+This makes the instruction have no effect. The physical implementation is seen in figure \ref{fig:masking}.
+To reduce the complexity of the architecture, \emph{store word} instructions cannot be predicated.
+Instead, the programmer has to manage the values written explicitly.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../gpu/diagrams/masking.png}
@@ -52,7 +51,7 @@ Instead the programmer has to manage the values written explicitly.
 
 Data memory addresses are 20 bit wide, and thread IDs are 19 bit wide.
 The word size is only 16 bits.
-To represent these values they are split into two registers which contain the higher and lower bits.
+To represent these values, they are split into two registers.
 
 The load store unit (LSU) has a separate signal for selecting which register file to write to.
 Using this signal, the LSU can write data loaded from memory into any register files on its own.
