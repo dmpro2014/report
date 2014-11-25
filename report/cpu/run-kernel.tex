@@ -1,5 +1,5 @@
 \section{Running a Kernel}
-To run a kernel, the host program runs the \verb/run_kernel/ function with a reference to the kernel pointer, as well as the number of threads it wants to spawn.
+To run a kernel, the host program executes the \verb/run_kernel/ function with a reference to the kernel address, as well as the number of threads it wants to spawn.
 Listing \ref{lst:run-kernel} shows the code required for running a kernel.
 
 \begin{c-code}[caption=Running a kernel, label=lst:run-kernel]
@@ -13,22 +13,26 @@ run_kernel(fill_screen, 4096);
     \label{fig:running_a_kernel}
 \end{figure}
 
-Telling the GPU to start executing a kernel is accomplished by writing the number of batches of threads to spawn to the address of the first instruction.
-A batch is the number of threads which is simultaneously executing across all processor cores on the GPU.
-This is a work-around to increase the maximum number of threads which can be executed.
-Because of the 16-bit size of the data bus, writing the number of threads would be limited to 65536.
+To tell the GPU to start executing a kernel,
+there are two pieces of information the GPU needs.
+Which kernel should be started, and how many threads should be executed.
+As can be seen in figure \ref{fig:memory_map}, there exists a dedicated address space for starting kernels.
+It is the same size as the instruction memory,
+meaning any valid instruction address will be valid also in the \emph{start kernel} space.
+Writing to the instruction address,
+but in the \emph{start kernel} space instead of the instruciton memory will tell the GPU to start executing from that particular instruction.
+As we saw in the first example kernels in listings \ref{lst:green-kernel} and \ref{lst:param-color-kernel}, all kernels end with the \verb/thread_finished/ instruction.
+This way, the GPU also knows where to stop executing.
 
-To separate this from an actual instruction upload, an address offset is used,
-asserting the 18th bit of the address line (figure \ref{fig:start_kernel_format}).
+When writing to this address, we use the data value for telling the GPU how many threads should be spawned.
+To increase the maximum number of threads which may theoretically be spawned,
+the number of \emph{batches} of threads is what is actually written.
+A batch represents the nuber of threads which can be executed at the same time,
+and will be explained in more detail in the next chapter. \todo{will it?}
+It will typically be between 8 and 32 depending on the size of the GPU.
+What's important is that this work-around will help in increasing the number of threads which can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21}.
 
-\begin{figure}[H]
-    \centering
-    \begin{tabular}{|c|c|c|c|}
-    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{2} & \multicolumn{1}{c}{16} \\ \hline
-    X & 1 & 00 & address \\ \hline
-    \end{tabular}
-    \caption{Address format for starting a kernel.}
-    \label{fig:start_kernel_format}
-\end{figure}
-
-The \verb/run_kernel/ call will block until the kernel has completed execution.
+Only one kernel can execute at the time in the GPU.
+Because of this, the \verb/run_kernel/ call is designed to block until the kernel has completed execution.
+This is implemented by having a dedicated line from the GPU to the CPU which will be asserted whenever the GPU is idle.
+The CPU may sleep when the GPU is executing and wait for an interrupt on this line.
