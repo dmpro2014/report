@@ -49,11 +49,12 @@ The processors load constants from the constant memory, and uses the load/store 
 \label{fig:kernel_call}
 \end{figure}
 
-The communication unit is responsible for receiving kernel call requests from the CPU, and initiating the request.
-A valid kernel call consists of the address of the kernel, the number of batches to launch, and asserting the launch signal.
+The communication unit is responsible for receiving kernel call requests from the CPU.
+When a kernel call is received, the kernel launch signal is asserted.
+A kernel call consists of the address of the kernel, and the number of threads to launch.
 
-The kernel launch signals are forwarded to the thread spawner, which writes the kernel start address to the PC register, and starts distributing threadIDs to the streaming processors. 
-After holding the kernel launch signals high for one clock cycle, the communication unit has completed its role in launching the kernel.
+The kernel launch signals are forwarded to the thread spawner, which writes the kernel start address to the PC register, and starts distributing thread IDs to the processor cores. 
+After holding the kernel launch signals high, the communication unit has completed its role in launching the kernel.
 When the kernel completes executing, the thread spawner asserts the kernel done signal, and the communication unit forwards the signal to the CPU, indicating that the kernel call has completed.
 
 
