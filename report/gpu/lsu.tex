@@ -1,6 +1,6 @@
 \subsection{Load/Store Unit}
 A load/store unit is responsible for handling memory requests from the core processors.
-The load/store unit of Demolicious needs to be capable of simultaneously servicing incoming request from all the streaming processors.
+The load/store unit of Demolicious needs to be capable of simultaneously servicing incoming request from all the processor cores.
 Requests are asynchronously carried out in the background, and replies are delivered directly into the appropriate registers of the threads that made the request.
 
 Demolicious has two independent memory banks, each capable of reading or writing one word every cycle.
@@ -11,8 +11,8 @@ Because there are two independent memory banks, the incoming request are routed 
 Each queue then feeds requests to its associated memory control unit.
 Read responses are then handed to the write-back unit, which delivers the data to the appropriate register file.
 
-The queues are necessary because Demolicious has more streaming processors than memory banks, so all the requests from a warp can not be completed in a single cycle.
-The streaming processors work in tandem, and issue requests simultaneously.
+The queues are necessary because Demolicious has more processor cores than memory banks, so all the requests from a warp can not be completed in a single cycle.
+The processor cores work in tandem, and issue requests simultaneously.
 Each memory bank can service at most one request per cycle.
 As such, it takes several cycles to complete the requests for a single warp.
 Since there is a limit to how many requests can be in the queue at any time, there is also a limit to how often requests can be issued.
