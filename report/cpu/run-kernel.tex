@@ -20,7 +20,7 @@ As can be seen in figure \ref{fig:memory_map}, there exists a dedicated address 
 It is the same size as the instruction memory,
 meaning any valid instruction address will be valid also in the \emph{start kernel} space.
 Writing to the instruction address,
-but in the \emph{start kernel} space instead of the instruciton memory will tell the GPU to start executing from that particular instruction.
+but in the \emph{start kernel} space instead of the instruction memory will tell the GPU to start executing from that particular instruction.
 
 When writing to this \emph{start kernel} address, we use the data value for telling the GPU how many threads should be spawned.
 For example, say the \verb/fill_kernel/ reference points to instruction 100 in instruction memory.
@@ -28,7 +28,7 @@ Then, executing the code in listing \ref{lst:run-kernel} will write the value 40
 
 To increase the maximum number of threads which may theoretically be spawned,
 the number of \emph{batches} of threads is what is actually written.
-A batch represents the nuber of threads which can be executed at the same time,
+A batch represents the number of threads which can be executed at the same time,
 and will be explained in more detail in the next chapter. \todo{will it?}
 The number of threads in a batch will typically be between 8 and 32 depending on the size of the GPU.
 What's important is that this work-around will help in increasing the number of threads that can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21},
