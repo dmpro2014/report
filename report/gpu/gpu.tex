@@ -60,7 +60,7 @@ When the kernel completes executing, the thread spawner asserts the kernel done 
 
 \section{Running a Kernel}
 Once the thread spawner has been initiated by the communication unit, the kernel runs to completion without intervention by the CPU. 
-At the beginning of a kernel run, the thread spawner assigns threadIDs to each warp in the barrel.
+When a kernel run starts, the thread spawner assigns thread IDs to each warp in the barrel.
 After the initial IDs have been assigned the GPU enters normal execution.
 \begin{figure}[H]
 	\centering
@@ -69,10 +69,11 @@ After the initial IDs have been assigned the GPU enters normal execution.
 	\label{fig:kernel_run_state_machine}
 \end{figure}
 A normal kernel execution can be represented by the state machine in figure \ref{fig:kernel_run_state_machine}.
-During the kernel execution stage the warps execute the same instructions in lock-step one warp at a time, until the control unit encounters a \textit{Finished} instruction.
-Upon receiving a \textit{Finished} instruction the control unit asserts the finished signal alerting the thread spawner that the warp requires new threadIDs.
+During the kernel execution stage the threads in a warp execute the same instructions, until the control unit encounters a \emph{finished} instruction.
+Upon receiving a \emph{finished} instruction the control unit asserts the finished signal alerting the thread spawner that a new warp has to be spawned.
 The thread spawner keeps track of the number of threads awaiting launch.
-When the thread spawner receives a \textit{Finished} instruction and no more threads are awaiting launch, the kernel run has completed.
+When the thread spawner receives a \emph{finished} instruction and no more warps are awaiting launch, the kernel complete signal is asserted, and the kernel run has completed.
+
 
 \section{Module Details}
 
