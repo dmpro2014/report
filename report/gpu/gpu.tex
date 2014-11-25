@@ -1,4 +1,5 @@
 \documentclass[../main/report.tex]{subfiles}
+\usepackage{graphicx}
 \begin{document}
 
 \chapter{GPU}
@@ -62,23 +63,40 @@ When the kernel completes executing, the thread spawner asserts the kernel done 
 
 \subsection{Warps}
 
-As in the NVIDIA GPU architectures, see chapter \ref{sec:fermi}, Demolicious groups threads into \emph{warps}.
-These warps contain 8 threads, one per core. 
-For Demolicious versions with fewer cores, the warp size changes accordingly.
-Just as the warps in the NVIDIA architecture, every thread in these warps always execute the same instruction at the same time, one in each core.
-The main difference is that while NVIDIA has multiple \emph{Streaming Multiprocessors} which can each execute a warp at the same time, we can only execute a single warp at the time.
-In a way, the Demolicious system is analogous to having a single \emph{Streaming Multiprocessor}.
+As in NVIDIA's Fermi architecture, see chapter \ref{sec:fermi}, Demolicious organizes threads into \emph{warps}.
+In Demolicious, a warp consists of 8 threads, one per core. 
+For versions with fewer cores, the warp size changes accordingly.
+Just as the warps in Fermi, every thread in these warps always execute the same instruction at the same time, with one thread in each core.
+Note that while Fermi has multiple \emph{Streaming Multiprocessors} which can each execute warps concurrently, Demolicious can only execute a single warp at a time.
+The Demolicious system is analogous to having a single Fermi \emph{Streaming Multiprocessor}.
 
-Another central difference in the Demolicious warps is that since our kernels have no jumps, the threads never diverge.
+An important difference between Demolicious and Fermi, is that Demolicious kernels have no jumps, so its threads never diverge.
 This significantly reduces the complexity of scheduling these warps, and let's us get away with a single program counter.
 
 \subsection{Static scheduling}
 
-\emph{Many mem requests per clock@}
-As every thread in a warp always executes the same instruction, our system has to handle 8 memory requests being issued during the same cycle.
-The memory system, consisting of two SRAM chips, can return two words every cycle, with a single cycle delay.
-This is not sufficient bandwidth to satisfy the memory requests without stalling.
-Some of the stalling can be hidden if the programmer manually loads the memory word enough instructions before usage, but even with this strategy there will be multiple programs that simply doesn't have enough indepentent instructions to execute while waiting for memory, and have to insert \emph{noops}, effectively stalling the GPU.
+% Many mem requests per clock@
+As every thread in a warp always executes the same instruction, our system needs to handle 8 memory requests being issued during the same cycle.
+The memory system for Demolicious consists of two SRAM chips, and can return two words every cycle.
+%A memory request has a single cycle delay.
+This bandwidth is not sufficient to satisfy the set of 8 memory requests produced by a warp without stalling.
+Occasionally, these stalls can be hidden by the programmer if loads are issued ahead of their usage.
+However, when the program does not have enough useful instructions to do while waiting for loads, the GPU must stall.
+Stalling a throughput-oriented machine is obviously unfortunate.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.40]{diagrams/uten_jaktstart_num.png}
+\caption{Execution timing of warps without jagged scheduling}
+\label{nojagged}
+\end{figure}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.40]{diagrams/jaktstart_num.png}
+\caption{Execution timing of warps with jagged scheduling}
+\label{jagged}
+\end{figure}
 
 But there are many warps waiting for execution at (almost) any time. 
 If these warps could execute while other warps are waiting for memory, we can utilize the system better.
