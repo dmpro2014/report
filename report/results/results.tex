@@ -39,13 +39,13 @@ Limiting factors to this scalability include:
 \begin{table}[H]
 \begin{tabularx}{\textwidth}{cccccc}
 \hline
-Cores & Crit. path & Max freq. & Dynamic + quiescent power & LX16 & LX45 \\
+Cores & Crit. path & Max freq. & Dynamic+quiescent power & LX16 & LX45 \\
 \hline
 \hline
-2 / 2      & 17.103ns      & 58.469MHz & 0.272 W: 0.088 W + 0.184 W & \checkmark & \checkmark  \\
-4 / 2     & 17.959ns      & 55.682MHz & 0.292 W: 0.107 W + 0.184 W & \checkmark & \checkmark \\
-8 / 4   & 19.722ns      & 50.108MHz & 0.353 W: 0.168 W + 0.186 W &            & \checkmark \\
-16 / 8     & X  & X & X          & \\
+2      & 17.103ns      & 58.469MHz & \SI{0.272}{W}: 0.088 + 0.184 & \checkmark & \checkmark  \\
+4     & 17.959ns      & 55.682MHz & \SI{0.292}{W}: 0.107 + 0.184 & \checkmark & \checkmark \\
+8   & 19.722ns      & 50.108MHz & \SI{0.353}{W}: 0.168 + 0.186 & X          & \checkmark \\
+16     & X  & X & X        & X & X \\
        &               &           &                   &    & \\
 \hline
 \end{tabularx}
