@@ -230,29 +230,27 @@ The image in the figure does have some artifacts, but the ones caused by single 
 
 \section{Power efficiency}
 
-Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
-Due to its computationally expensive nature, a GPU will consume a lot of power.
-By quickly and efficiently executing the kernel at hand, the GPU can be put in a lower power mode, reducing static power consumption to a minimum.
-
 With a power draw of \SI{0.353}{W} for a Demolicious setup of 8 cores \ref{table:scalability},
 it is in the interest of nature to keep it spinning for as short as possible.
-\todo{find number}
-The EFM32GG MCU has a power draw of NUMBER in energy mode 0.
-When the host program is running as an interrupt-based program instead of busy-waiting for kernel result, it may enter energy savings mode 1 or 2.
-These modes introduce significant energy savings, allowing the CPU consume very little power when waiting for GPU execution to complete.
+By quickly and efficiently executing the kernel at hand, the GPU can reduce its total static power consumption.
+Reducing the dynamic consumption however, is more difficult.
+The current GPU architecture will execute nops when no kernels are active, keping dynamic power consumption sligthly lower than average, as no memory requests need to be served.
+Therefore, Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
 
-There are two use-cases resulting in different sleep times for the MCU
+The Giant Gecko micro controller used as the host device has four different energy modes, each lower energy mode more efficient, but more constrained.
+Deeper power levels may conserve more power, but require a longer time to wake up.
+EM0 is normal operation, while EM2 (Deep sleep mode) is the deepest power level with acceptable wake-up times for our usecase (less than 2 ms) \cite{efm-referencemanual}.
+
+There are two different sleep patterns used by the MCU based on the executing program:
 \begin{enumerate}
   \item
-    A recurring calculation, for example rendering frames targeting 60 fps.
-    The MCU will then be able to stay in deep sleep for the most of the time, waking only every 16 ms to calculate new kernel parameters, dispatching the call and going to sleep again.
+    A visual animation or similar, rendering at a known target FPS.
+    The MCU can stay at energy mode EM2 when kernels are executing, waking at fixed intervals to update and relaunch kernels.
   \item
-    Data-throughput intensive calculation.
-    Some scientific data problem requires multiple kernel passes, where a single kernel may take multiple 100 ms to complete.
-    This use-case is slightly different, as one does not have a fixed interval one can wake at to check if data is finished.
-    As the completion time might be somewhat variable, the MCU may go to sleep, attaching an interrupt listener on the 'kernel complete' GPIO line from the GPU.
-    This allows the CPU to wait for exactly as long as is required until the kernel finishes, allowing for an extremely high sleep percentage.
+    Programs working on some large dataset, where it is beneficial to tightly pack kernel execution, reducing GPU idling.
+    The host device can therefore enter EM2 after launching a kernel, using the kernel complete pin to trigger an interrupt, waking the host device from sleep.
 \end{enumerate}
+
 
 Now for some numbers!
 Let's say we're targeting 30 FPS on the tunnel kernel.
