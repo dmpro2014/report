@@ -74,18 +74,21 @@ The minimum resolution permitted by the HDMI protocol is $640\times480$,
 but the size of the memory limits the actual resolution to $512\times256$ pixels.
 The rest of the screen is padded with a checker pattern.
 Most of the time the output image is correct.
-However, the output image has issues in some cases.
+However, the output image is distorted under certain conditions.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.3\textwidth]{diagrams/flicker.jpg}
 	\caption{Flickering when running the tunnel kernel. This picture was exposed over two frames.}
 	\label{fig:flickering}
 \end{figure}
-Some kernels exhibit intermittent flickering (Figure \ref{fig:flickering}). 
-This is caused by a failure in the synchronization mechanism in the Video unit.
+Some kernels exhibit intermittent flickering (Figure \ref{fig:flickering}).
+The exact reason for why this occurs is unclear, but
+it can be observed that the flicker contains parts of the last frame. 
+This may be caused by a failure in the synchronization mechanism in the video unit.
 
 Since the GPU has priority on memory access, the video unit may get starved for data.
-When this occurs, lines of the wrong color will appear on the screen. 
+When the video unit is starved the buffer containing pixels to output will underflow.
+For the duration of the starve, a line containing the previous pixel on the bus will be displayed on the screen.
 
 
 
