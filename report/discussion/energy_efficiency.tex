@@ -39,6 +39,7 @@ This feature can reduce power consumption up to 30\% for components opting to us
 
 The presented architecture has some usage of chip select signals, but does not shut down execution cores, instruction fetch or the LSU unit when idling.
 The addition of such a system-wide chip enable signal would reduce power usage during GPU idle time, a feature that the next iteration of Demolicious should include.
+This was not implemented for this project however, mainly due to time constraints.
 
 Now for a quick calculation to see how much power can be saved in an absolute best-case scenario.
 Demolicous with 8 execution cores can run the tunnel kernel at 50 FPS \ref{fig:kernel_tunnel_fps}, spending \SI{12.5}{ms} per frame.
