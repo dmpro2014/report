@@ -1,0 +1,89 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\chapter{Computer Design Project}
+\label{sec:intro}
+
+This report presents the TDT4295 Computer Design Project at NTNU for the fall semester of 2014.
+
+The course is held every fall, and consists of a single task in which a group of students make a working computer from scratch.
+This report's group was made out of 9 students from the Computer Science department.
+Gunnar Tufte and Yaman Umuroğlu served as advisors for the group throughout the semester and assisted in administrative tasks.
+
+\section{Assignment}
+
+The Computer Design Project's primary tasks included making a custom Printed Circuit Board (PCB) and implementing a custom processor architecture on a Field-Programmable Gate Array (FPGA).
+Together with a microcontroller (MCU) and a choice of I/O components, these were to form a complete and working system.
+The project was evaluated based on this report and an oral presentation of the work, as well as a prototype demonstration.
+
+The specific assignment for this year was to create a processor inspired by GPU architectures.
+Core requirements included having multiple processor cores and a graphical display output.
+\todo{Energy efficiency should also be a primary concern during development, no?}
+
+\newpage
+
+\vspace*{1cm}
+\subsection{Original Assignment Text}
+
+\vspace{0.5cm}
+\noindent
+
+\begin{quotation}
+
+	\subsubsection{Construct a graphics processing unit (GPU) inspired processor}
+    \noindent GPUs play a large role in graphical applications as well as high performance computing.
+    They are typically constructed around the SIMD (single instruction multiple data) paradigm and
+    include special hardware for accelerating graphics-related operation. The idea is to make a
+    GPU-inspired processor architecture that exploits the possibility of parallel computation on a
+    single chip. The GPU must be a multi-core system.
+    
+    \subsubsection{Additional requirements}
+    \noindent Your processor will be implemented on an FPGA, and you are free to choose how to
+    realize your computer architecture. Studying the architecture of general multicore processors
+    and parallel machines options can be a good starting point.\\
+    
+    \noindent Energy efficiency should be a primary consideration in all phases of the project, from early
+    design decisions to how software is written.\\
+    
+    \noindent The task should also include a suitable application that can produce a graphical output on a
+    display to demonstrate the processor.\\
+    
+    \noindent The unit must utilize a Silicon Labs EFM32 series microcontroller (to act as an I/O processor)
+    and a Xilinx FPGA (to implement your architecture on). The budget is 10.000 NOK, which must
+    cover components and PCB production. The unit design must adhere to the limits set by the
+    course staff at any given time.
+\end{quotation}
+\newpage
+
+\section{A Parallel Processing Accelerator}
+
+The group decided to make the custom GPU inspired processor as an accelerator processor for parallelizable computations.
+This means that it would not be designed to run entire programs on its own, but would instead be tasked with particular parallelizable parts of a program.
+Its purpose would primarily be to run graphics related operations.
+However, it would be designed to be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
+The group was determined to also send graphics output directly from the accelerator to screen, as is common for a GPU.
+
+The accelerator design needed be implemented on an FPGA.
+The FPGA was to be mounted on a PCB together with a microcontroller, memory, and HDMI port, and form a graphical computer system similar to how modern PCs are organized.
+
+
+\section{Structure of the Report}
+
+The accelerator processor will fill the role of a modern GPU in the system presented by this report.
+Therefore, it will be referred to in this report as the GPU.
+
+Having introduced the problem, the report will continue by giving a short introduction to what a GPU is and what they are for.
+It will present concepts and challenges in graphical computations and GPU design.
+These topics help to appreciate the need for a GPU in modern computers, and to understand the trade-offs and optimizations involved in its design.
+
+The system created in this project, and its purpose, will be introduced in light of modern GPU concepts.
+In the solution part, a detailed explanation of the system will be given by roughly following the path of an executing program, going from high to low levels of abstraction.
+
+The physical product produced in this project, and the test and verification methods involved in making it work, will also be presented.
+The results chapter will go through which parts of the system worked and which did not, and will look at measurements of its performance.
+\todo{Does the results chapter go through what parts didn't work?}
+Lastly, the discussion chapter will comment on some of the difficulties with the completed system, and on topics such as possible further work.
+
+Note that the reader of this report is expected to have a basic understanding of logic design, computer components, and programming.
+
+\end{document}

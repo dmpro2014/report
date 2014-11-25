@@ -1,0 +1,27 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6cm}|L{2cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        FPGA oscillator wave frequency at 120 MHz &
+        Use oscilloscope on out pin on the FPGA oscillator &
+        Passed \\
+    \hline
+        MCU low frequency crystal clock at 32.768 kHz &
+        Use oscilloscope to measure low frequency crystal &
+        Incomprehensible results \\
+    \hline
+        MCU high frequency crystal clock at 48 MHz &
+        Use oscilloscope to measure high frequency crystal &
+        Incomprehensible results \\
+    \hline
+    \end{tabular}
+    \caption{Frequency output tests}
+    \label{tab:oscillation-tests}
+\end{table}
+
+\end{document}

@@ -1,14 +1,11 @@
-.PHONY: all
+.PHONY:
 all:
-	pdflatex report.tex
-	bibtex report.aux
-	pdflatex report.tex
-	pdflatex report.tex
+	cd main && $(MAKE)
 
-.PHONY: open
-open: all
-	open report.pdf
+.PHONY:
+open:
+	cd main && $(MAKE) open
 
-.PHONY: clean
+.PHONY:
 clean:
-	rm -f *.aux *.bbl *.blg *.xml *.log *blx.bib *blg *blg
+	./clean.sh

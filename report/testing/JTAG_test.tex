@@ -1,0 +1,23 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6cm}|L{2cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        Verify FPGA JTAG's ability to flash FPGA &
+        Flash code on FPGA that makes a LED blink &
+        Passed \\
+    \hline
+        Verify ARM debug interface's ability to flash MCU &
+        Flash code on MCU to make a LED blink &
+        Passed \\
+    \hline
+    \end{tabular}
+    \label{tab:jtag-test}
+    \caption{JTAG tests}
+\end{table}
+
+\end{document}

@@ -1,0 +1,10 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\section{Bus}
+The bus between the MCU and FPGA is an EBI connection.
+EBI stands for External Bus Interface, which is a parallel address/data bus connecting multiple external components like SRAM, MCU, GPU etc.
+The EFM32GG990 has dedicated pins for the EBI, which can be found in the datasheet \cite{EFM32-datasheet} to the MCU.
+Headers are placed in between the MCU and FPGA in case of failure on either side of the connection, as well as an easy way to check transmitted signals during debugging.
+
+\end{document}

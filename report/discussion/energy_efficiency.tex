@@ -1,0 +1,30 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+
+\section{Energy Efficiency}
+
+The system is powered by a EH-70p USB charger for the Nikon Coolpix S2700 camera \cite[p. 196]{usb-charger}.
+This charger outputs a 5 V voltage and delivers 550 mA.
+This gives the power input an upper bound of power consumption at $550mA * 5V = 2.75W$.
+
+\subsection{Physical Implementation}
+
+To make a PCB as energy efficient as possible, one relies upon good practices.
+The wires have to be as short as possible and the board as small as possible.
+This will optimize for lowest possible static power consumption.
+Short wires for signal wires will make dynamic power consumption as low as possible.
+
+The backup oriented design of the PCB doesn't fit very well in with this.
+The amount of headers make wires unnecessarily long, as well as making the board itself quite large.
+Headers need to make a hole through the whole board, which makes it impossible to put wires on that place.
+Since the PCB has six signal layers, it means that each header removes the possibility of six wires going through where the header is.
+This makes the static power consumption higher than it could be.
+
+By having the entire bus on headers, the wires between the CPU and the GPU is longer than they could have been.
+This makes the dynamic power consumption higher than if the wires are shorter.
+However all of this is a trade-off as there was only one chance for the PCB to work.
+
+\todo{Add actual power consumption, either based on datasheets or physical measurements?}
+\todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
+
+\end{document}

@@ -1,0 +1,148 @@
+\documentclass[a4paper, fontsize=11pt]{report} % A4 paper and 11pt font size
+\input{../main/_setup.tex}
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{ 
+\normalfont \normalsize 
+\textsc{Norwegian University of Science and Technology} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge \textbf{Demolicious} \\ % The assignment title
+TDT4295 Computer Design Project\\
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Authors:\\ \\
+Aleksander Gustaw Wasaznik\\
+Aleksander Vognild Burkow\\
+Kristian Fladstad Normann\\
+Christoffer Tønnessen\\
+Andreas Løve Selvik\\
+Julian Ho-yin Lam\\
+Eirik Jakobsen\\
+Stian Jensen\\
+Torkel Berli}
+
+\date{\normalsize November 19, 2014}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\maketitle
+
+\newpage
+
+\listoftodos
+\todo{Remove todolist when finished}
+\newpage
+
+%blank page
+\subfile{../blank/blank.tex}
+
+\thispagestyle{firststyle}
+
+\newpage
+
+%ABSTRACT
+\subfile{../abstract/abstract.tex}
+
+\newpage
+
+\section*{Acknowledgements}
+A huge thank you goes out to the following for tremendous help during the project:
+
+\vspace*{\fill}
+\begin{description}
+
+    \item[Gunnar Tufte]
+        for guiding us towards a finished, working product.
+    \item[Yaman Umuroğlu]
+        for great project coordination and answers to questions at close to any hours of the day.
+    \item[Odd Rune S. Lykkebø]
+        for fantastic email response time, anywhere in the world.
+    \item[Omega Verksted]
+        for help with electronic circuits, as well as being able to provide endless amounts of headers at 4 a.m.
+
+\end{description}
+\vspace*{\fill}
+
+\newpage
+
+\tableofcontents
+
+\todo{Add list of listings in table of contents}
+
+\setcounter{secnumdepth}{3}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\part{Introduction}
+
+% Introduction to Computer Design Project
+\subfile{../introduction/project_intro.tex}
+
+% Modern GPUs
+\subfile{../introduction/modern_gpu.tex}
+
+% Fermi and CUDA
+\subfile{../introduction/fermi.tex}
+
+% Introduction to Demolicious
+\subfile{../introduction/demolicious.tex}
+
+\part{Solution}
+
+% System Overview
+\subfile{../system_overview/system_overview.tex}
+
+% CPU
+\subfile{../cpu/cpu.tex}
+
+% GPU
+\subfile{../gpu/gpu.tex}
+
+%PCB
+\subfile{../pcb/pcb.tex}
+
+% Additional components
+\subfile{../misc/misc.tex}
+
+\part{Results \& Discussion}
+
+% TESTING
+\subfile{../testing/testing.tex}
+
+% RESULTS
+\subfile{../results/results.tex}
+
+% DISCUSSION
+\subfile{../discussion/discussion.tex}
+
+% CONCLUSION
+\subfile{../conclusion/conclusion.tex}
+
+\printbibliography
+
+\listoftables
+
+\listoffigures
+
+\lstlistoflistings
+
+\newpage
+
+\appendix
+
+%APPENDIX EXPENSES
+\subfile{../appendix/expenses.tex}
+
+\subfile{../appendix/instruction-set.tex}
+
+\end{document}

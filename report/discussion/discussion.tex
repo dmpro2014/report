@@ -1,14 +1,67 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
 \chapter{Discussion}
 
-\input{discussion/design_process.tex}
+\section{Multiple clock domains in HDMI unit}
+The HDMI unit needs to output words with a frequency of \SI{25}{MHz}.
+If it were to share clock with the rest of the system, the system clock would have to be \SI{25}{Mhz} itself or a multiple thereof.
+To avoid imposing this limitation, the buffer in the HDMI unit crosses clock domains.
+Since the buffer receives data at native memory speed, it is filled faster than the HDMI unit can read from it.
+The data read out at \SI{25}{MHz} also need to be serialized to a frequency of \SI{250}{MHz} before being output from the FPGA.
+This is to the knowledge of the authors, the first project in the Computer Project course with a design incorporating multiple clocks.
 
-\subsection{PCB}
-Split project schematics into several connected docs for the sake of modularity. Find some overarching hardware requirements and from there, related application notes and hardware considerations. Then some components and footprints that fit...ish with these docs.
-Finally place components and route the wires between them digitally and order the PCB and components
+\section{Hardware components}
+In this section we will discuss some of the physical design, alternative solutions and the practical solutions that arose during physical implementation.
 
-\section{"Jaktstart"}
+\subsection*{USB data input}
+In the initial design, a USB connector was introduced to receive data from a host PC. 
+However, during the implementation phase it was discovered to be unnecessary.
+We discovered that the software applications we wanted to run on the computer, could be included when programming the microcontroller with the JTAG.
+This worked sufficiently for our needs. 
+Since at the time we still had much else to do, implementing input by USB became a very low priority and in the end never happened.
+This also applied to the serial backup as well.
 
-Not everyone can start at the same time
+\subsection*{VGA-port}
+The PCB was designed with two VGA headers, one for the FPGA and one for the MCU.
+An alternative solution is having one VGA port with exposed headers.
+With exposed headers from the MCU and the FPGA as well, one could change which one the VGA port is connected to by jumpers like \ref{fig:vga-solution}.
+
+By removing one of the VGA ports, the size of the PCB could have been reduced, or used for other components. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../discussion/assets/vga-solution.pdf}
+    \caption{On the left: The current setup on our PCB. On the right: The alternative solution.}
+    \label{fig:vga-solution}
+\end{figure}
+
+\subsection{Clocks}
+
+\subsubsection*{Oscillator}
+
+As seen on figure \ref{fig:oscillator-scope}, the measured period of the oscillator, with a ruler, is around $8.5 ns$, which translates to around 118 MHz.
+The tolerance of the oscillator is up to 100 ppm, see datasheet \cite{xpresso-oscillator}.
+Since using a ruler as a mesure tool will give unreliable results, one can assume the oscillator gives the correct output.
+\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{../discussion/assets/oscillator.jpg}
+		\caption{The oscillator on an oscilloscope.}
+		\label{fig:oscillator-scope}
+\end{figure}
+
+\subsubsection*{MCU crystals}
+As can be seen from the frequency tests \ref{tab:oscillation-tests}, the crystal output frequency tests did not pass their requirements.
+They were probed for output, but this resulted in no discernable signal on the oscilloscope.
+However, as the implementation continued, we found that the MCU worked as we desired.
+This led us to conclude that we had likely misunderstood how to measure the frequencies of the crystals.
+
+\subfile{../discussion/hacks.tex}
+
+\subfile{../discussion/energy_efficiency.tex}
+
+\subfile{../discussion/memory_interlacing.tex}
+
+\subfile{../discussion/jaktstart.tex}
 
 \section{Redundancy design choices or w/e}
 What did we end up needing?
@@ -27,3 +80,10 @@ Or is memory the big bottleneck
 HDMI vs. the GPU?
 Will the HDMI be fine with always being second in line?
 
+\subfile{../discussion/programming_challenges.tex}
+
+\subfile{../discussion/budget.tex}
+
+\subfile{../discussion/further_work.tex}
+
+\end{document}

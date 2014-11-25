@@ -1,0 +1,68 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+\section{Verification of Communication Channels}
+
+\subsection{JTAG test}
+In these tests we attempted to connect to respectively, the FPGA and the MCU by way of the appropriate headers, thereby verifying that they had been properly soldered in place and were functional.
+\subfile{../testing/JTAG_test.tex}
+
+\subsection{EBI Bus}
+
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6.5cm}|L{1.5cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        EBI bus configuration on MCU &
+        Configure MCU and its GPIO pins and write to memory mapped addresses for EBI. Inspect signals with a logic analyzer. &
+        Passed \\
+    \hline
+        EBI receiver module on FPGA &
+        Connect MCU and FPGA with EBI, and use MCU to write to and read from FPGA block RAM. &
+        Passed \\
+    \hline
+    \end{tabular}
+    \label{tab:ebi_bus_test}
+    \caption{EBI bus tests}
+\end{table}
+
+\subsection{HDMI Output}
+
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6.5cm}|L{1.5cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        Writing to screen from FPGA using HDMI &
+        Connect the wires of a DVI cable to GPIO pins on FPGA. Write color values using HDMI standard. &
+        Passed \\
+    \hline
+    \end{tabular}
+    \label{tab:hdmi-test}
+    \caption{HDMI tests}
+\end{table}
+
+\subsection{SRAM Communication}
+
+\begin{table}[H]
+    \begin{tabular}{|L{3cm}|L{6.5cm}|L{1.5cm}|}
+        \multicolumn{1}{l}{\scriptsize WHAT} &
+        \multicolumn{1}{l}{\scriptsize HOW} &
+        \multicolumn{1}{l}{\scriptsize STATUS} \\
+    \hline
+        Write to and read from SRAM over EBI &
+        Connect the working EBI protocol of MCU to an SRAM chip. Write words to SRAM and read them back. &
+        Passed \\
+    \hline
+        FPGA to SRAM communication over EBI &
+        Connect FPGA GPIO pins to SRAM. Use FPGA to write words to SRAM and read them back &
+        Unfinished \\
+    \hline
+    \end{tabular}
+    \label{tab:sram-tests}
+    \caption{SRAM tests}
+\end{table}
+
+\end{document}
