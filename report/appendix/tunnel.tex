@@ -1,0 +1,154 @@
+\documentclass[../main/report.tex]{subfiles}
+\begin{document}
+\chapter{Commented tunnel kernel}
+
+\begin{assembly}[label=lst:tunnel-kernel]
+; The idea is to draw a green tunnel.
+; This effect consists of 2 squares in different sizes and a X across the screen
+; To make this happen assume we are on a pixel that should be drawn green
+; We then make a series of checks to verify if we are on the correct pixel or not
+; If we ever see that we are on the wrong pixel, we will set our mask bit high
+; This will make it so that we draw black instead of green
+;
+; To make this happen we have to use a general purpose register as masking register
+; This is because if the masking value gets set high, we don't want to overwrite
+; it with low, so we need to remember it.
+
+; First square
+ldi $15, 0b111111       ; 63 bitmask
+ldi $14, 64             ; Set width & height of screen into $14
+and $7, $15, $id_lo     ; Load x value into $7
+srl $8, $id_lo, 6       ; Load y value into $8
+
+ldi $data, 0b0000011111100000   ; Set default color to green
+
+mv $12, $0              ; shadow mask - used as temporary mask bit to
+                        ; be able to read masking value
+
+ldc $13, 10             ; Set offset from edges
+sub $14, $14, $13       ; Set offset from opposite edges
+
+; Draw LEFT line of box
+seq $10, $7, $13        ; Checks that we are on correct x value
+
+slt $11, $13, $8        ; Checks that we are inside our box from the top
+and $10, $10, $11
+
+slt $11, $8, $14        ; Checks that we are inside our box from the bottom
+and $10, $10, $11
+
+or $12, $12, $10        ; Adds result into masking bit
+\end{assembly}
+
+\begin{assembly}[label=lst:tunnel-kernel2, firstnumber=36]
+; Draw RIGHT line of box
+seq $10, $7, $14        ; Same system as above, but checking the other
+                        ;side of the box
+slt $11, $13, $8
+and $10, $10, $11
+
+slt $11, $8, $14
+and $10, $10, $11
+
+or $12, $12, $10
+
+
+; Draw UPPER line of box
+seq $10, $8, $13        ; Instead of checking the vertical lines, the horizontal lines
+                        ; are checked
+slt $11, $13, $7
+and $10, $10, $11
+
+slt $11, $7, $14
+and $10, $10, $11
+
+or $12, $12, $10
+
+
+; Draw LOWER line of box
+seq $10, $8, $14        ; Same as above, but lower line instead of upper
+
+slt $11, $13, $7
+and $10, $10, $11
+
+slt $11, $7, $14
+and $10, $10, $11
+
+or $12, $12, $10
+
+
+; Next square
+addi $14, $0, 64        ; Load screen width & height into $14
+ldc $13, 11             ; Set new offset from edges
+sub $14, $14, $13       ; Set offset from opposite edges
+
+; Draw LEFT line of box
+seq $10, $7, $13        ; Same check for the square as previous square
+
+slt $11, $13, $8
+and $10, $10, $11
+
+slt $11, $8, $14
+and $10, $10, $11
+
+or $12, $12, $10
+
+; Draw RIGHT line of box
+seq $10, $7, $14
+
+slt $11, $13, $8
+and $10, $10, $11
+
+slt $11, $8, $14
+and $10, $10, $11
+
+or $12, $12, $10
+\end{assembly}
+
+\begin{assembly}[label=lst:tunnel-kernel3, firstnumber=98]
+; Draw UPPER line of box
+seq $10, $8, $13
+
+slt $11, $13, $7
+and $10, $10, $11
+
+slt $11, $7, $14
+and $10, $10, $11
+
+or $12, $12, $10
+
+; Draw LOWER line of box
+seq $10, $8, $14
+
+slt $11, $13, $7
+and $10, $10, $11
+
+slt $11, $7, $14
+and $10, $10, $11
+
+or $12, $12, $10
+
+
+; Half cross
+seq $10, $7, $8     ; if x = y then we are on \
+
+or $12, $12, $10
+
+; Other half cross
+addi $13, $0, 0b111111      ; 63 bitmask
+sub $14, $13, $8    ; negative y valye, check /
+
+seq $10, $14, $7
+
+or $12, $12, $10
+
+mv $mask, $12       ; Store temporary mask value into actual mask register
+
+? ldi $data, 0x0000 ; Write black if not on either squares or on the cross
+
+ldc $10, 5
+add $address_lo, $10, $id_lo
+sw                  ; save values
+\end{assembly}
+
+\end{document}
