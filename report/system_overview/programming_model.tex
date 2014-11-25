@@ -135,7 +135,6 @@ The actual kernel code that is sent to the GPU for the kernel that fills the scr
 can be seen in listing \ref{lst:real-green-kernel}.
 The kernel from listing \ref{lst:masked-execution} however, is executed as is. The reason for these \verb/nop/ instructions will be explained in later chapters.
 
-\todo{Finish the nop examples}
 \begin{assembly}[caption=The green-screen kernel as it is actually , label=lst:real-green-kernel]
 ldi $data, 0b0000011111100000
 mv $address_lo, $id_lo
