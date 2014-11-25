@@ -7,6 +7,9 @@ The system is powered by a EH-70p USB charger for the Nikon Coolpix S2700 camera
 This charger outputs a 5 V voltage and delivers 550 mA.
 This gives the power input an upper bound of power consumption at $550mA * 5V = 2.75W$.
 
+Based on checking the memory datasheet \cite{SRAM-datasheet}, page 4, the average current drawn from the SRAM is 100mA.
+At two components, the memory energy consumption becomes $2 * 100mA * 3.3V = 660mW$, which makes them the most energy demanding part of the computer. 
+
 \subsection{Physical Implementation}
 
 To make a PCB as energy efficient as possible, one relies upon good practices.
@@ -25,6 +28,25 @@ This makes the dynamic power consumption higher than if the wires are shorter.
 However all of this is a trade-off as there was only one chance for the PCB to work.
 
 \todo{Add actual power consumption, either based on datasheets or physical measurements?}
-\todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
+
+\subsection{Optimizing FPGA power usage}
+
+While it was relatively easy to save power on the CPU side of things, the FPGA posed a bigger challenge.
+The CPU easily enters deeper sleep modes, but no such thing exists by default for the Spartan-6 FPGA.
+One way to reduce FPGA power consumption is to clock gate components, in effect turning them off when unneeded.
+It turns out that Xilinx® supports dynamic clock gating for the Spartan-6 series used in this project \cite{xilinx-clock-gating}.
+This feature can reduce power consumption up to 30\% for components opting to use chip enable signals.
+
+The presented architecture has some usage of chip select signals, but does not shut down execution cores, instruction fetch or the LSU unit when idling.
+The addition of such a system-wide chip enable signal would reduce power usage during GPU idle time, a feature that the next iteration of Demolicious should include.
+This was not implemented for this project however, mainly due to time constraints.
+
+Now for a quick calculation to see how much power can be saved in an absolute best-case scenario.
+Demolicous with 8 execution cores can run the tunnel kernel at 50 FPS \ref{fig:kernel_tunnel_fps}, spending \SI{12.5}{ms} per frame.
+When targeting 30 FPS, the GPU would spend \SI{375}{ms} calculating frames, allowing the GPU to be in a low power state for almost 62.5\% of the time.
+Using a theoretical maximum of 30\% dynamic power savings for the low power state, the dynamic power consumption of \SI{0.168}{W} from figure \ref{table:scalability}, can be reduced to $ 0.70 * 0.625 * 0.168 W + 0.375 * 0.168 W = 0.1365 W$.
+This represents a savings in dynamic power consumption of 18.7\%.
+The total FPGA power draw would be reduced to $ 0.1365 W + 0.1860 W = 0.3225 W$, a 8.6\% reduction over the original \SI{0.3530}{W}.
+This shows that FPGA power consumption still is dominated by the quiescent draw.
 
 \end{document}

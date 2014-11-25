@@ -178,8 +178,6 @@ As a consequence the frame rate decreases quadratically when the resolution grow
   
 For the target resolution for the project, which is $512\times256$, the project goal of maintaining 30 fps is achieved.
 
-\section{Clock frequency}
-
 \section{Video output}
 The Demolicious system can output to a screen using HDMI.
 The minimum resolution permitted by the HDMI protocol is $640\times480$,
@@ -202,5 +200,46 @@ Since the GPU has priority on memory access, the video unit may get starved for 
 When the video unit is starved the buffer containing pixels to output will underflow.
 For the duration of the starve, a line containing the previous pixel on the bus will be displayed on the screen.
 
+\section{Power efficiency}
+
+Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
+Due to its computationally expensive nature, a GPU will consume a lot of power.
+By quickly and efficiently executing the kernel at hand, the GPU can be put in a lower power mode, reducing static power consumption to a minimum.
+
+With a power draw of \SI{0.353}{W} for a Demolicious setup of 8 cores \ref{table:scalability},
+it is in the interest of nature to keep it spinning for as short as possible.
+\todo{find number}
+The EFM32GG MCU has a power draw of NUMBER in energy mode 0.
+When the host program is running as an interrupt-based program instead of busy-waiting for kernel result, it may enter energy savings mode 1 or 2.
+These modes introduce significant energy savings, allowing the CPU consume very little power when waiting for GPU execution to complete.
+
+There are two use-cases resulting in different sleep times for the MCU
+\begin{enumerate}
+  \item
+    A recurring calculation, for example rendering frames targeting 60 fps.
+    The MCU will then be able to stay in deep sleep for the most of the time, waking only every 16 ms to calculate new kernel parameters, dispatching the call and going to sleep again.
+  \item
+    Data-throughput intensive calculation.
+    Some scientific data problem requires multiple kernel passes, where a single kernel may take multiple 100 ms to complete.
+    This use-case is slightly different, as one does not have a fixed interval one can wake at to check if data is finished.
+    As the completion time might be somewhat variable, the MCU may go to sleep, attaching an interrupt listener on the 'kernel complete' GPIO line from the GPU.
+    This allows the CPU to wait for exactly as long as is required until the kernel finishes, allowing for an extremely high sleep percentage.
+\end{enumerate}
+
+Now for some numbers!
+Let's say we're targeting 30 FPS on the tunnel kernel.
+The kernel itself takes 3 ms to complete, when rendered at 64 x 64 resolution.
+Kernel launch overhead is negligible.
+This allows the CPU to spend 90\% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
+
+For the throughput-intensive kernel, say the kernel itself takes 20ms to complete.
+\todo{How much time does the MCU spend executing?}
+Kernel launch overhead is 5µs, resulting in a 95\% idle time that can be spent sleeping.
+This averages to a power consumption of NUMBER.
+
+
+Finally, the system can run for SOME HOURS on external batteries, mainly being limited by the GPU power draw.
+
+\todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
 
 \end{document}
