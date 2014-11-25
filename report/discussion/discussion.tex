@@ -2,6 +2,14 @@
 \begin{document}
 \chapter{Discussion}
 
+\section{Multiple clock domains in HDMI unit}
+HDMI needs to output words with a frequency of \SI{25}{MHz}.
+If it were to share clock with the rest of the system, the system clock would have to be \SI{25}{Mhz} itself or a multiplum thereof.
+To avoid posing this limitation, the buffer in the HDMI unit crosses clock domains.
+Since the buffer recieves data at native memory speed, it is filled faster than otherwise possible.
+The data read out at \SI{25}{MHz} also need to be serialized to a frequency of \SI{250}{MHz} before being output from the fpga.
+This is to the knowledge of the authors, the first project in the Computer Project course with a design incorporating multiple clocks.
+
 \section{Hardware components}
 In this section we will discuss some of the physical design, alternative solutions and the practical solutions that arose during physical implementation.
 
