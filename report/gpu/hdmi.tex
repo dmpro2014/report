@@ -16,14 +16,15 @@
 	}
 	\label{fig:video_unit}
 \end{figure}
+
 From a demo makers perspective, a GPU without a video output is commonly known as a space heater.
 Demolicious uses HDMI for its video output, making it easy to connect to any recent video display.
 
 HDMI is a streaming protocol; the receiver reads data from the cable at a fixed rate.
 In Demolicious, the GPU has priority access to the memory.
 This means that the video unit may not have access to the framebuffer (which lies in memory) when it's time to send a pixel.
-To alleviate this issue, as much of the framebuffer as possible is prefetched into a buffer whenever memory is idle.
-Should the buffer underflow, sending of late pixels must be abandoned.
+To alleviate this issue, as much of the framebuffer as possible is prefetched into a buffer whenever memory is available.
+Should the buffer underflow, black pixels will be sent instead.
 Otherwise, pixels will not be synchronized with the position they should appear at on the screen.
 
 Control signals assert where in the data stream a new frame of video starts and ends.
@@ -37,7 +38,7 @@ To actually send the data over HDMI, control signals and pixel data are split in
 They are then encoded using a scheme known as TMDS.
 The purpose of TMDS is to minimize the effect of noise over the physical connection.
 
-TMDS uses 10 bits to encode either an 8-bit color value when sending a image, or control values when not.
+TMDS uses 10 bits to encode either an 8-bit color value when sending an image, or control values when not.
 Demolicious uses a 16-bit word size, so colors are represented with 5 bits for red, 6 for green and 5 for blue.
 These are resized to 8-bit values using a scheme that allows for both complete black and white colors.
 Each channel is then serialized before being output together with a clock using differential-signaling.

@@ -59,6 +59,7 @@ When the kernel completes executing, the thread spawner asserts the kernel done 
 \section{Running a Kernel}
 
 \subsection{Warps}
+\label{subsec:warps}
 
 As in NVIDIA's Fermi architecture (see chapter \ref{sec:fermi}), Demolicious organizes threads into \emph{warps}.
 In Demolicious, a warp consists of 8 threads, one per core. 
@@ -176,7 +177,7 @@ When the thread spawner receives a \emph{finished} instruction and no more warps
 \subsection{Summary}
 The journey of our kernel is complete.
 We have followed it all the way from the initial \emph{load\_kernel} call to the screen.
-It has traveled through the massively parallel GPU which can handle a vast amount of threads,
-by using hardware threads with a round-robin static scheduling technique called barrel processing.
+It has traveled through the massively parallel GPU, which can handle a vast amount of threads,
+using a round-robin static scheduling technique called barrel processing.
 
 \end{document}
