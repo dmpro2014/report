@@ -204,13 +204,14 @@ For the duration of the starve, a line containing the previous pixel on the bus 
 
 Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
 Due to its computationally expensive nature, a GPU will consume a lot of power.
-The CPU however, usually idles while 
 By quickly and efficiently executing the kernel at hand, the GPU can be put in a lower power mode, reducing static power consumption to a minimum.
 
-With a power draw of \SI{0.353}{W} for a Demolicious setup @ 8 cores \ref{table:scalability}, it is in the interest of nature to keep this beast spinning for as short as possible.
+With a power draw of \SI{0.353}{W} for a Demolicious setup of 8 cores \ref{table:scalability},
+it is in the interest of nature to keep it spinning for as short as possible.
+\todo{find number}
 The EFM32GG MCU has a power draw of NUMBER in energy mode 0.
 When the host program is running as an interrupt-based program instead of busy-waiting for kernel result, it may enter energy savings mode 1 or 2.
-These modes introduce significant energy savings, allowing the CPU to spend most of its time asleep.
+These modes introduce significant energy savings, allowing the CPU consume very little power when waiting for GPU execution to complete.
 
 There are two use-cases resulting in different sleep times for the MCU
 \begin{enumerate}
@@ -220,25 +221,26 @@ There are two use-cases resulting in different sleep times for the MCU
   \item
     Data-throughput intensive calculation.
     Some scientific data problem requires multiple kernel passes, where a single kernel may take multiple 100 ms to complete.
-    This usecase is slightly different, as one does not have a fixed interval one can wake at to check if data is finished.
+    This use-case is slightly different, as one does not have a fixed interval one can wake at to check if data is finished.
     As the completion time might be somewhat variable, the MCU may go to sleep, attaching an interrupt listener on the 'kernel complete' GPIO line from the GPU.
     This allows the CPU to wait for exactly as long as is required until the kernel finishes, allowing for an extremely high sleep percentage.
 \end{enumerate}
 
 Now for some numbers!
-Let's say we're targeting 30FPS on the tunnel kernel.
-The kernel itself takes 3 ms to complete @ 64 x 64 resolution.
-Kernel launch overhead is 2~ms.
-This allows the CPU to spend 60\% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
+Let's say we're targeting 30 FPS on the tunnel kernel.
+The kernel itself takes 3 ms to complete, when rendered at 64 x 64 resolution.
+Kernel launch overhead is negligible.
+This allows the CPU to spend 90\% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
 
 For the throughput-intensive kernel, say the kernel itself takes 20ms to complete.
-Kernel launch overhead is 5ms, resulting in a 80\% idle time that can be spent sleeping.
+\todo{How much time does the MCU spend executing?}
+Kernel launch overhead is 5µs, resulting in a 95\% idle time that can be spent sleeping.
 This averages to a power consumption of NUMBER.
 
 While the CPU can save power easily, it is more difficult for the GPU on the FPGA.
 Luckily Xilinx has recently implemented dynamic clock gating for the Spartan-6 series.
 This allows for a reduction up to 30\% of dynamic power consumption, introducing significant energy savings.
-This was not implemented for this project however, mainly due to time concerns.
+This was not implemented for this project however, mainly due to time constraints.
 
 Xilinx® ISE® Design Suite 12 enables dynamic power reduction using patent pending automated clock gating technology.
 \url{http://www.xilinx.com/support/documentation/sw_manuals/xilinx12_4/whatsnew.htm}
