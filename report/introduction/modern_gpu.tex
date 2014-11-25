@@ -63,13 +63,14 @@ Consumers expect their computers to display videos and games in Full HD resoluti
 To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
 All of these tasks require several demanding floating point operations.
 \textbf{@CPUs ARE NOT SUFFICIENT FOR THIS TASK.}
+\todo{Rewrite needed}
 Fortunately, pixels can often be computed independently of each other.
 CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
 
 \section{Taking Advantage of Parallelism}
 
 For a CPU, latency is of primary concern because the next instruction often depends on the result of the previous one.
-The CPU needs to complete each instruction as quickly as possible.
+Therefore, the CPU needs to complete each instruction as quickly as possible.
 This makes the CPU very good at problems with a low level of parallelism, which after all characterizes most programs.
 Finishing an instruction as quickly as possible is less of a concern when problems are more parallel in nature.
 A GPU therefore optimizes for throughput instead of latency.
@@ -109,7 +110,7 @@ Other techniques to improve memory bandwidth include data compression to reduce 
 Bundling adds latency to memory requests.
 But, as mentioned earlier, this is not an issue as the GPU has plenty of other work to do while a particular thread waits.
 
-\section{Shortcommings of a GPU}
+\section{Shortcomings of a GPU}
 
 % What kind of jobs is a GPU ill-suited for?
 
