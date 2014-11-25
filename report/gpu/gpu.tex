@@ -37,9 +37,7 @@ The GPU has the following responsibilities:
 Figure \ref{fig:architecture_overview} presents a high level overview over the GPU.
 The CPU issues commands to the communication unit in the GPU. Commands are launching a kernel, uploading kernels to the instruction memory, writing to the constant memory, and read/write to SRAM.
 Instructions are fetched from the instruction memory and decoded by the control unit, which has the responsibility of setting the control signals for the instructions.
-The processors load constants from the constant memory, and uses the load/store unit for accessing the data memory.
-
-\emph{Insert stats on how many cores etc etc. 1 SM@@@}
+The control signals go to all 8 cores of the GPU, which can load constants from the constant memory, and use the load/store unit for accessing the data memory.
 
 
 \section{Receiving a Kernel Call}
@@ -74,7 +72,7 @@ This significantly reduces the complexity of scheduling these warps, and let's u
 
 \subsection{Static scheduling}
 
-% Many mem requests per clock@
+% Many mem requests per clock
 As every thread in a warp always executes the same instruction, our system needs to handle 8 memory requests being issued during the same cycle.
 The memory system for Demolicious consists of two SRAM chips, and can return two words every cycle.
 %A memory request has a single cycle delay.
@@ -108,20 +106,33 @@ Demolicious, however, has a set of active warps that all have their own register
 So a context switch can be carried out with virtually no overhead, at the expensive of some additional hardware to store all these extra registers.
 
 To keep the architecture as simple, Demolicious employs a simple static scheduling algorithm. 
-The active warps are simply rotated every instruction.
-\todo{insert figure and example walkthrough}
+The active warps are simply rotated every instruction. In figure \ref{nojagged} we revisit our green-screen kernel, and see how the warps are scheduled. 
+The numbers in the top right corner is the gpu cycle. 
+During cycle 0, instruction A is executed on warp 0. 
+The next cycle, instruction A is executed on warp 1. 
+And when we get to cycle 4 warp 0 is scheduled again, this time executing instruction B.
+This continues until we reach clock cycle 16-19 where warps 0 through 3 executes instruction E, the \emph{thread\_finished}, which does no computation, but allows the GPU to set up new warps.
+On cycle 20, warp 4 is set up and ready to execute the first instruction.
+This pattern continues untill all threads have run to completion. 
 
-However, there is an issue with this simple scheduling algorithm. Let's see what happens when we get to instruction D, marked in red. At clock cycle @\footnote{The cycle numbers are written in the upper right corner of each square} all threads in warp 0 executes a memory request, that is 8 memory requests. 
+However, there is an issue with this simple scheduling algorithm. Let's see what happens when we get to instruction D, marked in red. In clock cycle 12\footnote{The cycle numbers are written in the upper right corner of each square} all threads in warp 0 executes a memory request, that is 8 memory requests. 
 As our memory system handles two requests per clock, it is busy the next 4 cycles with this request, and when warp 0 gets to execute the next instruction, the memory operation is complete for all the threads.
 Had this been a load instead of a store, it could be used on the next instruction, and we avoided a stall.
 So far, so good.
-However, when warp 1 executes the store instruction in cycle @, the memory is already busy with the request from warp 0.
-The memory requests from warp 0 cannot be started before cycle @, and is not ready for its next instruction. 
+However, when warp 1 executes the store instruction in cycle 13, the memory is already busy with the request from warp 0.
+The memory requests from warp 1 cannot be started before cycle 16, and is not ready for its next instruction. 
 It is even worse for warp 2 and 3. As all warps execute the same code, this can introduce up to 8 \emph{nop} instruction for every warp.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.25]{../gpu/diagrams/jaktstart_num.png}
+\caption{Execution timing of warps with jagged scheduling}
+\label{jagged}
+\end{figure}
 
 Clearly, the introduction of this barrel processing technique did not solve our problems.
 Fortunately, this was a simplified version of the scheduling in Demolicious. 
-The actualing scheduling is shown in figure @. 
+The actual scheduling is shown in figure \ref{jagged}. 
 By introducing an offset in the instructions executed, henceforth called jagged execution\footnote{Or "jaktstart" as we like to call it in Norwegian}, we can avoid this issue.
 
 With this scheduling, you can see that there are 4 executions without a memory operation between every memory operation.
