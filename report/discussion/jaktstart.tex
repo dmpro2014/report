@@ -35,4 +35,10 @@ The requests would not be done in time for all the warps, and since the same ins
 In any case, the SRAM memory used was not pipelined, but was in fact asynchronous, thus eliminating the purpose of the barrels.
 The barrel processor seemed to be a useless complication, a failure in this hardware combination.
 
+To solve the issue of generating more memory request than can be handled, \emph{jaktstart} was introduced.
+Now each consecutive warp executes one instruction later than the previous.
+The barrel now serves to allow the completion of one warp's requests.
+Since the next warp is delayed by a instruction, it will not issue requests before the previous were done.
+This works out and the latency is hidden, allowing optimal utilization of the processor, as long as the program does not use the memory ``too often''.
+
 \end{document}
