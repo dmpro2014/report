@@ -7,7 +7,7 @@ it is time to see what is actually happening on the Demolicious System during th
 
 Our journey starts in the main control unit of the Demolicious computer, namely the CPU, which is implemented on an EFM32GG Microcontroller.
 
-This is the component that runs the C code seen in the last chapter, starting the kernel.
+In this chapter we will follow a kernel from load to execution and explain what happens behind the scenes on the CPU, which is the component on Demolicious that runs the C code seen in the last chapter.
 
 \subfile{../cpu/functionality.tex}
 
@@ -19,7 +19,9 @@ This is the component that runs the C code seen in the last chapter, starting th
 
 \subfile{../cpu/load-constant.tex}
 
-We have now seen how our kernel is bootstrapped and executed. 
+\subsection{Summary}
+
+We have seen how our kernel is bootstrapped and executed. 
 The assembled kernel is uploaded to the GPU which is then given a command to run said kernel with one thread per pixel.
 
 
