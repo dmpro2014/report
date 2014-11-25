@@ -178,8 +178,6 @@ As a consequence the frame rate decreases quadratically when the resolution grow
   
 For the target resolution for the project, which is $512\times256$, the project goal of maintaining 30 fps is achieved.
 
-\section{Clock frequency}
-
 \section{Video output}
 The Demolicious system can output to a screen using HDMI.
 The minimum resolution permitted by the HDMI protocol is $640\times480$,
@@ -201,6 +199,26 @@ This may be caused by a failure in the synchronization mechanism in the video un
 Since the GPU has priority on memory access, the video unit may get starved for data.
 When the video unit is starved the buffer containing pixels to output will underflow.
 For the duration of the starve, a line containing the previous pixel on the bus will be displayed on the screen.
+
+\section{Power efficiency}
+
+Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
+Due to its computationally expensive nature, a GPU will consume a lot of power.
+The CPU however, usually idles while 
+By quickly and efficiently executing the kernel at hand, the GPU can be put in a lower power mode, reducing static power consumption to a minimum.
+
+With a power draw of \SI{0.353}{W} for a Demolicious setup @ 8 cores \ref{table:scalability}, it is in the interest of nature to keep this beast spinning for as short as possible.
+
+* Write about power consumption of CPU when using polling (current implementation)
+* Write about power consumption of CPU when using interrupt based event, with Power level 1 and 2
+
+* Write about potential clock / power gating of FPGA presented in:
+Xilinx® ISE® Design Suite 12 enables dynamic power reduction using patent pending automated clock gating technology.
+http://www.xilinx.com/support/documentation/sw_manuals/xilinx12_4/whatsnew.htm
+
+* show sleep time / pwoer consumption for the two kernels presented in Performance.
+
+* show some comparison when running on battery.
 
 
 \end{document}
