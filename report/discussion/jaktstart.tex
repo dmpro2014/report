@@ -7,10 +7,10 @@ Barrels and Jaktstart}
 Assume that when a processor executes a memory operation, a few extra cycles need to pass before the response arrives.
 This might happen because the memory needs more time to respond than the processor needs for other instructions.
 The processor might stall while this happens to hide the delay and make sure the result of the request ready before the next instruction.
-The processor may also not stall so that it can continue to do useful work. It is then expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
+The processor may also not stall so that it can continue to do useful work.
+It is then expected that the program does not use the result of the memory operation before a sufficient number of cycles pass.
+If there is no useful work to be done before the result is known, the program needs to idle.
 
-If a processor stalls when doing a memory operation, some cycles will be lost idling.
-Even if it continues on to the next instruction, if the result of the memory is needed to continue, the processor needs to be stalled by the program.
 It would be good for throughput if the processor did not ever need to be idle.
 And indeed, if the program is multithreaded, the processor could work on another thread while waiting for response from the memory.
 If the time needed to complete a memory request is spent in other threads, the memory operation appears to have taken only one instruction.
