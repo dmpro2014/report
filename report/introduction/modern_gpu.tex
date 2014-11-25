@@ -57,14 +57,14 @@ The three dominant GPU design companies in the SoC market are Qualcomm, ARM, and
 \section{An Enormous Task}
 
 Producing computer graphics is a highly processing intensive task.
-To illustrate why computers and mobile devices include a separate GPU, lets look at some back-of-the-envelope calculations.
-
-Consumers expect their computers to display videos and games in Full HD resolution (1920*1080 pixels), which adds up to about 2 million pixels per frame.
+Consumers expect their computers to display videos and games in high resolutions and at high framerates.
 To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
 All of these tasks require several demanding floating point operations.
-\textbf{@CPUs ARE NOT SUFFICIENT FOR THIS TASK.}
+
+A CPU is optimized for serial programs, and will compute a picture frame in such a fashion.
+The problem is that, even with the processing power of 4 GHz, it is not able to handle the amount of calculations well enough for modern graphical demands.
 Fortunately, pixels can often be computed independently of each other.
-CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
+A CPU fails to take advantage of this.
 
 \section{Taking Advantage of Parallelism}
 
