@@ -1,0 +1,20 @@
+\section{Assembler}
+\label{sec:assembler}
+
+An assembler is implemented, to be able to run kernels written for Demolicious on the GPU.
+The assembler is written in Python.
+In addition to supporting assembly of all instructions supported by the GPU,
+it provides additional pseudo instructions, as well as aliases for special purpose registers.
+The assembler is available on GitHub \url{https://github.com/dmpro2014/simulator/}.
+
+\section{Simulator}
+\label{sec:simulator}
+
+In addition to the assembler,
+a tool for verifying the correctness of kernels before they are run on the GPU has been developed.
+It is based on the same parsing backend as the assembler, and simulates the execution of kernels, instruction for instruction.
+When the set of threads have been simulated, a resulting framebuffer is rendered to screen.
+This tool has proven itself very useful when developing kernels,
+as it reduces the need of re-assembling and uploading kernels to the GPU to verify the correctness of the assembly code.
+
+The simulator is part of the same project as the assembler described in section \ref{sec:assembler}.
