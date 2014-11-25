@@ -7,6 +7,9 @@ The system is powered by a EH-70p USB charger for the Nikon Coolpix S2700 camera
 This charger outputs a 5 V voltage and delivers 550 mA.
 This gives the power input an upper bound of power consumption at $550mA * 5V = 2.75W$.
 
+Based on checking the memory datasheet \cite{SRAM-datasheet}, page 4, the average current drawn from the SRAM is 100mA.
+At two components, the memory energy consumption becomes $2 * 100mA * 3.3V = 660mW$, which makes them the most energy demanding part of the computer. 
+
 \subsection{Physical Implementation}
 
 To make a PCB as energy efficient as possible, one relies upon good practices.
