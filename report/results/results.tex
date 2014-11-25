@@ -257,15 +257,18 @@ ehe following numbers are therefore harvested from Silicon labs Simplicity studi
 Demolicous with 8 execution cores can run the tunnel kernel at 50 FPS @ 512x256, spending \SI{12.5}{ms} per frame \ref{fig:kernel_tunnel_fps}.
 The tunnel kernel is to be executed 30 times per second, with the MCU waking via a timer interrupt to spawn the new kernels.
 Kernel launch overhead is roughly $ 10\si\micro + 2 ms ~= 2 ms.$ When waking 30 times per second, this results in 60 ms awake per second.
-EM0 with EBI consumes 142.6 mAh, EM2 190\si\micro a. This then averages to roughly $ 142.6 mAh * 0.060 + 0.19 mAh * 0.940 = 8.734$ mAh average consumption.
+EM0 with EBI consumes 142.6 mA, EM2 190\si\micro a. This then averages to roughly $ 142.6 mA * 0.060 + 0.19 mA * 0.940 = 8.734$ mA average consumption.
 
 For the large dataset kernel, assume it takes 100ms to complete execution.
 The MCU will have to wake 10 times per second, using 2 ms to wake and a negligible overhead to deploy new kernels.
 This results in $ 10 * 2 ms = 20 ms $ spent in EM0, and 980 ms spent in EM2.
-This averages to $ 142.6 mAh * 0.020 + 0.19 mAh * 0.980 = 3.038 mAh $ average consumption.
+This averages to $ 142.6 mA * 0.020 + 0.19 mA * 0.980 = 3.038 mA $ average consumption.
 
-Compare these power draws, 3.038 mAh and 8.734 mAh to the 353 mW power consumption of the FPGA, and the 142.6 mAh consumption of the MCU in EM0.
-The low power modes really pay for themselves.
+Without any use of sleep mode for the MCU, the 142.6 mA drawn make for a total power consumption of $142.6 mA * 3.3V = 470.6 mW $.
+However, for the tunnel kernel example, making use of sleep mode puts the power consumption at $ 8.734 mA * 3.3V = 28.8mW$. 
+For the large dataset kernel, power consumption is at $ 3.038 mA * 3.3V = 10.0 mW$.
+
+These results show that there is a clear gain to be had from introducing low power modes. 
 
 \subsection{PCB \& components power efficiency}
 
