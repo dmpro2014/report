@@ -45,8 +45,7 @@ The thread stops running after executing the \verb/thread_finished/ instruction.
 Now, how do we execute this kernel on the GPU?
 The program running on the CPU, referred to as the \emph{host program},
 has to upload the assembled kernel to the GPU, and then tell the GPU to run it.
-\todo{Write about our assembler somewhere else}
-Kernels can be assembled using the provided assembler.
+Kernels can be assembled using the provided assembler\ref{sec:assembler}.
 
 \begin{c-code}[caption=Loading and executing a kernel, label=lst:load-kernel]
 instruction_t fill_screen_kernel[] = {
