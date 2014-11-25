@@ -7,7 +7,7 @@
 \end{figure}
 
 There is one register directory per processor core.
-Each register directory contains one register file per line.
+Each register directory contains one register file per barrel line.
 The register files include seven dedicated registers, and nine general purpose registers, listed in table \ref{tab:registers_overview}.
 
 \begin{table}[H]
@@ -54,4 +54,4 @@ The word size is only 16 bits.
 To represent these values they are split into two registers which contain the higher and lower bits.
 
 The load store unit (LSU) has a separate signal for selecting which register file to write to.
-Using this signal, the LSU can write data loaded from memory into the register files on its own.
+Using this signal, the LSU can write data loaded from memory into any register files on its own.

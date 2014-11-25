@@ -70,7 +70,7 @@ After the initial IDs have been assigned the GPU enters normal execution.
 \end{figure}
 A normal kernel execution can be represented by the state machine in figure \ref{fig:kernel_run_state_machine}.
 During the kernel execution stage the threads in a warp execute the same instructions, until the control unit encounters a \emph{finished} instruction.
-Upon receiving a \emph{finished} instruction the control unit asserts the finished signal alerting the thread spawner that a new warp has to be spawned.
+Upon receiving a \emph{finished} instruction the control unit asserts the \emph{finished} signal alerting the thread spawner that a new warp has to be spawned.
 The thread spawner keeps track of the number of threads awaiting launch.
 When the thread spawner receives a \emph{finished} instruction and no more warps are awaiting launch, the kernel complete signal is asserted, and the kernel run has completed.
 
