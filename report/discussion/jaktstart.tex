@@ -13,7 +13,7 @@ If there is no useful work to be done before the result is known, the program ne
 
 It would be good for throughput if the processor did not ever need to be idle.
 And indeed, if the program is multithreaded, the processor could work on another thread while waiting for response from the memory.
-If the time needed to complete a memory request is spent in other threads, the memory operation appears to have taken only one instruction.
+If the time needed to complete a memory request is spent in other threads, the memory operation appears to have taken only one instruction, wasting no time on idling.
 A simple scheme to accomplish this is to change threads after every instruction.
 There is a thread pool the same size as the number of instructions that pass from start to finish of a memory request.
 The threads take turn executing in a circular fashion, and control is returned to a thread just after a potential memory request would have completed.
