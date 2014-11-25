@@ -38,8 +38,8 @@ Figure \ref{fig:architecture_overview} presents a high level overview over the G
 The CPU issues commands to the communication unit in the GPU.
 Instructions are fetched from the instruction memory and decoded by the control unit,
 which has the responsibility of setting the control signals for the instructions.
-The control signals go to all 8 cores of the GPU.
-The cores access memory through the load/store unit, and get constants from the constant memory.
+Control signals go to all cores of the GPU.
+The processor cores access memory through the load/store unit, and get constants from the constant memory.
 The video unit reads pixels from the data memory and outputs them to a screen over HDMI.
 
 \section{Receiving a Kernel Call}
@@ -63,7 +63,7 @@ When the kernel completes executing, the thread spawner asserts the kernel done 
 \subsection{Warps}
 
 As in NVIDIA's Fermi architecture (see chapter \ref{sec:fermi}), Demolicious organizes threads into \emph{warps}.
-In Demolicious, a warp consists of 8 threads, one per core.
+In Demolicious, the warp size is the same as the number of processor cores.
 For versions with fewer cores, the warp size changes accordingly.
 Just as the warps in Fermi, every thread in these warps always execute the same instruction at the same time, with one thread in each core.
 Note that while Fermi has multiple \emph{Streaming Multiprocessors} which can each execute warps concurrently, Demolicious can only execute a single warp at a time.
@@ -115,7 +115,7 @@ In clock cycle 12\footnote{The cycle numbers are written in the upper right corn
 As our memory system handles only two requests per clock,
 it is busy the next 4 cycles with these requests.
 When warp 0 gets to execute its next instruction, the memory operation is complete for all the threads in the warp.
-Had this been a load instead of a store, the loaded value could already be used iss instruction, and we have avoided a stall.
+Had this been a load instead of a store, the loaded value could already be used its instruction, and we have avoided a stall.
 So far, so good.
 However, when warp 1 executes the store instruction in cycle 13, the memory is already busy with the request from warp 0.
 The memory requests from warp 1 will not be started before cycle 16, and will therefore not be complete for its next instruction.
