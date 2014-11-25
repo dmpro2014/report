@@ -230,11 +230,11 @@ Now for some numbers!
 Let's say we're targeting 30 FPS on the tunnel kernel.
 The kernel itself takes 3 ms to complete, when rendered at 64 x 64 resolution.
 Kernel launch overhead is negligible.
-This allows the CPU to spend 90\% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
+This allows the CPU to spend 90 \% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
 
 For the throughput-intensive kernel, say the kernel itself takes 20ms to complete.
 \todo{How much time does the MCU spend executing?}
-Kernel launch overhead is 5µs, resulting in a 95\% idle time that can be spent sleeping.
+Kernel launch overhead is 5\si\micro s, resulting in a 95 \% idle time that can be spent sleeping.
 This averages to a power consumption of NUMBER.
 
 
