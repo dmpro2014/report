@@ -21,16 +21,18 @@ It is the same size as the instruction memory,
 meaning any valid instruction address will be valid also in the \emph{start kernel} space.
 Writing to the instruction address,
 but in the \emph{start kernel} space instead of the instruciton memory will tell the GPU to start executing from that particular instruction.
-As we saw in the first example kernels in listings \ref{lst:green-kernel} and \ref{lst:param-color-kernel}, all kernels end with the \verb/thread_finished/ instruction.
-This way, the GPU also knows where to stop executing.
 
-When writing to this address, we use the data value for telling the GPU how many threads should be spawned.
+When writing to this \emph{start kernel} address, we use the data value for telling the GPU how many threads should be spawned.
+For example, say the \verb/fill_kernel/ reference points to instruction 100 in instruction memory.
+Then, executing the code in listing \ref{lst:run-kernel} will write the value 4096 to address 100.
+
 To increase the maximum number of threads which may theoretically be spawned,
 the number of \emph{batches} of threads is what is actually written.
 A batch represents the nuber of threads which can be executed at the same time,
 and will be explained in more detail in the next chapter. \todo{will it?}
 It will typically be between 8 and 32 depending on the size of the GPU.
-What's important is that this work-around will help in increasing the number of threads which can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21}.
+What's important is that this work-around will help in increasing the number of threads that can be spawned from 2\textsuperscript{16} up to 2\textsuperscript{21},
+which is needed for the target resolution of 512*256, i.e. 2\textsuperscript{17} pixels.
 
 Only one kernel can execute at the time in the GPU.
 Because of this, the \verb/run_kernel/ call is designed to block until the kernel has completed execution.

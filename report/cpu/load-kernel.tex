@@ -6,7 +6,7 @@ The CPU's Demolicious library has a built-in function for this called \verb/load
 It takes an array of assembled instructions as parameter,
 allocates memory on the GPU and uploads the kernel,
 before it returns a reference to GPU memory pointing to the start of the kernel.
-This reference can be used when setting kernel parameters and starting kernels.
+This reference is used when starting kernels.
 
 \begin{c-code}[caption=A load\_kernel function call with the fillscreen kernel, label=lst:load-kernel]
 kernel_t fill_screen = load_kernel(fill_screen_kernel);
@@ -21,15 +21,3 @@ kernel_t fill_screen = load_kernel(fill_screen_kernel);
 
 Seeing as instructions are 32-bit large, and the data bus is only 16 bits,
 every instruction load must be divided in two writes.
-Which part of the instruction is currently being written,
-is indicated by the hi\_select bit, stored as the least significant bit of the address, as seen in figure \ref{fig:load_instruction_format}.
-
-\begin{figure}[H]
-    \centering
-    \begin{tabular}{|c|c|c|c|c|}
-    \multicolumn{1}{c}{1} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{16}  & \multicolumn{1}{c}{1} \\ \hline
-    X & 0 & 1 & address & hi\_select \\ \hline
-    \end{tabular}
-    \caption{Usage of the address line when loading an instruction. The one bit before the address represents the offset for the instructon memory address space.}
-    \label{fig:load_instruction_format}
-\end{figure}

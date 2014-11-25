@@ -1,8 +1,8 @@
 \documentclass[../main/report.tex]{subfiles}
 \begin{document}
-\section{Communication with GPU}
+\section{Communication with the GPU}
 
-The backbone of the interaction between the CPU and GPU is the wide bus connecting them.
+The backbone of the interaction between the CPU and the GPU is the wide bus connecting them.
 Since the GPU is designed to increase the performance of the system by parallelizing operations,
 it's important that the bus does not introduce too much overhead.
 We therefore designed a parallel bus based on the EBI specifications provided
@@ -10,7 +10,7 @@ in the reference manual for the EFM32GG\cite[p.175]{efm32gg}.
 The bus has a 16-bit data line, and a 20-bit address line, as well as six control signals.
 
 All the pins connected between the MCU and the FPGA follow the specifications from the EFM32GG's Reference Manual\cite[p.175]{efm32gg}.
-This allows us to memory map the bus on the microcontroller, taking advantage of the EBI support in the \emph{emlib} software library\cite{emlib}.
+This allows us to uitlize the built-in support for EBI which memory maps the whole bus on the microcontroller, and take advantage of utility functions in the \emph{emlib} software library\cite{emlib}.
 The mapping of addresses can be seen in figure \ref{fig:memory_map}.
 
 The CPU can interface three different memories for different purposes:
@@ -26,14 +26,16 @@ The CPU can interface three different memories for different purposes:
     \centering
     \begin{tabularx}{\textwidth}{|X|X|X|X|X|}
     \multicolumn{1}{c}{0x80000000} & \multicolumn{1}{c}{0x80040000} & \multicolumn{1}{c}{0x80080000} & \multicolumn{1}{c}{0x80100000} & \multicolumn{1}{c}{0x84000000} \\ \hline
-    Constant Memory & Instruction Memory & Kernel start area & X & Data memory \\ \hline
+    Constant Memory & Instruction Memory & Kernel start area & X & External memory \\ \hline
     \end{tabularx}
     \caption{Overview of memory mapped address spaces on the CPU.}
     \label{fig:memory_map}
 \end{figure}
 
-Writing to and reading from all of these memories is done by writing to and reading from memory addresseses,
-just like when writing data locally on the microcontroller.
+Writing to all of these memories is done by writing to the memory addresseses
+outlined in figure \ref{fig:memory_map},
+in the same way as writing data locally on the microcontroller.
+Data can also be read back from the external GPU memory.
 Even the task of starting kernels is done the same way, to be able to utilize the same bus for all GPU communication.
 The GPU will route incoming data to the proper module based on the addresses and EBI control signals.
 
