@@ -209,7 +209,8 @@ By quickly and efficiently executing the kernel at hand, the GPU can be put in a
 
 With a power draw of \SI{0.353}{W} for a Demolicious setup @ 8 cores \ref{table:scalability}, it is in the interest of nature to keep this beast spinning for as short as possible.
 The EFM32GG MCU has a power draw of NUMBER in energy mode 0.
-When sleeping is enabled, it may enter energy mode 1 or 2, introducing significant energy savings.
+When the host program is running as an interrupt-based program instead of busy-waiting for kernel result, it may enter energy savings mode 1 or 2.
+These modes introduce significant energy savings, allowing the CPU to spend most of its time asleep.
 
 There are two use-cases resulting in different sleep times for the MCU
 \begin{enumerate}
@@ -224,17 +225,26 @@ There are two use-cases resulting in different sleep times for the MCU
     This allows the CPU to wait for exactly as long as is required until the kernel finishes, allowing for an extremely high sleep percentage.
 \end{enumerate}
 
+Now for some numbers!
+Let's say we're targeting 30FPS on the tunnel kernel.
+The kernel itself takes 3 ms to complete @ 64 x 64 resolution.
+Kernel launch overhead is 2~ms.
+This allows the CPU to spend 60\% of its time in EM1 or 2, netting an average of (NUMBER * 0.40 + OTHERNUMBER * 0.60) power consumption.
 
-* Write about power consumption of CPU when using polling (current implementation)
-* Write about power consumption of CPU when using interrupt based event, with Power level 1 and 2
+For the throughput-intensive kernel, say the kernel itself takes 20ms to complete.
+Kernel launch overhead is 5ms, resulting in a 80\% idle time that can be spent sleeping.
+This averages to a power consumption of NUMBER.
 
-* Write about potential clock / power gating of FPGA presented in:
+While the CPU can save power easily, it is more difficult for the GPU on the FPGA.
+Luckily Xilinx has recently implemented dynamic clock gating for the Spartan-6 series.
+This allows for a reduction up to 30\% of dynamic power consumption, introducing significant energy savings.
+This was not implemented for this project however, mainly due to time concerns.
+
 Xilinx® ISE® Design Suite 12 enables dynamic power reduction using patent pending automated clock gating technology.
 \url{http://www.xilinx.com/support/documentation/sw_manuals/xilinx12_4/whatsnew.htm}
 
-* show sleep time / pwoer consumption for the two kernels presented in Performance.
+Finally, the system can run for SOME HOURS on external batteries, mainly being limited by the GPU power draw.
 
-* show some comparison when running on battery.
-
+SOME LAST WORDS.
 
 \end{document}
