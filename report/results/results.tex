@@ -53,22 +53,21 @@ Cores & Crit. path & Max freq. & Dynamic+quiescent power & LX16 & LX45 \\
 \label{table:scalability}
 \end{table}
 
-The 4-core design fits with room to spare on the LX16, but does not fit the 8-core design.
+The 4-core design fits with room to spare on the LX16, but the 8-core design does not fit.
 The LX45 shifts this up one notch, fitting the 8-core design, but being unable to place \& route the 16-core design.
 For all processor designs, the critical path passes from the immediate field of the instruction through the ALU into the active register file.
-This is something that could be increased drastically by pipelining the processor.
+This is something that could be decreased drastically by pipelining the processor.
 
 Figure \ref{table:scalability} shows that there is a negligible drop in maximum frequency from two to eight cores.
-At 50.108MHz with 8 cores, the GPU has an instruction throughput of ~400 mips.
-This compares favorably to the ~117 mips of the two-core architecture.
+At 50.108MHz with 8 cores, the GPU has an instruction throughput of ~400 MIPS.
+This compares favorably to the ~117 MIPS of the two-core architecture.
 
 It does however come with a 100mAh increase in power draw.
 Luckily this only constitutes a 30\% total increase in power, considerably less than the fourfold improvement in GPU throughput.
-The decrease in execution time will allow both the host CPU and the GPU to enter lower power states quicker, reducing static power consumption.
 
 \section{Performance}
 
-In the Demolicious system, the kernel calls can be issued by the CPU in only a few cycles.
+In the Demolicious system, kernel calls can be issued by the CPU, taking only a few cycles.
 This means that the number of frames per second (FPS) that the system can display is dominated by the run time of the kernels.
 
 \begin{figure}[H]
@@ -80,15 +79,14 @@ This means that the number of frames per second (FPS) that the system can displa
 	\end{subfigure} 
 	\begin{subfigure}[t]{0.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{../results/diagrams/kernel_run_tunnel.jpg}	
-		\caption{Output from the tunnel kernel (Listing \ref{lst:tunnel-kernel}).}
+		\includegraphics[width=\textwidth]{../results/diagrams/kernel_run_tunnel.jpg}
+		\caption{Output from the tunnel kernel.}
 	\end{subfigure}
 	\caption{Running two example kernels.}
 	\label{fig:kernel_outputs}
-
 \end{figure}
 
-Figure \ref{fig:kernel_outputs} shows the output from the green screen kernel, and the more complex tunnel effect kernel.
+Figure \ref{fig:kernel_outputs} shows the output from the green screen kernel, and a more complex tunnel effect kernel (listing \ref{lst:tunnel-kernel}).
 It's desirable that both these kernels can be run at about 30 FPS.
 Using the results presented in section \ref{sec:scalability}, the expected frames per second for varying resolutions can be estimated.
 
@@ -102,26 +100,26 @@ Using the results presented in section \ref{sec:scalability}, the expected frame
 		       ylabel=Log frames per second,
 		       xtick = {2,4,8}
 		   ]
-				
+
 		     \addplot plot coordinates {
 		      	(2, 1678)
 		      	(4, 3198)
     			(8, 5813)
-		    
-		  	 };
-				
+
+             };
+
 		   \addplot plot coordinates {
 		      (2, 53)
 		      (4, 102)
 		      (8, 186)
 		   };
-		   
+
 		   \addplot plot coordinates {
 		      (2, 3)
 		      (4, 6)
 		      (8, 11)
 		   };
-		      
+
 		   \legend{
 		   $64\times64$ px \\
 		   $512\times256$ px\\
@@ -131,7 +129,7 @@ Using the results presented in section \ref{sec:scalability}, the expected frame
 		\end{tikzpicture}
 		\caption{Running the green screen kernel.}
 		\label{fig:kernel_green_screen_fps}
-\end{figure}	
+\end{figure}
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
@@ -165,7 +163,7 @@ Using the results presented in section \ref{sec:scalability}, the expected frame
 
 		 \end{semilogyaxis}
 	\end{tikzpicture}
-	\caption{Running the tunnel kernel.}	
+	\caption{Running the tunnel kernel.}
 	\label{fig:kernel_tunnel_fps}
 \end{figure}
 
