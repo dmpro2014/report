@@ -200,6 +200,7 @@ Since the GPU has priority on memory access, the video unit may get starved for 
 When the video unit is starved the buffer containing pixels to output will underflow.
 For the duration of the starve, a line containing the previous pixel on the bus will be displayed on the screen.
 
+
 \section{Power efficiency}
 
 Demolicious has been designed with the goal \ref{tab:goals} of allowing the host system to sleep as much as possible.
@@ -241,5 +242,31 @@ This averages to a power consumption of NUMBER.
 Finally, the system can run for SOME HOURS on external batteries, mainly being limited by the GPU power draw.
 
 \todo{software related power considerations? Sleeping MCU while kernel sleeps, awsm silicon labs stuff? In addition, perhaps some elaborations on energy use inside the GPU? Identifying energy critical systems.}
+
+\section{Single vs double buffering}
+
+Screen tearing is a visual artifact where parts of two consecutive frames are displayed at the same time.
+This occurs because the video unit reads the frame buffer before the GPU has finished rendering it.  
+In figure \ref{fig:single_buffering} the artifact can be observed, occurrences are marked with red circles.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{diagrams/single_buffering.png}
+	\caption{Single buffering.}
+	\label{fig:single_buffering}
+\end{figure}
+Double buffering is a technique to remove this artifact.
+As the name implies two independent frame buffers are used.
+While one frame buffer is being read and displayed on screen, 
+the next frame is rendered to an off-screen frame buffer.
+Once the frame has finished rendering the frame buffers are swapped, and the frame is displayed by the video unit.
+In figure \ref{fig:double_buffering} it can be observed that double buffering improves the quality of the image substantially.
+The image in the figure does have some artifacts, but the ones caused by single buffering are no longer present.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{diagrams/double_buffering.png}
+	\caption{Double buffering.}
+	\label{fig:double_buffering}
+\end{figure}
 
 \end{document}
