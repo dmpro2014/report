@@ -101,7 +101,8 @@ run_kernel(fill_screen, 4096);
 
 \subsection{More Advanced Kernels}
 The instruction set available to kernels is fairly limited.
-Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps. See section @ for more detail. \todo{Reference to somewhere that explains why they cannot branch}
+Most notably, the control flow in kernels is linear, meaning they cannot do any branches or jumps. See section \label{sec:demolicious-demo-machine} for more detail.
+
 Although the kernels don't support diverging control flow,
 conditional execution is accomplished through predicated instructions.
 
