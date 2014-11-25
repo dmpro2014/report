@@ -2,6 +2,18 @@
 \begin{document}
 \chapter{Discussion}
 
+Hindsight is 20/20.
+Looking back at the development of Demolicious, some design decisions have stood the test of time better than others.
+A project of this size with such a short timeframe requires quick decision making, sometimes sacrificing the optimal solution for a working solution.
+For example, an extreme focus on redundancy in the design of the PCB has resulted in almost all components being usable, sacrificing some power efficiency in the process.
+This section will present controversial design decisions, better solutions where available, and hacky workarounds.
+
+\subfile{../discussion/energy_efficiency.tex}
+
+\subfile{../discussion/programming_challenges.tex}
+
+\subfile{../discussion/memory_interlacing.tex}
+
 \section{Multiple clock domains in HDMI unit}
 The HDMI unit needs to output words with a frequency of \SI{25}{MHz}.
 If it were to share clock with the rest of the system, the system clock would have to be \SI{25}{Mhz} itself or a multiple thereof.
@@ -9,6 +21,8 @@ To avoid imposing this limitation, the buffer in the HDMI unit crosses clock dom
 Since the buffer receives data at native memory speed, it is filled faster than the HDMI unit can read from it.
 The data read out at \SI{25}{MHz} also need to be serialized to a frequency of \SI{250}{MHz} before being output from the FPGA.
 This is to the knowledge of the authors, the first project in the Computer Project course with a design incorporating multiple clocks.
+
+\subfile{../discussion/hacks.tex}
 
 \section{Hardware components}
 In this section we will discuss some of the physical design, alternative solutions and the practical solutions that arose during physical implementation.
@@ -55,35 +69,6 @@ They were probed for output, but this resulted in no discernable signal on the o
 However, as the implementation continued, we found that the MCU worked as we desired.
 This led us to conclude that we had likely misunderstood how to measure the frequencies of the crystals.
 
-\subfile{../discussion/hacks.tex}
-
-\subfile{../discussion/energy_efficiency.tex}
-
-\subfile{../discussion/memory_interlacing.tex}
-
-\subfile{../discussion/jaktstart.tex}
-
-\section{Redundancy design choices or w/e}
-What did we end up needing?
-What could we have used, that we didn't think of.
-
-\section{Does the computer make sense?}
-Is the design sane?
-Were we idiots?
-Have we seen the light?
-
-\section{Can we even saturate the memory bus?}
-Do you even SRAM?
-Or is memory the big bottleneck
-
-\section{SRAM bottleneck}
-HDMI vs. the GPU?
-Will the HDMI be fine with always being second in line?
-
-\subfile{../discussion/programming_challenges.tex}
-
 \subfile{../discussion/budget.tex}
-
-\subfile{../discussion/further_work.tex}
 
 \end{document}
