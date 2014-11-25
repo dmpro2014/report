@@ -197,10 +197,10 @@ for (int i = 0; i < nr_of_pixels; i++){
 
 However, in CUDA it is more natural to write a \emph{kernel} that fills only a single pixel with green, 
 and then run it with one thread for every pixel.
-Below, in listing \ref{lst:green-kernel},
+Below, in listing \ref{lst:cuda-green-kernel},
 you see a CUDA kernel that fills a single memory location, or pixel, with green.
 
-\begin{c-code}[caption=A CUDA kernel filling a single pixel with green, label=lst:green-kernel]
+\begin{c-code}[caption=A CUDA kernel filling a single pixel with green, label=lst:cuda-green-kernel]
 __global__ void fill_screen(int* framebuffer){
 	/* Calculate global id of this thread */
 	int global_id = blockIdx.x * blockDim.x + threadIdx.x; 
