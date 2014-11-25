@@ -1,0 +1,19 @@
+\section{Programming Challenges}
+
+There are several limitations and issues a programmer must have in mind when developing programs for the Demolicious system.
+First of all, since no compiler for high-level languages is available, kernel code must be written in assembly.
+The limitations of the language and relatively low expressiveness it provides,
+makes kernels verbose and require substantial mental overhead.
+
+The implementation of conditional execution, through predicated instructions only,
+can also be quite difficult to get accustomed to.
+Chaining multiple conditions together to form a correct logical structure,
+can require sketching and some upfront planning of the program flow for even simple kernels.
+
+These are, however, problems which are quite easily fixed by allowing compilation from a language with a higher abstraction level.
+A tougher limitation is, although also one which can be handled by a compiler,
+the limitations on the frequency of memory instructions.
+Depending on the number of GPU cores,
+memory instructions can't occur more than each X cycles.
+Dealing with this, without the performance drop of executing nop instructions
+is important when rendering live graphics.

@@ -104,11 +104,11 @@ The LSU asserts LSU write\_n, (the signal is active low), and external RAM handl
 The testbench passes, and values have now been successfully written to memory.
 It also runs on actual hardware, the result shown in figure \ref{fig:LX16-kernel-parameterization}.
 
-\subsection{Masked Instruction Execution}
+\subsection{Predicated Instruction Execution}
 
-Masked instructions are used to allow for some degree of conditional execution in the lack of proper branching and jumps.
+Predicated instructions are used to allow for some degree of conditional execution in the lack of proper branching and jumps.
 This requires that the architecture actually respects the mask bit when set.
-The masked execution kernel presented earlier in listing \ref{lst:masked-execution} is used for this test.
+The predicated execution kernel presented earlier in listing \ref{lst:masked-execution} is used for this test.
 It has been relisted in listing \ref{lst:test-masked-execution} for convenience.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:test-masked-execution]
@@ -143,7 +143,7 @@ Expected behavior of test:
     \caption{LX16 run}
     \label{fig:LX16-masked-execution}
   \end{subfigure}
-  \caption{Results from simulation and LX16 of masked execution}
+  \caption{Results from simulation and LX16 of predicated execution}
 \end{figure}
 
 In the left yellow square of figure \ref{fig:isim-masked-execution}, we can see the \verb/srl/ instruction being executed (0x00023181). As this thread has thread id 192, the result out is 3.
