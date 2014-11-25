@@ -9,8 +9,7 @@
 
 The programming model for Demolicious is heavily inspired by CUDA.
 
-\todo{Insert reference to CUDA section.}
-So let's see how we can implement the same program filling a framebuffer with green, as we did in the CUDA introduction.
+So let's see how we can implement the same program filling a framebuffer with green, as we did in the CUDA introduction in section \ref{sec:cuda_prog_model}.
 
 Below, in listing \ref{lst:green-kernel}, the fillscreen kernel has been converted for the Demolicious programming paradigm.
 The first thing you'll notice is that it is not written in C, but assembly.
@@ -65,7 +64,6 @@ In listing \ref{lst:load-kernel}, we first see the assembled kernel stored in th
 \verb/fill_screen_kernel/ array.
 It is then uploaded to the GPU using the \verb/load_kernel/ function.
 A reference to the uploaded kernel is returned, which will be used when starting the kernel.
-\todo{Comment how this is similar to CUDA? And how we don't have blocks}
 In addition, the \verb/run_kernel/ function is also provided with the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
@@ -108,9 +106,9 @@ Although the kernels don't support diverging control flow,
 conditional execution is accomplished through predicated instructions.
 
 Each of the instructions in the instruction set (except for loads and stores) can be executed conditionally by prefixing them with '\textbf{?}'.
-Whether a conditional instruction is executed is controlled by a dedicated masking register.
+Whether a conditional instruction is executed is controlled by a dedicated mask register.
 The programmer may use arithmetic and logic operations to manipulate this register (such as the \verb/srl/ instruction on line 3 in listing \ref{lst:masked-execution}).
-The result of a masked instruction will be discarded if the mask register is \textbf{1}.
+The result of a predicated instruction will be discarded if the mask register is \textbf{1}.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:masked-execution]
 ldc $10, 0 ; Load color one
@@ -130,7 +128,6 @@ Shifting a thread ID to the right is a trick to convert the ID to a y value,
 which works when the screen width is a power of two.
 The mask register is only 1 bit, and will just store the least significant bit written to it.
 This means that masking will be enabled for odd rows and disabled for even rows.
-\todo{Should we use the word predicate and predicated instruction as that is the normal name for this?}
 Line 4 first writes a color value to the \textbf{\$data} register.
 When masking is disabled this value will be overwritten on line 5.
 The kernel finishes by writing the data value to memory.
