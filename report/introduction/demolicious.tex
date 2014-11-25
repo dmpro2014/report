@@ -30,20 +30,39 @@ The GPU has no branching, and there are no caches.
 Modern GPUs have dynamic scheduling to better utilize the resources.
 The Demolicious GPU uses barrel processing as a static scheduling scheme, and to hide memory latency.
 
-\section{Solution Requirements}
+\section{Demolicious Requirements}
 
 % How did we arrive at our list of requirements?@
+To be able to run a satisfactory demo, the group listed some basic requirements for Demolicious.
+It certainly needed to display graphics, and a goal was to use HDMI instead of an alternative like VGA for it.
+This decision was partially based on the excitement that it had not been done before in earlier Computer Design Projects, and partially on the fact that it is a more modern technology than VGA.
+Driving video output from the custom GPU was important because a key point of the design was for it to mirror a modern GPU's purpose in a computer system.
+
+The performance goals were set to be challenging but still reasonable, based on a very rough estimate of potential memory bandwidth and FPGA clock frequency.
+512 by 256 pixels was an acceptable size of the picture frame, and at 30 fps it would have potential for relatively smooth demo programs.
+Writing interesting demos for the completed machine would be a bonus.
+A related bonus would be to write helpful tools to assist in writing the demos.
+
+Energy efficiency needed to be a primary concern throughout this project.
+In an experimental system like Demolicious, that concern will often be sidelined to making anything work in the first place.
+Energy efficiency is, after all, an optimization.
+Design philosophies like simplicity in GPU architecture and redundancy in PCB options collide somewhat with energy concerns, both were essential in producing a working system in the short timespan of this project.
+One very significant energy optimization for Demolicious made the list of functional goals: making the CPU sleep when it idles.
+
+The list of goals and their relative priorities are listed below.
 
 \begin{table}[htp]
     \centering
     \begin{tabular}{|p{8cm}|l|}
         \hline
         \textbf{Demolicious Functional Goals}                & \textbf{Priority} \\ \hline
-        Demolicious should display graphics on screen                           & HIGH    \\ \hline
         Demolicious should be general purpose                                   & HIGH    \\ \hline
-        Demolicious should drive video from GPU module on FPGA                  & MEDIUM  \\ \hline
-        Demolicious should handle an output rate of about 30 frames per second  & MEDIUM  \\ \hline
+        Demolicious should display graphics on screen                           & HIGH    \\ \hline
+        Demolicious should let its CPU sleep while the GPU executes				& MEDIUM  \\ \hline
         Demolicious should use HDMI for its graphics output	                    & MEDIUM  \\ \hline
+        Demolicious should drive video output from its GPU	                    & MEDIUM  \\ \hline
+        Demolicious should display a frame of 512 by 256 pixels					& MEDIUM  \\ \hline
+        Demolicious should handle an output rate of about 30 frames per second  & MEDIUM  \\ \hline
         Demolicious should have an example application in the form of a visual demo displayed on screen & LOW \\ \hline
         Demolicious should have a toolchain to make life easier for programmers & LOW     \\ \hline
     \end{tabular}

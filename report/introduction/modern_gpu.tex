@@ -62,8 +62,7 @@ To illustrate why computers and mobile devices include a separate GPU, lets look
 Consumers expect their computers to display videos and games in Full HD resolution (1920*1080 pixels), which adds up to about 2 million pixels per frame.
 To color one pixel accurately in a 3D environment, the processor typically needs to calculate vectors in 3D space, interpolate texture data, adjust for light intensity, and more.
 All of these tasks require several demanding floating point operations.
-For an optimistic estimate in a fairly simple scene, assume that the CPU needs to perform LOLSOMANY operations per pixel. \todo{fix some numbers}
-In this case, even with a clock speed of 4 GHz and no other interfering work, a Full HD screen will receive an unacceptably low framerate.
+\textbf{@CPUs ARE NOT SUFFICIENT FOR THIS TASK.}
 Fortunately, pixels can often be computed independently of each other.
 CPUs, however, are optimized for single-thread performance and fail to take advantage of this.
 
@@ -110,13 +109,23 @@ Other techniques to improve memory bandwidth include data compression to reduce 
 Bundling adds latency to memory requests.
 But, as mentioned earlier, this is not an issue as the GPU has plenty of other work to do while a particular thread waits.
 
-\section{GPU Complications}
+\section{Shortcommings of a GPU}
 
 % What kind of jobs is a GPU ill-suited for?
 
-GPUs are bad at branching!@
+A GPU obviously does its parallel calculations effectively, but it comes with a cost.
+It gains throughput over a CPU in part by sacrificing low latency in individual instructions.
+As we have seen, this happens as a result of deep pipelines and delayed memory requests, among other things.
+Such architectural features reduce the performance of serial programs, especially ones with a lot of branching.
+Branching instructions on a deeply pipelined processor is heavily punished by control hazards.
 
-\section{NVIDIA's Fermi Architecture}
+Since most programs are not particularly parallelizable and commonly contain branching, a GPU is insufficient for running an average program by today's standards.
+Computer users today are accustomed to the performance provided by the cooperation of a CPU and GPU.
+This is so essential that no computer, or even mobile unit, with a graphical display is produced today without the combination of both.
+
+\chapter{NVIDIA's Fermi Architecture}
+\label{sec:fermi}
+
 %http://www.nvidia.com/content/PDF/fermi_white_papers/P.Glaskowsky_NVIDIAFermi-TheFirstCompleteGPUComputingArchitecture.pdf
 %http://www.nvidia.com/content/PDF/fermi_white_papers/NVIDIA_Fermi_Compute_Architecture_Whitepaper.pdf
 
@@ -164,7 +173,7 @@ A warp is always executed in the same SM, and when it executes an instruction, t
 
 
 
-\subsection{CUDA/OpenCL}
+\section{CUDA/OpenCL}
 
 To open the powers of the graphics card for other applications, there was a need for a new API that could be
 used run code on the GPUs. It has been possible to do non-graphical calculations on GPUs before by 

@@ -21,9 +21,10 @@ Core requirements included having multiple processor cores and a graphical displ
 
 \newpage
 
+\vspace*{1cm}
 \subsection{Original Assignment Text}
 
-\vspace{1cm}
+\vspace{0.5cm}
 \noindent
 
 \begin{quotation}
@@ -61,10 +62,15 @@ Its purpose would primarily be to run graphics related operations.
 However, it would be designed to be programmable with general arithmetic and logic operations, and not have specialized hardware units for performing graphics operations.
 The group was determined to also send graphics output directly from the accelerator to screen, as is common for a GPU.
 
-The accelerator design would be implemented on an FPGA.
-It would be mounted on a PCB together with a microcontroller, memory, and HDMI port, and form a graphical computer system similar to how modern PCs are organized.
+The accelerator design needed be implemented on an FPGA.
+The FPGA were to be mounted on a PCB together with a microcontroller, memory, and HDMI port, and form a graphical computer system similar to how modern PCs are organized.
+
 
 \section{Structure of the Report}
+
+The accelerator processor will fill the role of a modern GPU in the system presented by this report.
+Therefore, it will commonly be referred to as the GPU.
+Similarly, the microcontroller will be referred to as the CPU.
 
 Having introduced the problem, the report will continue by giving a short introduction to what a GPU is and what it is for.
 It will present concepts and challenges in graphical computations and GPU design.
@@ -75,6 +81,8 @@ In the solution part, a detailed explanation of the system will be given by roug
 
 The physical product produced in this project, and the test and verification methods involved in making it work, will also be presented.
 The results chapter will go through which parts of the system worked and which did not, and will look at measurements of its performance.
-Lastly, the discussion chapter will comment on some of the difficulties with the completed system, and on topics such as possible further work. 
+Lastly, the discussion chapter will comment on some of the difficulties with the completed system, and on topics such as possible further work.
+
+Note that the reader of this report is expected to have a basic understanding of logic design, computer components, and programming.
 
 \end{document}
