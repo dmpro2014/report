@@ -67,10 +67,6 @@ A reference to the uploaded kernel is returned, which will be used when starting
 In addition, the \verb/run_kernel/ function is also provided with the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
-A difference from the CUDA programming model is that on Demolicious, kernels can access the actual framebuffers directly.
-So while you had to read back the framebuffer from the GPU memory in CUDA to visualize it,
-this kernel writes directly to one of the framebuffers \footnote{see double buffering? @ref or elaborate@} that is being shown on screen through HDMI.
-
 While being able to make the screen green by running a specialized kernel is nice,
 it would require many similar kernels to color the screen in different colors.
 To improve on this, kernels can take parameters as input,
@@ -150,7 +146,7 @@ nop
 thread_finished
 \end{assembly}
 
-As illustrated by these examples, while the kernels on Demolicious are more limited than CUDA kernels, the programming models are very similar.
+As illustrated by these examples, the kernels on Demolicious are more limited than CUDA kernels, but the programming models are very similar.
 With these examples in mind, it's time to take a look behind the scenes and see how the CPU and GPU actually run this code.
 
 \end{document}
