@@ -7,13 +7,14 @@
 	\label{fig:programming_model_cpu_gpu}
 \end{figure}
 
-The programming model for Demolicious has been heavily inspired by CUDA.
+The programming model for Demolicious is heavily inspired by CUDA.
 
-\todo{Insert reference to CUDA section. }
+\todo{Insert reference to CUDA section.}
 So let's see how we can implement the same program filling a framebuffer with green, as we did in the CUDA introduction.
 
-Below, in listing \ref{lst:green-kernel}, the kernel filling a framebuffer with green is written for Demolicious.
+Below, in listing \ref{lst:green-kernel}, a kernel filling a framebuffer with green is written for Demolicious.
 The first thing you'll notice is that it is not written in C, but assembly.
+The complete introduction to the Demolocious instruction set and assembly programming can be found in appendix \ref{chap:isa}.
 
 \begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
 ldi $data, 0b0000011111100000
@@ -38,17 +39,14 @@ This means all pixels starting with address zero and up until the number of exec
 will get colored green.
 
 The thread stops running after executing the \verb/thread_finished/ instruction.
-\\
 
 \subsection{Executing Kernels}
 
 Now, how do we execute this kernel on the GPU?
 The program running on the CPU, referred to as the \emph{host program},
-has to upload the assembled kernel, and then notify the GPU to run it.
-Kernels can be assembled using our custom-built assembler,
-which translates assembly code into encoded instructions that the GPU can understand.
-
+has to upload the assembled kernel to the GPU, and then tell the GPU to run it.
 \todo{Write about our assembler somewhere else}
+Kernels can be assembled using the provided assembler.
 
 \begin{c-code}[caption=Loading and executing a kernel, label=lst:load-kernel]
 instruction_t fill_screen_kernel[] = {
@@ -67,9 +65,9 @@ run_kernel(fill_screen, 4096);
 In listing \ref{lst:load-kernel}, we first see the assembled kernel stored in the
 \verb/fill_screen_kernel/ array.
 It is then uploaded to the GPU using the \verb/load_kernel/ function.
-A reference to the uploaded kernel is returned, which can be used when running the kernel.
+A reference to the uploaded kernel is returned, which will be used when starting the kernel.
 \todo{Comment how this is similar to CUDA? And how we don't have blocks}
-In addition, the \verb/run_kernel/ function needs to know the number of threads to spawn.
+In addition, the \verb/run_kernel/ function is also provided with the number of threads to spawn.
 Here, we spawn 4096 threads, enough to color 64*64 pixels green.
 
 A difference from the CUDA programming model is that on Demolicious, kernels can access the actual framebuffers directly.
@@ -110,10 +108,10 @@ Most notably, the control flow in kernels is linear, meaning they cannot do any 
 Although the kernels don't support diverging control flow,
 conditional execution is accomplished through predicated instructions.
 
-Each of the instructions in the instruction set can be executed conditionally by prefixing them with '\textbf{?}'.
+Each of the instructions in the instruction set (except for loads and stores) can be executed conditionally by prefixing them with '\textbf{?}'.
 Whether a conditional instruction is executed is controlled by a dedicated masking register.
 The programmer may use arithmetic and logic operations to manipulate this register (such as the \verb/srl/ instruction on line 3 in listing \ref{lst:masked-execution}).
-A masked instruction is not be executed if the mask register is \textbf{1}.
+A masked instruction will not be stored to memory if the mask register is \textbf{1}.
 
 \begin{assembly}[caption=Conditional execution using predicated instructions, label=lst:masked-execution]
 ldc $10, 0 ; Load color one
@@ -138,8 +136,10 @@ Line 4 first writes a color value to the \textbf{\$data} register.
 When masking is disabled this value will be overwritten on line 5.
 The kernel finishes by writing the data value to memory.
 
-During this section we have done some simplifications, namely ommiting some \verb/nop/ instructions that are required under some specific circumstances.
-The actual kernel code that is sent to the GPU for the kernel that fills the screen with green can be seen in listing \ref{lst:real-green-kernel}. The kernel from listing \ref{lst:masked-execution} however, is executed as is. The reason for these \verb/nop/ instructions will be explained in later chapters.
+This section contains some simplifications, namely some \verb/nop/ instructions that are required under some specific circumstances have been omitted.
+The actual kernel code that is sent to the GPU for the kernel that fills the screen with green,
+can be seen in listing \ref{lst:real-green-kernel}.
+The kernel from listing \ref{lst:masked-execution} however, is executed as is. The reason for these \verb/nop/ instructions will be explained in later chapters.
 
 \todo{Finish the nop examples}
 \begin{assembly}[caption=The green-screen kernel as it is actually , label=lst:real-green-kernel]
@@ -155,7 +155,5 @@ thread_finished
 
 As illustrated by these examples, while the kernels on Demolicious are more limited than CUDA kernels, the programming models are very similar.
 With these examples in mind, it's time to take a look behind the scenes and see how the CPU and GPU actually run this code.
-
-\todo{Talk about memory and cooldown}
 
 \end{document}
