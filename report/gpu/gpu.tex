@@ -82,8 +82,27 @@ Some of the stalling can be hidden if the programmer manually loads the memory w
 
 But there are many warps waiting for execution at (almost) any time. 
 If these warps could execute while other warps are waiting for memory, we can utilize the system better.
+However, changing between warps that execute requires a context switch. 
+That is, the old thread put on hold has to store all its register values somewhere so that they can be available when it starts executing again.
+\todo{cite something?}
+In software threading, a context switch is typically achieved by store all registers to memory and loading in the registers for the new thread that is scheduled.
+This is an expensive operation, and would introduce more latency than we are trying to hide.
+Demolicious, however, has a set of active warps that all have their own registers.
+So a context switch can be carried out with virtually no overhead, at the expensive of some additional hardware to store all these extra registers.
+
+To keep the architecture as simple, Demolicious employs a simple static scheduling algorithm. 
+The active warps are simply rotated every instruction.
+\todo{insert figure and example walkthrough}
+
+However, there is an issue with this simple scheduling algorithm.  
+ 
+
+
 
 \emph{Hide this with barrel}
+
+
+
 
 \emph{Bundling the writes. This bad. @}
 
