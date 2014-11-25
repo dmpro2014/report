@@ -14,8 +14,6 @@ So let's see how we can implement the same program filling a framebuffer with gr
 
 Below, in listing \ref{lst:green-kernel}, the kernel filling a framebuffer with green is written for Demolicious.
 The first thing you'll notice is that it is not written in C, but assembly.
-This is mainly because we only had time to write an assembler,
-and not a compiler for our architecture.
 
 \begin{assembly}[caption=A simple kernel that fills the screen with the color green, label=lst:green-kernel]
 ldi $data, 0b0000011111100000
