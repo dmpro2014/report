@@ -3,6 +3,23 @@
 
 \chapter{Results}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{../results/diagrams/frankenlicious.jpeg}
+	\caption{The working Demolicious devkit setup}
+	\label{fig:frankenlicious}
+\end{figure}
+
+In this section, the fruit of our labor, namely the Demolicious system is presented.
+The system has been sucessfully run on a concoction of FPGA and MCU devkits, using the HDMI port of the PCB for video output.
+This setup is showcased in figure \ref{fig:frankenlicious}.
+
+A PCB version is almost fully operational.
+A version with both FPGA and MCU flashed with their respective images managed to output animations, with some undiagnosed showstopping software glitches.
+The venture had to be paused due to a lack of time towards the end of the project.
+
+Kernel images presented in this section are taken from the same setup presented in figure \ref{fig:frankenlicious}.
+
 \section{Scalability of the Demolicious system}
 \label{sec:scalability}
 
@@ -19,21 +36,6 @@ Limiting factors to this scalability include:
     Power consumption constraints, as more cores increase active power consumption
 \end{enumerate}
 
-%LX45 usage
-%
-%8% lut, 1% slice
-%
-%12% lut, 2%slice fanout 4.57, 3.631 lut flipflop pairs
-%
-%
-%28% LUT, 5% slice 8393 lut flip flop pairs
-%
-%
-%6% Slice, 25% LUT, 36% occupied, 7958 lut flip flop pairs
-%
-%Not synthesizable
-
-\todo{These numbers need regenerating. I'll do it tomorrow}
 \begin{table}[H]
 \begin{tabularx}{\textwidth}{cccccc}
 \hline
