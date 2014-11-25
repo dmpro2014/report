@@ -8,10 +8,14 @@ This section will focus on possible further improvements of the system.
 
 \subsection{Architecture}
 \subsubsection*{Pipelining}
-As one of the conseqences of the barrel processor, the processor lends itself very well to pipelining.
+As one of the consequences of the barrel processor, the processor lends itself very well to pipelining.
 The consecutive instructions in the pipeline will be from different threads.
-As long as there are fewer pipeline stages than the height of the barrel, an instruction will complete it's path through the pipeline before the next one from the same thread starts.
+As long as there are fewer pipeline stages than the height of the barrel, an instruction will complete its path through the pipeline before the next one from the same thread starts.
 This means that there are no data hazards in the pipeline. Thus it is as simple as dividing the processor into stages and adding registers.
+Currently the critical path in Demolicious is going through the processor cores.
+Adding a pipeline to the processor would therefore increase the maximum freqency the processor can run at.
+As the SRAMs on the Demolicous can handle \SI{100}{MHz}, there is room for improvement in the system clock frequency.
+This directly translates to higher thoughput.
 
 \subsection{Hardware}
 The physical design of Demolicious worked as intended.
